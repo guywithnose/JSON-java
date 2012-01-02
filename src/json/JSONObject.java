@@ -1,5 +1,6 @@
 /*
- * File: JSONObject.java Author: Robert Bittle <guywithnose@gmail.com>
+ * File:         JSONObject.java
+ * Author:       JSON.org
  */
 package json;
 

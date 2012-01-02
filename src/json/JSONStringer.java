@@ -1,3 +1,7 @@
+/*
+ * File:         JSONStringer.java
+ * Author:       JSON.org
+ */
 package json;
 
 /*

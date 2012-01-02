@@ -1,3 +1,7 @@
+/*
+ * File:         HTTP.java
+ * Author:       JSON.org
+ */
 package json;
 
 /*

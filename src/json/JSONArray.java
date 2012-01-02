@@ -1,5 +1,6 @@
 /*
- * File: JSONArray.java Author: Robert Bittle <guywithnose@gmail.com>
+ * File:         JSONArray.java
+ * Author:       JSON.org
  */
 package json;
 

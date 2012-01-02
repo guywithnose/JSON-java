@@ -1,5 +1,6 @@
 /*
- * File: XML.java Author: Robert Bittle <guywithnose@gmail.com>
+ * File:         XML.java
+ * Author:       JSON.org
  */
 package json;
 
@@ -205,10 +206,7 @@ public class XML
             do
             {
                 token = x.nextMeta();
-                if (token == null)
-                {
-                    throw x.syntaxError("Missing '>' after '<!'.");
-                } else if (token == LT)
+                if (token == LT)
                 {
                     i += 1;
                 } else if (token == GT)

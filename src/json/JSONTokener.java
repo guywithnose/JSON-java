@@ -1,5 +1,6 @@
 /*
- * File: JSONTokener.java Author: Robert Bittle <guywithnose@gmail.com>
+ * File:         JSONTokener.java
+ * Author:       JSON.org
  */
 package json;
 

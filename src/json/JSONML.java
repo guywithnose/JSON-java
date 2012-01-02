@@ -1,3 +1,7 @@
+/*
+ * File:         JSONML.java
+ * Author:       JSON.org
+ */
 package json;
 
 /*

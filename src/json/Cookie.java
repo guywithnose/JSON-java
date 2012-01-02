@@ -1,3 +1,7 @@
+/*
+ * File:         Cookie.java
+ * Author:       JSON.org
+ */
 package json;
 
 /*

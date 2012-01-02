@@ -1,5 +1,6 @@
 /*
- * File: JSONException.java Author: Robert Bittle <guywithnose@gmail.com>
+ * File:         JSONException.java
+ * Author:       JSON.org
  */
 package json;
 
