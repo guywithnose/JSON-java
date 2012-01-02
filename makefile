@@ -9,9 +9,11 @@ testXML: compile
 
 compile: clean classes/org/json/tests/TestSuite.class
 	
-classes/org/json/tests/TestSuite.class: src/org/json/tests/TestSuite.java
-	mkdir classes
+classes/org/json/tests/TestSuite.class: classes src/org/json/tests/TestSuite.java
 	javac -d classes -cp src:classes:lib/junit-4.10.jar src/org/json/tests/TestSuite.java
+
+classes:
+	mkdir classes
 
 clean: cleanCoverage
 	rm -rf classes/*
