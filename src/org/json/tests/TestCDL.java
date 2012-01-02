@@ -120,6 +120,9 @@ public class TestCDL extends TestCase
         }
     }
 
+    /**
+     * Tests the toJsonArray method using weird data.
+     */
     public void testToJsonArray_WeirdData()
     {
       //@formatter:off
@@ -139,9 +142,12 @@ public class TestCDL extends TestCase
         }
     }
     
-    public void testToJsonArray_BadString()
+    /**
+     * Tests the toJsonArray method using no closing quote.
+     */
+    public void testToJsonArray_NoClosingQuote()
     {
-      //@formatter:off
+        //@formatter:off
         string = 
             "abc,test,123\r" +
             "gg,hh,jj \r" +
@@ -156,6 +162,79 @@ public class TestCDL extends TestCase
         } catch (JSONException e)
         {
             assertEquals("Missing close quote '\"'. at 35 [character 12 line 5]", e.getMessage());
+        }
+        //@formatter:off
+        string = 
+            "abc,test,123\r" +
+            "gg,hh,jj \r" +
+            "aa,\"bb ,cc \n";
+        //@formatter:on
+        try
+        {
+            // System.out.println();
+            assertEquals(jsonarray.toString(), CDL.toJSONArray(string)
+                    .toString());
+            fail("Should have thrown Exception");
+        } catch (JSONException e)
+        {
+            assertEquals("Missing close quote '\"'. at 35 [character 0 line 6]", e.getMessage());
+        }
+        //@formatter:off
+        string = 
+            "abc,test,123\r" +
+            "gg,hh,jj \r" +
+            "aa,\"bb ,cc \r";
+        //@formatter:on
+        try
+        {
+            // System.out.println();
+            assertEquals(jsonarray.toString(), CDL.toJSONArray(string)
+                    .toString());
+            fail("Should have thrown Exception");
+        } catch (JSONException e)
+        {
+            assertEquals(
+                    "Missing close quote '\"'. at 35 [character 12 line 5]",
+                    e.getMessage());
+        }
+    }
+    
+    public void testToJsonArray_SpaceAfterString()
+    {
+      //@formatter:off
+        string = 
+            "abc,test,123\r" +
+            "gg,hh,jj \r" +
+            "aa,\"bb \" ,cc \r";
+        //@formatter:on
+        try
+        {
+            // System.out.println();
+            assertEquals(jsonarray.toString(), CDL.toJSONArray(string)
+                    .toString());
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    public void testToJsonArray_BadCharacter()
+    {
+      //@formatter:off
+        string = 
+            "abc,test,123\r" +
+            "gg,hh,jj \r" +
+            "aa,\"bb \"?,cc \r";
+        //@formatter:on
+        try
+        {
+            // System.out.println();
+            assertEquals(jsonarray.toString(), CDL.toJSONArray(string)
+                    .toString());
+            fail("Should have thrown Exception");
+        } catch (JSONException e)
+        {
+            assertEquals("Bad character '?' (63). at 32 [character 9 line 5]", e.getMessage());
         }
     }
 
@@ -259,6 +338,11 @@ public class TestCDL extends TestCase
         {
             e.printStackTrace();
         }
+    }
+    
+    public void testConstructor()
+    {
+        CDL cdl = new CDL();
     }
 
 }
