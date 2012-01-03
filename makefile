@@ -1,7 +1,7 @@
-test: compile
+test: clean compile
 	java -cp lib/emma.jar emmarun -sp src -Dreport.html.out.file=coverage/ALL/index.html -Dreport.columns=class,block,name,method,line -r html -cp lib/junit-4.10.jar:classes org.junit.runner.JUnitCore org.json.tests.TestSuite
 
-testCDL: compile
+testCDL: clean compile
 	java -cp lib/emma.jar emmarun -ix org.json.CDL -sp src -Dreport.html.out.file=coverage/CDL/index.html -Dreport.columns=class,block,name,method,line -r html -cp lib/junit-4.10.jar:classes org.junit.runner.JUnitCore org.json.tests.TestCDL
 
 testXML: clean compile

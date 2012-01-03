@@ -10,22 +10,18 @@ import java.util.List;
 import java.util.Map;
 import java.io.StringWriter;
 
-import org.json.CDL;
 import org.json.Cookie;
 import org.json.CookieList;
-import org.json.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONML;
 import org.json.JSONObject;
-import org.json.JSONString;
 import org.json.JSONStringer;
 import org.json.JSONTokener;
 import org.json.XML;
 
 import junit.framework.TestCase;
 
-// TODO: Auto-generated Javadoc
 /*
  * Copyright (c) 2002 JSON.org
  * 
@@ -63,80 +59,6 @@ import junit.framework.TestCase;
 public class Test extends TestCase
 {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see junit.framework.TestCase#setUp()
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see junit.framework.TestCase#tearDown()
-     */
-    @Override
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
-    }
-
-    /**
-     * Tests the XML method.
-     * 
-     * @throws Exception
-     *             the exception
-     */
-    @SuppressWarnings("static-method")
-    public void testXML() throws Exception
-    {
-        JSONObject jsonobject;
-        String string;
-
-        jsonobject = XML
-                .toJSONObject("<![CDATA[This is a collection of test patterns and examples for json.]]>  Ignore the stuff past the end.  ");
-        assertEquals(
-                "{\"content\":\"This is a collection of test patterns and examples for json.\"}",
-                jsonobject.toString());
-        assertEquals(
-                "This is a collection of test patterns and examples for json.",
-                jsonobject.getString("content"));
-
-        string = "<test><blank></blank><empty/></test>";
-        jsonobject = XML.toJSONObject(string);
-        assertEquals("{\"test\": {\n  \"blank\": \"\",\n  \"empty\": \"\"\n}}",
-                jsonobject.toString(2));
-        assertEquals("<test><blank/><empty/></test>", XML.toString(jsonobject));
-
-        string = "<subsonic-response><playlists><playlist id=\"476c65652e6d3375\" int=\"12345678901234567890123456789012345678901234567890213991133777039355058536718668104339937\"/><playlist id=\"50617274792e78737066\"/></playlists></subsonic-response>";
-        jsonobject = XML.toJSONObject(string);
-        assertEquals(
-                "{\"subsonic-response\":{\"playlists\":{\"playlist\":[{\"id\":\"476c65652e6d3375\",\"int\":\"12345678901234567890123456789012345678901234567890213991133777039355058536718668104339937\"},{\"id\":\"50617274792e78737066\"}]}}}",
-                jsonobject.toString());
-    }
-
-    /**
-     * Tests the null method.
-     * 
-     * @throws Exception
-     *             the exception
-     */
-    @SuppressWarnings("static-method")
-    public void testNull() throws Exception
-    {
-        JSONObject jsonobject;
-
-        jsonobject = new JSONObject("{\"message\":\"null\"}");
-        assertFalse(jsonobject.isNull("message"));
-        assertEquals("null", jsonobject.getString("message"));
-
-        jsonobject = new JSONObject("{\"message\":null}");
-        assertTrue(jsonobject.isNull("message"));
-    }
 
     /**
      * Tests the JSON method.
@@ -150,23 +72,11 @@ public class Test extends TestCase
         Iterator<String> iterator;
         JSONArray jsonarray;
         JSONObject jsonobject;
-        JSONStringer jsonstringer;
         Object object;
         String string;
 
-        Beany beanie = new Beany("A beany object", 42, true);
 
-        string = "[001122334455]";
-        jsonarray = new JSONArray(string);
-        assertEquals("[1122334455]", jsonarray.toString());
-
-        string = "[666e666]";
-        jsonarray = new JSONArray(string);
-        assertEquals("[\"666e666\"]", jsonarray.toString());
-
-        string = "[00.10]";
-        jsonarray = new JSONArray(string);
-        assertEquals("[0.1]", jsonarray.toString());
+        
 
         jsonobject = new JSONObject();
         object = null;
@@ -248,77 +158,7 @@ public class Test extends TestCase
                 "{\"entity\": {\n  \"id\": 12336,\n  \"averageRating\": null,\n  \"ratingCount\": null,\n  \"name\": \"IXXXXXXXXXXXXX\",\n  \"imageURL\": \"\"\n}}",
                 jsonobject.toString(2));
 
-        jsonstringer = new JSONStringer();
-        string = jsonstringer.object().key("single").value("MARIE HAA'S")
-                .key("Johnny").value("MARIE HAA\\'S").key("foo").value("bar")
-                .key("baz").array().object().key("quux").value("Thanks, Josh!")
-                .endObject().endArray().key("obj keys")
-                .value(JSONObject.getNames(beanie)).endObject().toString();
-        assertEquals(
-                "{\"single\":\"MARIE HAA'S\",\"Johnny\":\"MARIE HAA\\\\'S\",\"foo\":\"bar\",\"baz\":[{\"quux\":\"Thanks, Josh!\"}],\"obj keys\":[\"aString\",\"aNumber\",\"aBoolean\"]}",
-                string);
-
-        assertEquals("{\"a\":[[[\"b\"]]]}", new JSONStringer().object()
-                .key("a").array().array().array().value("b").endArray()
-                .endArray().endArray().endObject().toString());
-
-        jsonstringer = new JSONStringer();
-        jsonstringer.array();
-        jsonstringer.value(1);
-        jsonstringer.array();
-        jsonstringer.value(null);
-        jsonstringer.array();
-        jsonstringer.object();
-        jsonstringer.key("empty-array").array().endArray();
-        jsonstringer.key("answer").value(42);
-        jsonstringer.key("null").value(null);
-        jsonstringer.key("false").value(false);
-        jsonstringer.key("true").value(true);
-        jsonstringer.key("big").value(123456789e+88);
-        jsonstringer.key("small").value(123456789e-88);
-        jsonstringer.key("empty-object").object().endObject();
-        jsonstringer.key("long");
-        jsonstringer.value(9223372036854775807L);
-        jsonstringer.endObject();
-        jsonstringer.value("two");
-        jsonstringer.endArray();
-        jsonstringer.value(true);
-        jsonstringer.endArray();
-        jsonstringer.value(98.6);
-        jsonstringer.value(-100.0);
-        jsonstringer.object();
-        jsonstringer.endObject();
-        jsonstringer.object();
-        jsonstringer.key("one");
-        jsonstringer.value(1.00);
-        jsonstringer.endObject();
-        jsonstringer.value(beanie);
-        jsonstringer.endArray();
-        assertEquals(
-                "[1,[null,[{\"empty-array\":[],\"answer\":42,\"null\":null,\"false\":false,\"true\":true,\"big\":1.23456789E96,\"small\":1.23456789E-80,\"empty-object\":{},\"long\":9223372036854775807},\"two\"],true],98.6,-100,{},{\"one\":1},{\"A beany object\":42}]",
-                jsonstringer.toString());
-        assertEquals(
-                "[\n    1,\n    [\n        null,\n        [\n            {\n                \"empty-array\": [],\n                \"empty-object\": {},\n                \"answer\": 42,\n                \"true\": true,\n                \"false\": false,\n                \"long\": 9223372036854775807,\n                \"big\": 1.23456789E96,\n                \"small\": 1.23456789E-80,\n                \"null\": null\n            },\n            \"two\"\n        ],\n        true\n    ],\n    98.6,\n    -100,\n    {},\n    {\"one\": 1},\n    {\"A beany object\": 42}\n]",
-                new JSONArray(jsonstringer.toString()).toString(4));
-
-        int ar[] =
-        {
-                1, 2, 3
-        };
-        JSONArray ja = new JSONArray(ar);
-        assertEquals("[1,2,3]", ja.toString());
-        assertEquals("<array>1</array><array>2</array><array>3</array>",
-                XML.toString(ar));
-
-        String sa[] =
-        {
-                "aString", "aNumber", "aBoolean"
-        };
-        jsonobject = new JSONObject(beanie, sa);
-        jsonobject.put("Testing JSONString interface", beanie);
-        assertEquals(
-                "{\n    \"aBoolean\": true,\n    \"aNumber\": 42,\n    \"aString\": \"A beany object\",\n    \"Testing JSONString interface\": {\"A beany object\":42}\n}",
-                jsonobject.toString(4));
+        
 
         jsonobject = new JSONObject(
                 "{slashes: '///', closetag: '</script>', backslash:'\\\\', ei: {quotes: '\"\\''},eo: {a: '\"quoted\"', b:\"don't\"}, quotes: [\"'\", '\"']}");
@@ -360,7 +200,7 @@ public class Test extends TestCase
                 "{\n    \"to\": null,\n    \"ten\": 10,\n    \"JSONObject\": {},\n    \"JSONArray\": [],\n    \"op\": \"Good\",\n    \"keys\": [\n        \"to\",\n        \"ten\",\n        \"JSONObject\",\n        \"JSONArray\",\n        \"op\",\n        \"int\",\n        \"true\",\n        \"foo\",\n        \"zero\",\n        \"double\",\n        \"String\",\n        \"false\",\n        \"bool\",\n        \"\\\\u2028\",\n        \"\\\\u2029\",\n        \"null\"\n    ],\n    \"int\": 57,\n    \"true\": true,\n    \"foo\": [\n        true,\n        false,\n        9876543210,\n        0,\n        1.00000001,\n        1.000000000001,\n        1,\n        1.0E-17,\n        2,\n        0.1,\n        2.0E100,\n        -32,\n        [],\n        {},\n        \"string\",\n        666,\n        2001.99,\n        \"so \\\"fine\\\".\",\n        \"so <fine>.\",\n        true,\n        false,\n        [],\n        {}\n    ],\n    \"zero\": -0,\n    \"double\": 1.2345678901234568E29,\n    \"String\": \"98.6\",\n    \"false\": false,\n    \"bool\": \"true\",\n    \"\\\\u2028\": \"\\u2028\",\n    \"\\\\u2029\": \"\\u2029\",\n    \"null\": null\n}",
                 jsonobject.toString(4));
         assertEquals(
-                "<to>null</to><ten>10</ten><JSONObject></JSONObject><op>Good</op><keys>to</keys><keys>ten</keys><keys>JSONObject</keys><keys>JSONArray</keys><keys>op</keys><keys>int</keys><keys>true</keys><keys>foo</keys><keys>zero</keys><keys>double</keys><keys>String</keys><keys>false</keys><keys>bool</keys><keys>\\u2028</keys><keys>\\u2029</keys><keys>null</keys><int>57</int><true>true</true><foo>true</foo><foo>false</foo><foo>9876543210</foo><foo>0.0</foo><foo>1.00000001</foo><foo>1.000000000001</foo><foo>1.0</foo><foo>1.0E-17</foo><foo>2.0</foo><foo>0.1</foo><foo>2.0E100</foo><foo>-32</foo><foo></foo><foo></foo><foo>string</foo><foo>666</foo><foo>2001.99</foo><foo>so &quot;fine&quot;.</foo><foo>so &lt;fine&gt;.</foo><foo>true</foo><foo>false</foo><foo></foo><foo></foo><zero>-0.0</zero><double>1.2345678901234568E29</double><String>98.6</String><false>false</false><bool>true</bool><\\u2028>\u2028</\\u2028><\\u2029>\u2029</\\u2029><null>null</null>",
+                "<to/><ten>10</ten><JSONObject></JSONObject><op>Good</op><keys>to</keys><keys>ten</keys><keys>JSONObject</keys><keys>JSONArray</keys><keys>op</keys><keys>int</keys><keys>true</keys><keys>foo</keys><keys>zero</keys><keys>double</keys><keys>String</keys><keys>false</keys><keys>bool</keys><keys>\\u2028</keys><keys>\\u2029</keys><keys>null</keys><int>57</int><true>true</true><foo>true</foo><foo>false</foo><foo>9876543210</foo><foo>0.0</foo><foo>1.00000001</foo><foo>1.000000000001</foo><foo>1.0</foo><foo>1.0E-17</foo><foo>2.0</foo><foo>0.1</foo><foo>2.0E100</foo><foo>-32</foo><foo></foo><foo></foo><foo>string</foo><foo>666</foo><foo>2001.99</foo><foo>so &quot;fine&quot;.</foo><foo>so &lt;fine&gt;.</foo><foo>true</foo><foo>false</foo><foo></foo><foo></foo><zero>-0.0</zero><double>1.2345678901234568E29</double><String>98.6</String><false>false</false><bool>true</bool><\\u2028>\u2028</\\u2028><\\u2029>\u2029</\\u2029><null/>",
                 XML.toString(jsonobject));
         assertEquals(98.6d, jsonobject.getDouble("String"), eps);
         assertTrue(jsonobject.getBoolean("bool"));
@@ -386,6 +226,15 @@ public class Test extends TestCase
                         + "CDATA blocks&lt;are&gt;&lt;supported&gt;!<two> &quot;2&quot; </two><seven>7</seven><five/><five/><one>1</one><three>3</three><three>III</three><three>T H R E E</three><four/><six>6</six></xml>",
                 XML.toString(jsonobject));
 
+        int ar[] =
+            {
+                    1, 2, 3
+            };
+            JSONArray ja = new JSONArray(ar);
+            assertEquals("[1,2,3]", ja.toString());
+            assertEquals("<array>1</array><array>2</array><array>3</array>",
+                    XML.toString(ar));
+        
         ja = JSONML.toJSONArray(string);
         assertEquals(
                 "[\n    \"xml\",\n    {\n        \"two\": \" \\\"2\\\" \",\n        \"one\": 1\n    },\n    [\"five\"],\n    \"First \\t<content>\",\n    [\"five\"],\n    \"This is \\\"content\\\".\",\n    [\n        \"three\",\n        3\n    ],\n    \"JSON does not preserve the sequencing of elements and contents.\",\n    [\n        \"three\",\n        \"III\"\n    ],\n    [\n        \"three\",\n        \"T H R E E\"\n    ],\n    [\"four\"],\n    \"Content text is an implied structure in XML.\",\n    [\n        \"six\",\n        {\"content\": 6}\n    ],\n    \"JSON does not have implied structure:\",\n    [\n        \"seven\",\n        7\n    ],\n    \"everything is explicit.\",\n    \"CDATA blocks<are><supported>!\"\n]",
@@ -465,33 +314,7 @@ public class Test extends TestCase
                 "<test><w>bonus</w><w>bonus2</w>deluxe<intertag/><status>ok</status><blip>&amp;&quot;toot&quot;&amp;toot;&amp;#x41;<sweet>true</sweet></blip><empty/><zero>0</zero><x>eks</x></test>",
                 XML.toString(jsonobject));
 
-        jsonobject = HTTP
-                .toJSONObject("GET / HTTP/1.0\nAccept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-powerpoint, application/vnd.ms-excel, application/msword, */*\nAccept-Language: en-us\nUser-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows 98; Win 9x 4.90; T312461; Q312461)\nHost: www.nokko.com\nConnection: keep-alive\nAccept-encoding: gzip, deflate\n");
-        assertEquals(
-                "{\n  \"Accept-Language\": \"en-us\",\n  \"Request-URI\": \"/\",\n  \"Host\": \"www.nokko.com\",\n  \"Method\": \"GET\",\n  \"Accept-encoding\": \"gzip, deflate\",\n  \"User-Agent\": \"Mozilla/4.0 (compatible; MSIE 5.5; Windows 98; Win 9x 4.90; T312461; Q312461)\",\n  \"HTTP-Version\": \"HTTP/1.0\",\n  \"Connection\": \"keep-alive\",\n  \"Accept\": \"image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-powerpoint, application/vnd.ms-excel, application/msword, */*\"\n}",
-                jsonobject.toString(2));
-        assertEquals(
-                "GET \"/\" HTTP/1.0\r\n"
-                        + "Accept-Language: en-us\r\n"
-                        + "Host: www.nokko.com\r\n"
-                        + "Accept-encoding: gzip, deflate\r\n"
-                        + "User-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows 98; Win 9x 4.90; T312461; Q312461)\r\n"
-                        + "Connection: keep-alive\r\n"
-                        + "Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-powerpoint, application/vnd.ms-excel, application/msword, */*\r\n\r\n",
-                HTTP.toString(jsonobject));
-
-        jsonobject = HTTP
-                .toJSONObject("HTTP/1.1 200 Oki Doki\nDate: Sun, 26 May 2002 17:38:52 GMT\nServer: Apache/1.3.23 (Unix) mod_perl/1.26\nKeep-Alive: timeout=15, max=100\nConnection: Keep-Alive\nTransfer-Encoding: chunked\nContent-Type: text/html\n");
-        assertEquals(
-                "{\n  \"Reason-Phrase\": \"Oki Doki\",\n  \"Status-Code\": \"200\",\n  \"Transfer-Encoding\": \"chunked\",\n  \"Date\": \"Sun, 26 May 2002 17:38:52 GMT\",\n  \"Keep-Alive\": \"timeout=15, max=100\",\n  \"HTTP-Version\": \"HTTP/1.1\",\n  \"Content-Type\": \"text/html\",\n  \"Connection\": \"Keep-Alive\",\n  \"Server\": \"Apache/1.3.23 (Unix) mod_perl/1.26\"\n}",
-                jsonobject.toString(2));
-        assertEquals("HTTP/1.1 200 Oki Doki\r\n"
-                + "Transfer-Encoding: chunked\r\n"
-                + "Date: Sun, 26 May 2002 17:38:52 GMT\r\n"
-                + "Keep-Alive: timeout=15, max=100\r\n"
-                + "Content-Type: text/html\r\n" + "Connection: Keep-Alive\r\n"
-                + "Server: Apache/1.3.23 (Unix) mod_perl/1.26\r\n\r\n",
-                HTTP.toString(jsonobject));
+        
 
         jsonobject = new JSONObject(
                 "{nix: null, nux: false, null: 'null', 'Request-URI': '/', Method: 'GET', 'HTTP-Version': 'HTTP/1.0'}");
@@ -501,39 +324,10 @@ public class Test extends TestCase
         assertTrue(jsonobject.isNull("nix"));
         assertTrue(jsonobject.has("nix"));
         assertEquals(
-                "<Request-URI>/</Request-URI><nix>null</nix><nux>false</nux><Method>GET</Method><HTTP-Version>HTTP/1.0</HTTP-Version><null>null</null>",
+                "<Request-URI>/</Request-URI><nix/><nux>false</nux><Method>GET</Method><HTTP-Version>HTTP/1.0</HTTP-Version><null>null</null>",
                 XML.toString(jsonobject));
 
-        jsonobject = XML
-                .toJSONObject("<?xml version='1.0' encoding='UTF-8'?>"
-                        + "\n\n"
-                        + "<SOAP-ENV:Envelope"
-                        + " xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\""
-                        + " xmlns:xsi=\"http://www.w3.org/1999/XMLSchema-instance\""
-                        + " xmlns:xsd=\"http://www.w3.org/1999/XMLSchema\">"
-                        + "<SOAP-ENV:Body><ns1:doGoogleSearch"
-                        + " xmlns:ns1=\"urn:GoogleSearch\""
-                        + " SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
-                        + "<key xsi:type=\"xsd:string\">GOOGLEKEY</key> <q"
-                        + " xsi:type=\"xsd:string\">'+search+'</q> <start"
-                        + " xsi:type=\"xsd:int\">0</start> <maxResults"
-                        + " xsi:type=\"xsd:int\">10</maxResults> <filter"
-                        + " xsi:type=\"xsd:boolean\">true</filter> <restrict"
-                        + " xsi:type=\"xsd:string\"></restrict> <safeSearch"
-                        + " xsi:type=\"xsd:boolean\">false</safeSearch> <lr"
-                        + " xsi:type=\"xsd:string\"></lr> <ie"
-                        + " xsi:type=\"xsd:string\">latin1</ie> <oe"
-                        + " xsi:type=\"xsd:string\">latin1</oe>"
-                        + "</ns1:doGoogleSearch>"
-                        + "</SOAP-ENV:Body></SOAP-ENV:Envelope>");
-
-        assertEquals(
-                "{\"SOAP-ENV:Envelope\": {\n  \"SOAP-ENV:Body\": {\"ns1:doGoogleSearch\": {\n    \"oe\": {\n      \"content\": \"latin1\",\n      \"xsi:type\": \"xsd:string\"\n    },\n    \"SOAP-ENV:encodingStyle\": \"http://schemas.xmlsoap.org/soap/encoding/\",\n    \"lr\": {\"xsi:type\": \"xsd:string\"},\n    \"start\": {\n      \"content\": 0,\n      \"xsi:type\": \"xsd:int\"\n    },\n    \"q\": {\n      \"content\": \"'+search+'\",\n      \"xsi:type\": \"xsd:string\"\n    },\n    \"ie\": {\n      \"content\": \"latin1\",\n      \"xsi:type\": \"xsd:string\"\n    },\n    \"safeSearch\": {\n      \"content\": false,\n      \"xsi:type\": \"xsd:boolean\"\n    },\n    \"xmlns:ns1\": \"urn:GoogleSearch\",\n    \"restrict\": {\"xsi:type\": \"xsd:string\"},\n    \"filter\": {\n      \"content\": true,\n      \"xsi:type\": \"xsd:boolean\"\n    },\n    \"maxResults\": {\n      \"content\": 10,\n      \"xsi:type\": \"xsd:int\"\n    },\n    \"key\": {\n      \"content\": \"GOOGLEKEY\",\n      \"xsi:type\": \"xsd:string\"\n    }\n  }},\n  \"xmlns:xsd\": \"http://www.w3.org/1999/XMLSchema\",\n  \"xmlns:xsi\": \"http://www.w3.org/1999/XMLSchema-instance\",\n  \"xmlns:SOAP-ENV\": \"http://schemas.xmlsoap.org/soap/envelope/\"\n}}",
-                jsonobject.toString(2));
-
-        assertEquals(
-                "<SOAP-ENV:Envelope><SOAP-ENV:Body><ns1:doGoogleSearch><oe>latin1<xsi:type>xsd:string</xsi:type></oe><SOAP-ENV:encodingStyle>http://schemas.xmlsoap.org/soap/encoding/</SOAP-ENV:encodingStyle><lr><xsi:type>xsd:string</xsi:type></lr><start>0<xsi:type>xsd:int</xsi:type></start><q>&apos;+search+&apos;<xsi:type>xsd:string</xsi:type></q><ie>latin1<xsi:type>xsd:string</xsi:type></ie><safeSearch>false<xsi:type>xsd:boolean</xsi:type></safeSearch><xmlns:ns1>urn:GoogleSearch</xmlns:ns1><restrict><xsi:type>xsd:string</xsi:type></restrict><filter>true<xsi:type>xsd:boolean</xsi:type></filter><maxResults>10<xsi:type>xsd:int</xsi:type></maxResults><key>GOOGLEKEY<xsi:type>xsd:string</xsi:type></key></ns1:doGoogleSearch></SOAP-ENV:Body><xmlns:xsd>http://www.w3.org/1999/XMLSchema</xmlns:xsd><xmlns:xsi>http://www.w3.org/1999/XMLSchema-instance</xmlns:xsi><xmlns:SOAP-ENV>http://schemas.xmlsoap.org/soap/envelope/</xmlns:SOAP-ENV></SOAP-ENV:Envelope>",
-                XML.toString(jsonobject));
+        
 
         jsonobject = new JSONObject(
                 "{Envelope: {Body: {\"ns1:doGoogleSearch\": {oe: \"latin1\", filter: true, q: \"'+search+'\", key: \"GOOGLEKEY\", maxResults: 10, \"SOAP-ENV:encodingStyle\": \"http://schemas.xmlsoap.org/soap/encoding/\", start: 0, ie: \"latin1\", safeSearch:false, \"xmlns:ns1\": \"urn:GoogleSearch\"}}}}");
@@ -623,7 +417,7 @@ public class Test extends TestCase
             fail("should fail with - JSONObject[\"double\"] is not an int.");
         } catch (JSONException expected)
         {
-            // Do Nothing
+            assertEquals("JSONObject[\"double\"] is not an int.", expected.getMessage());
         }
         try
         {
@@ -631,7 +425,7 @@ public class Test extends TestCase
             fail("should fail with - JSONObject[\"string\"] is not an int.");
         } catch (JSONException expected)
         {
-            // Do Nothing
+            assertEquals("JSONObject[\"string\"] is not an int.", expected.getMessage());
         }
 
         // getLong
@@ -644,7 +438,7 @@ public class Test extends TestCase
             fail("should fail with - JSONObject[\"double\"] is not a long.");
         } catch (JSONException expected)
         {
-            // Do Nothing
+            assertEquals("JSONObject[\"double\"] is not a long.", expected.getMessage());
         }
         try
         {
@@ -652,7 +446,7 @@ public class Test extends TestCase
             fail("should fail with - JSONObject[\"string\"] is not a long.");
         } catch (JSONException expected)
         {
-            // Do Nothing
+            assertEquals("JSONObject[\"string\"] is not a long.", expected.getMessage());
         }
 
         // getDouble
@@ -809,332 +603,4 @@ public class Test extends TestCase
                 ja.toString());
     }
 
-    /**
-     * Tests the exceptions method.
-     */
-    @SuppressWarnings("static-method")
-    public void testExceptions()
-    {
-        JSONArray jsonarray = null;
-        JSONObject jsonobject;
-        String string;
-
-        try
-        {
-            jsonarray = new JSONArray("[\n\r\n\r}");
-            System.out.println(jsonarray.toString());
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("Missing value at 5 [character 0 line 4]",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            jsonarray = new JSONArray("<\n\r\n\r      ");
-            System.out.println(jsonarray.toString());
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals(
-                    "A JSONArray text must start with '[' at 1 [character 2 line 1]",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            jsonarray = new JSONArray();
-            jsonarray.put(Double.NEGATIVE_INFINITY);
-            jsonarray.put(Double.NaN);
-            System.out.println(jsonarray.toString());
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("JSON does not allow non-finite numbers.",
-                    jsone.getMessage());
-        }
-
-        jsonobject = new JSONObject();
-        try
-        {
-            System.out.println(jsonobject.getDouble("stooge"));
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("JSONObject[\"stooge\"] not found.",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            System.out.println(jsonobject.getDouble("howard"));
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("JSONObject[\"howard\"] not found.",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            System.out.println(jsonobject.put(null, "howard"));
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("Null key.", jsone.getMessage());
-        }
-
-        try
-        {
-            System.out.println(jsonarray.getDouble(0));
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("JSONArray[0] not found.", jsone.getMessage());
-        }
-
-        try
-        {
-            System.out.println(jsonarray.get(-1));
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("JSONArray[-1] not found.", jsone.getMessage());
-        }
-
-        try
-        {
-            System.out.println(jsonarray.put(Double.NaN));
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("JSON does not allow non-finite numbers.",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            jsonobject = XML.toJSONObject("<a><b>    ");
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("Unclosed tag b at 11 [character 12 line 1]",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            jsonobject = XML.toJSONObject("<a></b>    ");
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("Mismatched a and b at 6 [character 7 line 1]",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            jsonobject = XML.toJSONObject("<a></a    ");
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("Misshaped element at 11 [character 12 line 1]",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            jsonarray = new JSONArray(new Object());
-            System.out.println(jsonarray.toString());
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals(
-                    "JSONArray initial value should be a string or collection or array.",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            string = "[)";
-            jsonarray = new JSONArray(string);
-            System.out.println(jsonarray.toString());
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("Expected a ',' or ']' at 3 [character 4 line 1]",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            string = "<xml";
-            jsonarray = JSONML.toJSONArray(string);
-            System.out.println(jsonarray.toString(4));
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("Misshaped element at 6 [character 7 line 1]",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            string = "<right></wrong>";
-            jsonarray = JSONML.toJSONArray(string);
-            System.out.println(jsonarray.toString(4));
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals(
-                    "Mismatched 'right' and 'wrong' at 15 [character 16 line 1]",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            string = "This ain't XML.";
-            jsonarray = JSONML.toJSONArray(string);
-            System.out.println(jsonarray.toString(4));
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("Bad XML at 17 [character 18 line 1]",
-                    jsone.getMessage());
-        }
-
-        try
-        {
-            string = "{\"koda\": true, \"koda\": true}";
-            jsonobject = new JSONObject(string);
-            System.out.println(jsonobject.toString(4));
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("Duplicate key \"koda\"", jsone.getMessage());
-        }
-
-        try
-        {
-            JSONStringer jj = new JSONStringer();
-            string = jj.object().key("bosanda").value("MARIE HAA'S")
-                    .key("bosanda").value("MARIE HAA\\'S").endObject()
-                    .toString();
-            System.out.println(jsonobject.toString(4));
-            fail("expecting JSONException here.");
-        } catch (JSONException jsone)
-        {
-            assertEquals("Duplicate key \"bosanda\"", jsone.getMessage());
-        }
-    }
-
-    /**
-     * Beany is a typical class that implements JSONString. It also provides
-     * some beany methods that can be used to construct a JSONObject. It also
-     * demonstrates constructing a JSONObject with an array of names.
-     */
-    public class Beany implements JSONString
-    {
-
-        /** The a string. */
-        public String aString;
-
-        /** The a number. */
-        public double aNumber;
-
-        /** The a boolean. */
-        public boolean aBoolean;
-
-        /**
-         * Instantiates a new beany.
-         * 
-         * @param string
-         *            the string
-         * @param d
-         *            the d
-         * @param b
-         *            the b
-         */
-        public Beany(String string, double d, boolean b)
-        {
-            aString = string;
-            aNumber = d;
-            aBoolean = b;
-        }
-
-        /**
-         * Gets the number.
-         * 
-         * @return the number
-         */
-        public double getNumber()
-        {
-            return aNumber;
-        }
-
-        /**
-         * Gets the string.
-         * 
-         * @return the string
-         */
-        public String getString()
-        {
-            return aString;
-        }
-
-        /**
-         * Checks if is boolean.
-         * 
-         * @return true, if is boolean
-         */
-        public boolean isBoolean()
-        {
-            return aBoolean;
-        }
-
-        /**
-         * Gets the bENT.
-         * 
-         * @return the bENT
-         */
-        public String getBENT()
-        {
-            return "All uppercase key";
-        }
-
-        /**
-         * Gets the x.
-         * 
-         * @return the x
-         */
-        public String getX()
-        {
-            return "x";
-        }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see json.JSONString#toJSONString()
-         */
-        @Override
-        public String toJSONString()
-        {
-            return "{" + JSONObject.quote(aString) + ":"
-                    + JSONObject.doubleToString(aNumber) + "}";
-        }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.lang.Object#toString()
-         */
-        @Override
-        public String toString()
-        {
-            return getString() + " " + getNumber() + " " + isBoolean() + "."
-                    + getBENT() + " " + getX();
-        }
-    }
 }

@@ -3,14 +3,13 @@
  */
 package org.json.tests;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
 import org.json.XML;
 
 import junit.framework.TestCase;
 
-// TODO: Auto-generated Javadoc
 /*
  * Copyright (c) 2002 JSON.org
  * 
@@ -41,6 +40,8 @@ import junit.framework.TestCase;
 public class TestXML extends TestCase
 {
 
+    JSONObject jsonobject = new JSONObject();
+	
     /**
      * Tests the toJsonObject method using Simple xml.
      */
@@ -97,6 +98,28 @@ public class TestXML extends TestCase
 
         try
         {
+            String XMLString = "<abc><![CDATA[--comment--]></abc>";
+            System.out.println(XML.toJSONObject(XMLString));
+            fail("Should have failed");
+        } catch (JSONException e)
+        {
+            assertEquals("Unclosed CDATA at 34 [character 35 line 1]",
+                    e.getMessage());
+        }
+        
+        try
+        {
+            String XMLString = "<abc><![CDATA[--comment--]]?></abc>";
+            System.out.println(XML.toJSONObject(XMLString));
+            fail("Should have failed");
+        } catch (JSONException e)
+        {
+            assertEquals("Unclosed CDATA at 36 [character 37 line 1]",
+                    e.getMessage());
+        }
+        
+        try
+        {
             String XMLString = "<abc><![CDAT[--comment--]]></abc>";
             System.out.println(XML.toJSONObject(XMLString));
             fail("Should have failed");
@@ -104,6 +127,19 @@ public class TestXML extends TestCase
         {
             assertEquals("Expected 'CDATA[' at 12 [character 13 line 1]",
                     e.getMessage());
+        }
+    }
+    
+    public static void testToJsonObject_NullCharacter()
+    {
+        try
+        {
+            String XMLString = "\0";
+            JSONObject jo = new JSONObject();
+            assertEquals(jo.toString(), XML.toJSONObject(XMLString).toString());
+        } catch (JSONException e)
+        {
+            fail(e.toString());
         }
     }
 
@@ -204,6 +240,9 @@ public class TestXML extends TestCase
         }
     }
 
+    /**
+     * Tests the toJsonObject method using unclosed tag.
+     */
     public static void testToJsonObject_UnclosedTag()
     {
         try
@@ -218,6 +257,9 @@ public class TestXML extends TestCase
         }
     }
 
+    /**
+     * Tests the stringToValue method using true.
+     */
     public static void testStringToValue_true()
     {
         assertEquals(Boolean.TRUE, XML.stringToValue("true"));
@@ -226,6 +268,9 @@ public class TestXML extends TestCase
         assertEquals(Boolean.TRUE, XML.stringToValue("TRUE"));
     }
 
+    /**
+     * Tests the stringToValue method using false.
+     */
     public static void testStringToValue_false()
     {
         assertEquals(Boolean.FALSE, XML.stringToValue("false"));
@@ -234,17 +279,26 @@ public class TestXML extends TestCase
         assertEquals(Boolean.FALSE, XML.stringToValue("FALSE"));
     }
 
+    /**
+     * Tests the stringToValue method using blank.
+     */
     public static void testStringToValue_blank()
     {
         assertEquals("", XML.stringToValue(""));
     }
 
+    /**
+     * Tests the stringToValue method using null.
+     */
     public static void testStringToValue_null()
     {
         assertEquals(JSONObject.NULL, XML.stringToValue("null"));
     }
 
-    public static void testStringToValue_numbers()
+    /**
+     * Tests the stringToValue method using numbers.
+     */
+    public static void testStringToValue_Numbers()
     {
         assertEquals((int)0, XML.stringToValue("0"));
         assertEquals((int)10, XML.stringToValue("10"));
@@ -305,9 +359,9 @@ public class TestXML extends TestCase
     }
 
     /**
-     * Tests the toJsonObject method using Attributes open string.
+     * Tests the toJsonObject method using attributes with open string.
      */
-    public static void testToJsonObject_AttributesOpenString()
+    public static void testToJsonObject_AttributesWithOpenString()
     {
         try
         {
@@ -360,6 +414,9 @@ public class TestXML extends TestCase
         }
     }
 
+    /**
+     * Tests the toJsonObject method using empty tag.
+     */
     public static void testToJsonObject_EmptyTag()
     {
         try
@@ -374,6 +431,9 @@ public class TestXML extends TestCase
         }
     }
 
+    /**
+     * Tests the toJsonObject method using empty tag with attributes.
+     */
     public static void testToJsonObject_EmptyTagWithAttributes()
     {
         try
@@ -390,6 +450,9 @@ public class TestXML extends TestCase
         }
     }
 
+    /**
+     * Tests the toJsonObject method using broken empty tag.
+     */
     public static void testToJsonObject_BrokenEmptyTag()
     {
         try
@@ -403,7 +466,382 @@ public class TestXML extends TestCase
                     e.getMessage());
         }
     }
+    
+    /**
+     * Tests the toString method using jSON object.
+     */
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            jo.put("abc", "123");
+            assertEquals("<abc>123</abc>", XML.toString(jo));
+        } catch (JSONException e)
+        {
+        	e.printStackTrace();
+        }
+    }
 
+    public static void testToString_EmptyJsonObject()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            assertEquals("", XML.toString(jo));
+        } catch (JSONException e)
+        {
+        	e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Tests the toString method using jSON object and name.
+     */
+    public static void testToString_JsonObjectAndName()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            jo.put("abc", "123");
+            assertEquals("<my name><abc>123</abc></my name>", XML.toString(jo, "my name"));
+        } catch (JSONException e)
+        {
+        	e.printStackTrace();
+        }
+    }
+    
+    public static void testToString_EmptyJsonObjectAndName()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            assertEquals("<my name></my name>", XML.toString(jo, "my name"));
+        } catch (JSONException e)
+        {
+        	e.printStackTrace();
+        }
+    }
+    
+    public static void testToString_EmptyJsonObjectAndEmptyName()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            assertEquals("<></>", XML.toString(jo, ""));
+        } catch (JSONException e)
+        {
+        	e.printStackTrace();
+        }
+    }
+    
+    public static void testToString_JsonObjectWithNullStringValue()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            jo.put("abc", "null");
+            assertEquals("<my name><abc>null</abc></my name>", XML.toString(jo, "my name"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+        
+    public static void testToString_JsonObjectWithJSONObjectNullValue()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            jo.put("abc", JSONObject.NULL);
+            assertEquals("<my name><abc/></my name>", XML.toString(jo, "my name"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    public void testToString_JsonObjectWithNullKey()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            jo.put(null, "abc");
+            XML.toString(jo, "my name");
+            fail("Should have thrown Exception");
+        } catch (JSONException e)
+        {
+        	assertEquals("Null key.", e.getMessage());
+        }
+    }
+    
+    public static void testToString_JsonObjectWithInteger()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            jo.put("abc", 45);
+            assertEquals("<my name><abc>45</abc></my name>", XML.toString(jo, "my name"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    public static void testToString_JsonObjectWithContentKeyIntValue()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            jo.put("content", 45);
+            assertEquals("<my name>45</my name>", XML.toString(jo, "my name"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    public static void testToString_JsonObjectWithContentKeyJsonArrayValue()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            JSONArray ja = new JSONArray();
+            ja.put("123");
+            ja.put(72);
+            jo.put("content", ja);
+            assertEquals("<my name>123\n72</my name>", XML.toString(jo, "my name"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    /**
+     * Tests the toString method using json object with content key string value.
+     */
+    public static void testToString_JsonObjectWithContentKeyStringValue()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            jo.put("content", "42");
+            assertEquals("<my name>42</my name>", XML.toString(jo, "my name"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    public static void testToString_JsonObjectWithJsonArrayValue()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            JSONArray ja = new JSONArray();
+            ja.put("123");
+            ja.put(72);
+            jo.put("abc", ja);
+            assertEquals("<my name><abc>123</abc><abc>72</abc></my name>", XML.toString(jo, "my name"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    public static void testToString_JsonObjectWithJsonArrayOfJsonArraysValue()
+    {
+        try
+        {
+            JSONObject jo = new JSONObject();
+            JSONArray ja = new JSONArray();
+            JSONArray ja2 = new JSONArray();
+            JSONArray ja3 = new JSONArray();
+            ja2.put("cat");
+            ja.put(ja2);
+            ja.put(ja3);
+            jo.put("abc", ja);
+            assertEquals("<my name><abc><array>cat</array></abc><abc></abc></my name>", XML.toString(jo, "my name"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    public static void testToString_Array()
+    {
+        try
+        {
+            String[] strings = {"abc", "123"};
+            assertEquals("<my name>abc</my name><my name>123</my name>", XML.toString(strings, "my name"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    public static void testToString_JsonArray()
+    {
+        try
+        {
+            JSONArray ja = new JSONArray();
+            ja.put("hi");
+            ja.put("bye");
+            assertEquals("<my name>hi</my name><my name>bye</my name>", XML.toString(ja, "my name"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    public static void testToString_EmptyString()
+    {
+        try
+        {
+            assertEquals("<my name/>", XML.toString("", "my name"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    public static void testToString_StringNoName()
+    {
+        try
+        {
+            assertEquals("\"123\"", XML.toString("123"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    public static void testEscape()
+    {
+        try
+        {
+            assertEquals("\"&amp;&lt;&gt;&quot;&apos;\"", XML.toString("&<>\"'"));
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    public static void testNoSpace_EmptyString()
+    {
+        try
+        {
+            XML.noSpace("");
+            fail("Should have thrown exception");
+        } catch (JSONException e)
+        {
+        	assertEquals("Empty string.", e.getMessage());
+        }
+    }
+    
+    public static void testNoSpace_StringWithNoSpaces()
+    {
+        try
+        {
+            XML.noSpace("123");
+        } catch (JSONException e)
+        {
+        	fail(e.toString());
+        }
+    }
+    
+    public static void testNoSpace_StringWithSpaces()
+    {
+        try
+        {
+            XML.noSpace("1 23");
+            fail("Should have thrown exception");
+        } catch (JSONException e)
+        {
+        	assertEquals("'1 23' contains a space character.", e.getMessage());
+        }
+    }
+    
+    public static void test()
+    {
+        try
+        {
+            XML.noSpace("1 23");
+            fail("Should have thrown exception");
+        } catch (JSONException e)
+        {
+        	assertEquals("'1 23' contains a space character.", e.getMessage());
+        }
+    }
+    
+    @SuppressWarnings("static-method")
+    public void testXML() throws Exception
+    {
+        String string;
+
+        jsonobject = XML
+                .toJSONObject("<![CDATA[This is a collection of test patterns and examples for json.]]>  Ignore the stuff past the end.  ");
+        assertEquals(
+                "{\"content\":\"This is a collection of test patterns and examples for json.\"}",
+                jsonobject.toString());
+        assertEquals(
+                "This is a collection of test patterns and examples for json.",
+                jsonobject.getString("content"));
+
+        string = "<test><blank></blank><empty/></test>";
+        jsonobject = XML.toJSONObject(string);
+        assertEquals("{\"test\": {\n  \"blank\": \"\",\n  \"empty\": \"\"\n}}",
+                jsonobject.toString(2));
+        assertEquals("<test><blank/><empty/></test>", XML.toString(jsonobject));
+
+        string = "<subsonic-response><playlists><playlist id=\"476c65652e6d3375\" int=\"12345678901234567890123456789012345678901234567890213991133777039355058536718668104339937\"/><playlist id=\"50617274792e78737066\"/></playlists></subsonic-response>";
+        jsonobject = XML.toJSONObject(string);
+        assertEquals(
+                "{\"subsonic-response\":{\"playlists\":{\"playlist\":[{\"id\":\"476c65652e6d3375\",\"int\":\"12345678901234567890123456789012345678901234567890213991133777039355058536718668104339937\"},{\"id\":\"50617274792e78737066\"}]}}}",
+                jsonobject.toString());
+    }
+    
+    public void testXML2()
+    {
+    	try {
+			jsonobject = XML
+			        .toJSONObject("<?xml version='1.0' encoding='UTF-8'?>"
+			                + "\n\n"
+			                + "<SOAP-ENV:Envelope"
+			                + " xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\""
+			                + " xmlns:xsi=\"http://www.w3.org/1999/XMLSchema-instance\""
+			                + " xmlns:xsd=\"http://www.w3.org/1999/XMLSchema\">"
+			                + "<SOAP-ENV:Body><ns1:doGoogleSearch"
+			                + " xmlns:ns1=\"urn:GoogleSearch\""
+			                + " SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+			                + "<key xsi:type=\"xsd:string\">GOOGLEKEY</key> <q"
+			                + " xsi:type=\"xsd:string\">'+search+'</q> <start"
+			                + " xsi:type=\"xsd:int\">0</start> <maxResults"
+			                + " xsi:type=\"xsd:int\">10</maxResults> <filter"
+			                + " xsi:type=\"xsd:boolean\">true</filter> <restrict"
+			                + " xsi:type=\"xsd:string\"></restrict> <safeSearch"
+			                + " xsi:type=\"xsd:boolean\">false</safeSearch> <lr"
+			                + " xsi:type=\"xsd:string\"></lr> <ie"
+			                + " xsi:type=\"xsd:string\">latin1</ie> <oe"
+			                + " xsi:type=\"xsd:string\">latin1</oe>"
+			                + "</ns1:doGoogleSearch>"
+			                + "</SOAP-ENV:Body></SOAP-ENV:Envelope>");
+		
+
+        assertEquals(
+                "{\"SOAP-ENV:Envelope\": {\n  \"SOAP-ENV:Body\": {\"ns1:doGoogleSearch\": {\n    \"oe\": {\n      \"content\": \"latin1\",\n      \"xsi:type\": \"xsd:string\"\n    },\n    \"SOAP-ENV:encodingStyle\": \"http://schemas.xmlsoap.org/soap/encoding/\",\n    \"lr\": {\"xsi:type\": \"xsd:string\"},\n    \"start\": {\n      \"content\": 0,\n      \"xsi:type\": \"xsd:int\"\n    },\n    \"q\": {\n      \"content\": \"'+search+'\",\n      \"xsi:type\": \"xsd:string\"\n    },\n    \"ie\": {\n      \"content\": \"latin1\",\n      \"xsi:type\": \"xsd:string\"\n    },\n    \"safeSearch\": {\n      \"content\": false,\n      \"xsi:type\": \"xsd:boolean\"\n    },\n    \"xmlns:ns1\": \"urn:GoogleSearch\",\n    \"restrict\": {\"xsi:type\": \"xsd:string\"},\n    \"filter\": {\n      \"content\": true,\n      \"xsi:type\": \"xsd:boolean\"\n    },\n    \"maxResults\": {\n      \"content\": 10,\n      \"xsi:type\": \"xsd:int\"\n    },\n    \"key\": {\n      \"content\": \"GOOGLEKEY\",\n      \"xsi:type\": \"xsd:string\"\n    }\n  }},\n  \"xmlns:xsd\": \"http://www.w3.org/1999/XMLSchema\",\n  \"xmlns:xsi\": \"http://www.w3.org/1999/XMLSchema-instance\",\n  \"xmlns:SOAP-ENV\": \"http://schemas.xmlsoap.org/soap/envelope/\"\n}}",
+                jsonobject.toString(2));
+
+        assertEquals(
+                "<SOAP-ENV:Envelope><SOAP-ENV:Body><ns1:doGoogleSearch><oe>latin1<xsi:type>xsd:string</xsi:type></oe><SOAP-ENV:encodingStyle>http://schemas.xmlsoap.org/soap/encoding/</SOAP-ENV:encodingStyle><lr><xsi:type>xsd:string</xsi:type></lr><start>0<xsi:type>xsd:int</xsi:type></start><q>&apos;+search+&apos;<xsi:type>xsd:string</xsi:type></q><ie>latin1<xsi:type>xsd:string</xsi:type></ie><safeSearch>false<xsi:type>xsd:boolean</xsi:type></safeSearch><xmlns:ns1>urn:GoogleSearch</xmlns:ns1><restrict><xsi:type>xsd:string</xsi:type></restrict><filter>true<xsi:type>xsd:boolean</xsi:type></filter><maxResults>10<xsi:type>xsd:int</xsi:type></maxResults><key>GOOGLEKEY<xsi:type>xsd:string</xsi:type></key></ns1:doGoogleSearch></SOAP-ENV:Body><xmlns:xsd>http://www.w3.org/1999/XMLSchema</xmlns:xsd><xmlns:xsi>http://www.w3.org/1999/XMLSchema-instance</xmlns:xsi><xmlns:SOAP-ENV>http://schemas.xmlsoap.org/soap/envelope/</xmlns:SOAP-ENV></SOAP-ENV:Envelope>",
+                XML.toString(jsonobject));
+    	} catch (JSONException e) {
+			fail(e.toString());
+		}
+    }
+
+    /**
+     * Tests the constructor method.
+     */
     public static void testConstructor()
     {
         XML xml = new XML();

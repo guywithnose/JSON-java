@@ -3,6 +3,8 @@
  */
 package org.json.tests;
 
+import org.json.JSONObject;
+
 import junit.framework.TestCase;
 
 /**
@@ -10,12 +12,23 @@ import junit.framework.TestCase;
  */
 public class TestJSONObject extends TestCase
 {
-    
+
     /**
-     * Tests the stub method.
+     * Tests the null method.
+     * 
+     * @throws Exception
+     *             the exception
      */
-    public void testStub()
+    @SuppressWarnings("static-method")
+    public void testNull() throws Exception
     {
-        // Do Nothing
+        JSONObject jsonobject;
+
+        jsonobject = new JSONObject("{\"message\":\"null\"}");
+        assertFalse(jsonobject.isNull("message"));
+        assertEquals("null", jsonobject.getString("message"));
+
+        jsonobject = new JSONObject("{\"message\":null}");
+        assertTrue(jsonobject.isNull("message"));
     }
 }

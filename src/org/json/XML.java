@@ -502,7 +502,7 @@ public class XML
             {
                 key = keys.next().toString();
                 value = jo.opt(key);
-                if (value == null)
+                if (value == JSONObject.NULL)
                 {
                     value = "";
                 }
