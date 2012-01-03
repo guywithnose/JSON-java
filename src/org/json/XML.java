@@ -307,11 +307,7 @@ public class XML
                         token = x.nextContent();
                         if (token == null)
                         {
-                            if (tagName != null)
-                            {
-                                throw x.syntaxError("Unclosed tag " + tagName);
-                            }
-                            return false;
+                            throw x.syntaxError("Unclosed tag " + tagName);
                         } else if (token instanceof String)
                         {
                             string = (String) token;

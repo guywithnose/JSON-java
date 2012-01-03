@@ -5,6 +5,7 @@ package org.json.tests;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 import org.json.XML;
 
 import junit.framework.TestCase;
@@ -203,6 +204,63 @@ public class TestXML extends TestCase
         }
     }
 
+    public static void testToJsonObject_UnclosedTag()
+    {
+        try
+        {
+            String XMLString = "<abc>";
+            System.out.println(XML.toJSONObject(XMLString));
+            fail("Should have failed");
+        } catch (JSONException e)
+        {
+            assertEquals("Unclosed tag abc at 6 [character 7 line 1]",
+                    e.getMessage());
+        }
+    }
+
+    public static void testStringToValue_true()
+    {
+        assertEquals(Boolean.TRUE, XML.stringToValue("true"));
+        assertEquals(Boolean.TRUE, XML.stringToValue("tRUe"));
+        assertEquals(Boolean.TRUE, XML.stringToValue("TruE"));
+        assertEquals(Boolean.TRUE, XML.stringToValue("TRUE"));
+    }
+
+    public static void testStringToValue_false()
+    {
+        assertEquals(Boolean.FALSE, XML.stringToValue("false"));
+        assertEquals(Boolean.FALSE, XML.stringToValue("fALSe"));
+        assertEquals(Boolean.FALSE, XML.stringToValue("FalsE"));
+        assertEquals(Boolean.FALSE, XML.stringToValue("FALSE"));
+    }
+
+    public static void testStringToValue_blank()
+    {
+        assertEquals("", XML.stringToValue(""));
+    }
+
+    public static void testStringToValue_null()
+    {
+        assertEquals(JSONObject.NULL, XML.stringToValue("null"));
+    }
+
+    public static void testStringToValue_numbers()
+    {
+        assertEquals((int)0, XML.stringToValue("0"));
+        assertEquals((int)10, XML.stringToValue("10"));
+        assertEquals((int)-10, XML.stringToValue("-10"));
+        assertEquals((double)34.5, XML.stringToValue("34.5"));
+        assertEquals((double)-34.5, XML.stringToValue("-34.5"));
+        assertEquals(34054535455454355L, XML.stringToValue("34054535455454355"));
+        assertEquals(-34054535455454355L, XML.stringToValue("-34054535455454355"));
+        assertEquals("00123", XML.stringToValue("00123"));
+        assertEquals("-00123", XML.stringToValue("-00123"));
+        assertEquals((int)123, XML.stringToValue("0123"));
+        assertEquals((int)-123, XML.stringToValue("-0123"));
+        assertEquals("-", XML.stringToValue("-"));
+        assertEquals("-0abc", XML.stringToValue("-0abc"));
+    }
+
     /**
      * Tests the toJsonObject method using Misshaped tag.
      */
@@ -216,6 +274,16 @@ public class TestXML extends TestCase
         } catch (JSONException e)
         {
             assertEquals("Misshaped tag at 2 [character 3 line 1]",
+                    e.getMessage());
+        }
+        try
+        {
+            String XMLString = "<abc=>123<abc=>";
+            System.out.println(XML.toJSONObject(XMLString));
+            fail("Should have failed");
+        } catch (JSONException e)
+        {
+            assertEquals("Misshaped tag at 5 [character 6 line 1]",
                     e.getMessage());
         }
     }
@@ -290,6 +358,56 @@ public class TestXML extends TestCase
             assertEquals("Missing value at 12 [character 13 line 1]",
                     e.getMessage());
         }
+    }
+
+    public static void testToJsonObject_EmptyTag()
+    {
+        try
+        {
+            String XMLString = "<abc />";
+            JSONObject jo = new JSONObject();
+            jo.put("abc", "");
+            assertEquals(jo.toString(), XML.toJSONObject(XMLString).toString());
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void testToJsonObject_EmptyTagWithAttributes()
+    {
+        try
+        {
+            String XMLString = "<abc 'def'='jkk' />";
+            JSONObject jo = new JSONObject();
+            JSONObject jo2 = new JSONObject();
+            jo2.put("def","jkk");
+            jo.put("abc", jo2);
+            assertEquals(jo.toString(), XML.toJSONObject(XMLString).toString());
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void testToJsonObject_BrokenEmptyTag()
+    {
+        try
+        {
+            String XMLString = "<abc /?>";
+            XML.toJSONObject(XMLString).toString();
+            fail("Should have failed");
+        } catch (JSONException e)
+        {
+            assertEquals("Misshaped tag at 7 [character 8 line 1]",
+                    e.getMessage());
+        }
+    }
+
+    public static void testConstructor()
+    {
+        XML xml = new XML();
+        assertEquals("XML", xml.getClass().getSimpleName());
     }
 
 }
