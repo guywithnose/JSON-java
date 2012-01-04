@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 
+import org.json.Cookie;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +28,7 @@ public class TestJSONTokener extends TestCase
     /** The jsontokener. */
     JSONTokener jsontokener;
 
+    JSONObject jsonobject = new JSONObject();
 
     class MockInputStreamThrowsExceptionOnFourthRead extends InputStream
     {        
@@ -560,6 +562,27 @@ public class TestJSONTokener extends TestCase
         assertEquals(-1, JSONTokener.dehexchar('G'));
         assertEquals(-1, JSONTokener.dehexchar('z'));
         assertEquals(-1, JSONTokener.dehexchar('Z'));
+    }
+    
+    public void testMultipleThings()
+    {
+        try
+        {
+            JSONTokener jsontokener = new JSONTokener(
+                    "{op:'test', to:'session', pre:1}{op:'test', to:'session', pre:2}");
+            jsonobject = new JSONObject(jsontokener);
+            assertEquals("{\"to\":\"session\",\"op\":\"test\",\"pre\":1}",
+                    jsonobject.toString());
+            assertEquals(1, jsonobject.optInt("pre"));
+            int i = jsontokener.skipTo('{');
+            assertEquals(123, i);
+            jsonobject = new JSONObject(jsontokener);
+            assertEquals("{\"to\":\"session\",\"op\":\"test\",\"pre\":2}",
+                    jsonobject.toString());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
     }
     
 }

@@ -4,7 +4,9 @@
  */
 package org.json.tests;
 
+import org.json.Cookie;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
 import org.json.JSONStringer;
@@ -24,6 +26,8 @@ public class TestJSONStringer extends TestCase
     
     /** The string. */
     String string;
+
+    JSONArray jsonarray;
     
 	/**
 	 * Tests the jsonString method.
@@ -210,5 +214,48 @@ public class TestJSONStringer extends TestCase
             return getString() + " " + getNumber() + " " + isBoolean() + "."
                     + getBENT() + " " + getX();
         }
+        
     }
+    
+
+    public void testToString_DuplicateKeys()
+    {
+        try
+        {
+            JSONStringer jj = new JSONStringer();
+            string = jj.object().key("bosanda").value("MARIE HAA'S")
+                    .key("bosanda").value("MARIE HAA\\'S").endObject()
+                    .toString();
+            fail("expecting JSONException here.");
+        } catch (JSONException jsone)
+        {
+            assertEquals("Duplicate key \"bosanda\"", jsone.getMessage());
+        }
+    }
+    
+    public void testArray_ObjectAndArray()
+    {
+        try
+        {
+            jsonobject = new JSONObject(
+                "{ fun => with non-standard forms ; forgiving => This package can be used to parse formats that are similar to but not stricting conforming to JSON; why=To make it easier to migrate existing data to JSON,one = [[1.00]]; uno=[[{1=>1}]];'+':+6e66 ;pluses=+++;empty = '' , 'double':0.666,true: TRUE, false: FALSE, null=NULL;[true] = [[!,@;*]]; string=>  o. k. ; \r oct=0666; hex=0x666; dec=666; o=0999; noh=0x0x}");
+        
+            jsonarray = new JSONArray(
+                    " [\"<escape>\", next is an implied null , , ok,] ");
+            jsonobject = new JSONObject(jsonobject, new String[]
+            { "dec", "oct", "hex", "missing" });
+            assertEquals(
+                    "{\n \"oct\": 666,\n \"dec\": 666,\n \"hex\": \"0x666\"\n}",
+                    jsonobject.toString(1));
+
+            assertEquals(
+                    "[[\"<escape>\",\"next is an implied null\",null,\"ok\"],{\"oct\":666,\"dec\":666,\"hex\":\"0x666\"}]",
+                    new JSONStringer().array().value(jsonarray)
+                            .value(jsonobject).endArray().toString());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
 }
