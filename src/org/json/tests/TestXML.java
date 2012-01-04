@@ -5,12 +5,12 @@ package org.json.tests;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONML;
 import org.json.JSONObject;
 import org.json.XML;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /*
  * Copyright (c) 2002 JSON.org
  * 
@@ -43,8 +43,11 @@ public class TestXML extends TestCase
 
     /** The jsonobject. */
     JSONObject jsonobject = new JSONObject();
+    
+    /** The jsonarray. */
     JSONArray jsonarray = new JSONArray();
     
+    /** The string. */
     String string;
 	
     /**
@@ -848,7 +851,6 @@ public class TestXML extends TestCase
      */
     public void testXML() throws Exception
     {
-        String string;
 
         jsonobject = XML
                 .toJSONObject("<![CDATA[This is a collection of test patterns and examples for json.]]>  Ignore the stuff past the end.  ");
@@ -923,6 +925,9 @@ public class TestXML extends TestCase
         assertEquals("XML", xml.getClass().getSimpleName());
     }
     
+    /**
+     * Tests the toJSONObject method using unclosed tag.
+     */
     public void testToJSONObject_UnclosedTag()
     {
         try {
@@ -934,6 +939,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using mismatched tags.
+     */
     public void testToJSONObject_MismatchedTags()
     {
         try {
@@ -945,6 +953,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using open tag.
+     */
     public void testToJSONObject_OpenTag()
     {
         try {
@@ -956,6 +967,9 @@ public class TestXML extends TestCase
         }
     }
 
+    /**
+     * Tests the toString method using listof lists.
+     */
     public void testToString_ListofLists()
     {
         try
@@ -971,6 +985,9 @@ public class TestXML extends TestCase
         }
     }
 
+    /**
+     * Tests the toJSONObject method using xml recipe.
+     */
     public void testToJSONObject_XmlRecipe()
     {
         try
@@ -986,6 +1003,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using personel record.
+     */
     public void testToJSONObject_PersonelRecord()
     {
         try
@@ -1001,6 +1021,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using symbols.
+     */
     public void testToString_Symbols()
     {
         try
@@ -1019,6 +1042,9 @@ public class TestXML extends TestCase
         }
     }
 
+    /**
+     * Tests the toJsonObject method using json information.
+     */
     public void testToJsonObject_JsonInformation()
     {
         try
@@ -1043,6 +1069,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using json array of int array.
+     */
     public void testToString_JsonArrayOfIntArray()
     {
         try
@@ -1059,6 +1088,9 @@ public class TestXML extends TestCase
         }
     }
 
+    /**
+     * Tests the toString method using table mapping.
+     */
     public void testToString_TableMapping()
     {
         try
@@ -1078,6 +1110,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using book info.
+     */
     public void testToString_BookInfo()
     {
         try
@@ -1096,6 +1131,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonObject method using table of contents.
+     */
     public void testToJsonObject_TableOfContents()
     {
         try
@@ -1114,6 +1152,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonObject method using simple xml.
+     */
     public void testToJsonObject_SimpleXml()
     {
         try
@@ -1132,6 +1173,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonObject method using html escapes.
+     */
     public void testToJsonObject_HtmlEscapes()
     {
         try
@@ -1150,6 +1194,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonObject method using phone book.
+     */
     public void testToJsonObject_PhoneBook()
     {
         try
@@ -1168,6 +1215,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonObject method using customer info.
+     */
     public void testToJsonObject_CustomerInfo()
     {
         try
@@ -1186,6 +1236,9 @@ public class TestXML extends TestCase
         }
     }
 
+    /**
+     * Tests the toJsonObject method using library catalog.
+     */
     public void testToJsonObject_LibraryCatalog()
     {
         try
@@ -1204,6 +1257,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using xml within xml.
+     */
     public void testToString_XmlWithinXml()
     {
         try{
@@ -1220,6 +1276,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using email.
+     */
     public void testToString_Email()
     {
         try{
@@ -1237,6 +1296,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using http header.
+     */
     public void testToString_HttpHeader()
     {
         try{

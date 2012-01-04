@@ -7,11 +7,9 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 
-import org.json.Cookie;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +17,7 @@ import org.json.JSONTokener;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONTokener.
  */
@@ -28,12 +27,21 @@ public class TestJSONTokener extends TestCase
     /** The jsontokener. */
     JSONTokener jsontokener;
 
+    /** The jsonobject. */
     JSONObject jsonobject = new JSONObject();
 
+    /**
+     * The Class MockInputStreamThrowsExceptionOnFourthRead.
+     */
     class MockInputStreamThrowsExceptionOnFourthRead extends InputStream
     {        
+        
+        /** The position. */
         int position = 0;
         
+        /* (non-Javadoc)
+         * @see java.io.InputStream#read()
+         */
         @Override
         public int read() throws IOException
         {
@@ -45,20 +53,34 @@ public class TestJSONTokener extends TestCase
         }
     }
     
+    /**
+     * The Class MockInputStreamThrowsExceptionOnReset.
+     */
     class MockInputStreamThrowsExceptionOnReset extends BufferedReader
     {
         
+        /**
+         * Instantiates a new mock input stream throws exception on reset.
+         *
+         * @param in the in
+         */
         public MockInputStreamThrowsExceptionOnReset(Reader in)
         {
             super(in);
         }
 
+        /* (non-Javadoc)
+         * @see java.io.BufferedReader#read()
+         */
         @Override
         public int read() throws IOException
         {
             return 0;
         }
         
+        /* (non-Javadoc)
+         * @see java.io.BufferedReader#reset()
+         */
         @Override
         public void reset() throws IOException
         {
@@ -177,6 +199,9 @@ public class TestJSONTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the next method using line increments on new line.
+     */
     public void testNext_LineIncrementsOnNewLine()
     {
         jsontokener = new JSONTokener("abc\n123");
@@ -194,6 +219,9 @@ public class TestJSONTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the next method using line increments on carriage return.
+     */
     public void testNext_LineIncrementsOnCarriageReturn()
     {
         jsontokener = new JSONTokener("abc\r123");
@@ -212,6 +240,9 @@ public class TestJSONTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the next method using line increments on carriage return and new line.
+     */
     public void testNext_LineIncrementsOnCarriageReturnAndNewLine()
     {
         jsontokener = new JSONTokener("abc\r\n123");
@@ -230,6 +261,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the skipTo method.
+     */
     public void testSkipTo()
     {
         byte[] buf;
@@ -255,6 +289,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the skipTo method using fake input stream to test ioexception.
+     */
     public void testSkipTo_FakeInputStreamToTestIoexception()
     {
 
@@ -269,6 +306,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the end method.
+     */
     public void testEnd()
     {
         jsontokener = new JSONTokener("a");
@@ -289,6 +329,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the more method.
+     */
     public void testMore()
     {
         jsontokener = new JSONTokener("a");
@@ -307,6 +350,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextValue method using nice string.
+     */
     public void testNextValue_NiceString()
     {
         jsontokener = new JSONTokener("abc");
@@ -319,6 +365,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextValue method using string with new line.
+     */
     public void testNextValue_StringWithNewLine()
     {
         jsontokener = new JSONTokener("abc\n123");
@@ -332,6 +381,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextValue method using json object string.
+     */
     public void testNextValue_JsonObjectString()
     {
         JSONObject jo = new JSONObject();
@@ -346,6 +398,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextValue method using indented json object string.
+     */
     public void testNextValue_IndentedJsonObjectString()
     {
         JSONObject jo = new JSONObject();
@@ -360,6 +415,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextValue method using json array string.
+     */
     public void testNextValue_JsonArrayString()
     {
         JSONArray ja = new JSONArray();
@@ -375,6 +433,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextValue method using indented json array string.
+     */
     public void testNextValue_IndentedJsonArrayString()
     {
         JSONArray ja = new JSONArray();
@@ -390,6 +451,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextValue method using empty string.
+     */
     public void testNextValue_EmptyString()
     {
         jsontokener = new JSONTokener("");
@@ -403,6 +467,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the next method using expected char.
+     */
     public void testNext_ExpectedChar()
     {
         jsontokener = new JSONTokener("abc");
@@ -419,6 +486,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the next method using expected number of characters.
+     */
     public void testNext_ExpectedNumberOfCharacters()
     {
         jsontokener = new JSONTokener("abc123");
@@ -438,6 +508,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextTo method using character.
+     */
     public void testNextTo_Character()
     {
         jsontokener = new JSONTokener("abc123,test\ntestString1\rsecondString\r\nthird String");
@@ -459,6 +532,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextTo method using string.
+     */
     public void testNextTo_String()
     {
         jsontokener = new JSONTokener("abc123,test\ntestString1\rsecondString\r\nthird String");
@@ -485,6 +561,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextString method.
+     */
     public void testNextString()
     {
         jsontokener = new JSONTokener("'abc'\"1\\\"2\\\"3\"'a\\u1111b\\fc\\trhd\\bdd\\r\\ngghhj'\"hghghgjfjf\"");
@@ -504,6 +583,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextString method using illegal escape.
+     */
     public void testNextString_IllegalEscape()
     {
         jsontokener = new JSONTokener("'ab\\\tc'");
@@ -518,6 +600,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextString method using unterminated string.
+     */
     public void testNextString_UnterminatedString()
     {
         jsontokener = new JSONTokener("'abc");
@@ -532,7 +617,10 @@ public class TestJSONTokener extends TestCase
         }
     }
 
-    public void testDehexChar()
+    /**
+     * Tests the dehexChar method.
+     */
+    public static void testDehexChar()
     {
         char i = '0';
         int j = 0;
@@ -564,11 +652,14 @@ public class TestJSONTokener extends TestCase
         assertEquals(-1, JSONTokener.dehexchar('Z'));
     }
     
+    /**
+     * Tests the multipleThings method.
+     */
     public void testMultipleThings()
     {
         try
         {
-            JSONTokener jsontokener = new JSONTokener(
+            jsontokener = new JSONTokener(
                     "{op:'test', to:'session', pre:1}{op:'test', to:'session', pre:2}");
             jsonobject = new JSONObject(jsontokener);
             assertEquals("{\"to\":\"session\",\"op\":\"test\",\"pre\":1}",

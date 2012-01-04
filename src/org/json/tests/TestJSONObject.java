@@ -12,28 +12,34 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONML;
 import org.json.JSONObject;
 import org.json.XML;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONObject.
  */
 public class TestJSONObject extends TestCase
 {
 
+    /** The jsonobject. */
     JSONObject jsonobject = new JSONObject();
 
+    /** The iterator. */
     Iterator<String> iterator;
     
+    /** The jsonarray. */
     JSONArray jsonarray;
     
+    /** The object. */
     Object object;
     
+    /** The string. */
     String string;
 
+    /** The eps. */
     double eps = 2.220446049250313e-16;
 
     /**
@@ -52,6 +58,9 @@ public class TestJSONObject extends TestCase
         assertTrue(jsonobject.isNull("message"));
     }
     
+    /**
+     * Tests the constructor method using duplicate key.
+     */
     public void testConstructor_DuplicateKey()
     {
         try {
@@ -63,6 +72,9 @@ public class TestJSONObject extends TestCase
         }
     }
     
+    /**
+     * Tests the constructor method using null key.
+     */
     public void testConstructor_NullKey()
     {
         try {
@@ -73,6 +85,9 @@ public class TestJSONObject extends TestCase
         }
     }
     
+    /**
+     * Tests the getDouble method using invalid key howard.
+     */
     public void testGetDouble_InvalidKeyHoward()
     {
         try {
@@ -84,6 +99,9 @@ public class TestJSONObject extends TestCase
         }
     }
     
+    /**
+     * Tests the getDouble method using invalid key stooge.
+     */
     public void testGetDouble_InvalidKeyStooge()
     {
         jsonobject = new JSONObject();
@@ -96,6 +114,9 @@ public class TestJSONObject extends TestCase
         }
     }
     
+    /**
+     * Tests the isNull method.
+     */
     public void testIsNull()
     {
         try
@@ -112,6 +133,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the increment method.
+     */
     public void testIncrement()
     {
         try
@@ -127,6 +151,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the toString method using listof lists.
+     */
     public void testToString_ListofLists()
     {
         try
@@ -143,6 +170,9 @@ public class TestJSONObject extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using indentation.
+     */
     public void testToString_Indentation()
     {
         try
@@ -158,9 +188,11 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the multipleThings method.
+     */
     public void testMultipleThings()
     {
-        double eps = 2.220446049250313e-16;
         try
         {
             jsonobject = new JSONObject(
@@ -210,6 +242,9 @@ public class TestJSONObject extends TestCase
         }
     }
     
+    /**
+     * Tests the multipleThings2 method.
+     */
     public void testMultipleThings2()
     {
         try
@@ -301,6 +336,9 @@ public class TestJSONObject extends TestCase
         }
     }
     
+    /**
+     * Tests the put method using collection and map.
+     */
     public void testPut_CollectionAndMap()
     {
         try
@@ -337,6 +375,9 @@ public class TestJSONObject extends TestCase
     
     
 
+    /**
+     * Tests the accumulate method.
+     */
     public void testAccumulate()
     {
         try
@@ -357,6 +398,9 @@ public class TestJSONObject extends TestCase
         }
     }
     
+    /**
+     * Tests the write method.
+     */
     public void testWrite()
     {
         try
@@ -376,6 +420,9 @@ public class TestJSONObject extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using html.
+     */
     public void testToString_Html()
     {
         try
@@ -391,6 +438,9 @@ public class TestJSONObject extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using multiple test cases.
+     */
     public void testToString_MultipleTestCases()
     {
         try

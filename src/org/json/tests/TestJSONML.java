@@ -11,18 +11,25 @@ import org.json.XML;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONML.
  */
 public class TestJSONML extends TestCase
 {
 
+    /** The jsonobject. */
     private JSONObject jsonobject;
     
+    /** The jsonarray. */
     private JSONArray jsonarray;
     
+    /** The string. */
     private String string;
     
+    /**
+     * Tests the toJsonArray method using open xml tag.
+     */
     public void testToJsonArray_OpenXmlTag()
     {
         try {
@@ -35,6 +42,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonArray method using mismatched tags.
+     */
     public void testToJsonArray_MismatchedTags()
     {
         try {
@@ -48,6 +58,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonArray method using text string.
+     */
     public void testToJsonArray_TextString()
     {
         try {
@@ -60,6 +73,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using xml recipe as json object.
+     */
     public void testToString_XmlRecipeAsJsonObject()
     {
         try
@@ -79,6 +95,9 @@ public class TestJSONML extends TestCase
         }
     }
 
+    /**
+     * Tests the toString method using xml recipe as json array.
+     */
     public void testToString_XmlRecipeAsJsonArray()
     {
         try
@@ -98,6 +117,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObjectHtml method.
+     */
     public void testToJSONObjectHtml()
     {
         try
@@ -116,6 +138,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONArrayHtml method.
+     */
     public void testToJSONArrayHtml()
     {
         try
@@ -141,6 +166,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonArray method using json information.
+     */
     public void testToJsonArray_JsonInformation()
     {
         try
@@ -163,6 +191,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonArray method using spanish numbers.
+     */
     public void testToJsonArray_SpanishNumbers()
     {
         try
@@ -181,6 +212,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonArray method using music notes.
+     */
     public void testToJsonArray_MusicNotes()
     {
         try
@@ -215,6 +249,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonArray method using table of contents.
+     */
     public void testToJsonArray_TableOfContents()
     {
         try
@@ -245,6 +282,9 @@ public class TestJSONML extends TestCase
     }
     
 
+    /**
+     * Tests the toJsonObject method using message xml.
+     */
     public void testToJsonObject_MessageXml()
     {
         try
@@ -264,6 +304,9 @@ public class TestJSONML extends TestCase
         }
     }    
 
+    /**
+     * Tests the toJsonArray method using table mapping.
+     */
     public void testToJsonArray_TableMapping()
     {
         try

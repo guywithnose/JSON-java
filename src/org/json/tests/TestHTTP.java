@@ -4,11 +4,11 @@
 package org.json.tests;
 
 import org.json.HTTP;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestHTTP.
  */
@@ -46,6 +46,9 @@ public class TestHTTP extends TestCase
         }
     }
 
+    /**
+     * Tests the toJsonObject method using response.
+     */
     public void testToJsonObject_Response()
     {
         try
@@ -69,6 +72,9 @@ public class TestHTTP extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using null key.
+     */
     public void testToString_NullKey()
     {
         try
@@ -82,6 +88,9 @@ public class TestHTTP extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using status code but no reason phrase.
+     */
     public void testToString_StatusCodeButNoReasonPhrase()
     {
         try
@@ -97,6 +106,9 @@ public class TestHTTP extends TestCase
     
 
     
+    /**
+     * Tests the toString method using method but no request uri.
+     */
     public void testToString_MethodButNoRequestUri()
     {
         try
@@ -110,7 +122,10 @@ public class TestHTTP extends TestCase
         }
     }
     
-    public void testConstructor()
+    /**
+     * Tests the constructor method.
+     */
+    public static void testConstructor()
     {
         HTTP http = new HTTP();
         assertEquals("HTTP", http.getClass().getSimpleName());

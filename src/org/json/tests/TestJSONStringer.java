@@ -4,7 +4,6 @@
  */
 package org.json.tests;
 
-import org.json.Cookie;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +11,7 @@ import org.json.JSONString;
 import org.json.JSONStringer;
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONString.
  */
@@ -27,6 +27,7 @@ public class TestJSONStringer extends TestCase
     /** The string. */
     String string;
 
+    /** The jsonarray. */
     JSONArray jsonarray;
     
 	/**
@@ -218,6 +219,9 @@ public class TestJSONStringer extends TestCase
     }
     
 
+    /**
+     * Tests the toString method using duplicate keys.
+     */
     public void testToString_DuplicateKeys()
     {
         try
@@ -233,6 +237,9 @@ public class TestJSONStringer extends TestCase
         }
     }
     
+    /**
+     * Tests the array method using object and array.
+     */
     public void testArray_ObjectAndArray()
     {
         try

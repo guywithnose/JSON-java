@@ -4,21 +4,25 @@
 package org.json.tests;
 
 import org.json.CookieList;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestCookieList.
  */
 public class TestCookieList extends TestCase
 {
 
+    /** The jsonobject. */
     JSONObject jsonobject = new JSONObject();
 
     
+    /**
+     * Tests the toJsonObject method using random cookie list.
+     */
     public void testToJsonObject_RandomCookieList()
     {
         try

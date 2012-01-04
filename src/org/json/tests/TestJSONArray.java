@@ -5,21 +5,26 @@ package org.json.tests;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONML;
-import org.json.XML;
 import org.junit.Before;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONArray.
  */
 public class TestJSONArray extends TestCase {
 
+    /** The jsonarray. */
     private JSONArray jsonarray;
     
+    /** The string. */
     private String string;
     
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
+    @Override
     @Before
     public void setUp()
     {
@@ -27,6 +32,9 @@ public class TestJSONArray extends TestCase {
         string = "";
     }
     
+	/**
+	 * Tests the jsonArray method using int with leading zeros.
+	 */
 	public static void testJsonArray_IntWithLeadingZeros() {
 		JSONArray jsonarray;
 		String string;
@@ -41,9 +49,9 @@ public class TestJSONArray extends TestCase {
 	}
 	
 	/**
-	 * Tests the jsonArray method using hmmm.
+	 * Tests the jsonArray method using scintific notation.
 	 */
-	public static void testJsonArray_Hmmm() {
+	public static void testJsonArray_ScintificNotation() {
 		JSONArray jsonarray;
 		String string;
 
@@ -72,6 +80,9 @@ public class TestJSONArray extends TestCase {
 		}
 	}
 	
+	/**
+	 * Tests the constructor method using missing value.
+	 */
 	public void testConstructor_MissingValue()
 	{
         try {
@@ -83,6 +94,9 @@ public class TestJSONArray extends TestCase {
         }
 	}
     
+    /**
+     * Tests the constructor method using nan.
+     */
     public void testConstructor_Nan()
     {
         try {
@@ -96,6 +110,9 @@ public class TestJSONArray extends TestCase {
         }
     }
     
+    /**
+     * Tests the constructor method using negative infinity.
+     */
     public void testConstructor_NegativeInfinity()
     {
         try {
@@ -108,6 +125,9 @@ public class TestJSONArray extends TestCase {
         }
     }
     
+    /**
+     * Tests the constructor method using positive infinity.
+     */
     public void testConstructor_PositiveInfinity()
     {
         try {
@@ -120,6 +140,9 @@ public class TestJSONArray extends TestCase {
         }
     }
     
+    /**
+     * Tests the put method using positive infinity.
+     */
     public void testPut_PositiveInfinity()
     {
         try {
@@ -132,6 +155,9 @@ public class TestJSONArray extends TestCase {
         }
     }
     
+    /**
+     * Tests the getDouble method using empty array.
+     */
     public void testGetDouble_EmptyArray()
     {
 
@@ -143,6 +169,9 @@ public class TestJSONArray extends TestCase {
         }
     }
     
+    /**
+     * Tests the get method using negative index.
+     */
     public void testGet_NegativeIndex()
     {
 
@@ -154,6 +183,9 @@ public class TestJSONArray extends TestCase {
         }
     }
     
+    /**
+     * Tests the put method using nan.
+     */
     public void testPut_Nan()
     {
         try {
@@ -165,6 +197,9 @@ public class TestJSONArray extends TestCase {
         }
     }
     
+    /**
+     * Tests the constructor method using object.
+     */
     public void testConstructor_Object()
     {
         try {
@@ -177,6 +212,9 @@ public class TestJSONArray extends TestCase {
         }
     }
     
+    /**
+     * Tests the constructor method using bad json.
+     */
     public void testConstructor_BadJson()
     {
 
@@ -190,6 +228,9 @@ public class TestJSONArray extends TestCase {
         }
     }
     
+    /**
+     * Tests the toString method using locations.
+     */
     public void testToString_Locations()
     {
         try
