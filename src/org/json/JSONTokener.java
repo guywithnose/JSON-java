@@ -147,7 +147,7 @@ public class JSONTokener
      */
     public boolean end()
     {
-        return eof && !usePrevious;
+        return eof;
     }
 
     /**
@@ -486,7 +486,7 @@ public class JSONTokener
             int startIndex = index;
             int startCharacter = character;
             int startLine = line;
-            reader.mark(Integer.MAX_VALUE);
+            reader.mark(1000000);
             do
             {
                 c = next();
