@@ -13,6 +13,8 @@ import junit.framework.TestCase;
  */
 public class TestHTTP extends TestCase
 {
+	
+	/** The jsonobject. */
 	JSONObject jsonobject = new JSONObject();
     
     /**

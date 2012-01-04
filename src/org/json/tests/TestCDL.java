@@ -77,7 +77,7 @@ public class TestCDL extends TestCase
     /**
      * Tests the toJsonArray method using No names.
      */
-    public void testToJsonArray_NoNames()
+    public static void testToJsonArray_NoNames()
     {
 
         try
@@ -92,7 +92,7 @@ public class TestCDL extends TestCase
     /**
      * Tests the toJsonArray method using Null names.
      */
-    public void testToJsonArray_NullNames()
+    public static void testToJsonArray_NullNames()
     {
 
         try
@@ -198,6 +198,9 @@ public class TestCDL extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonArray method using space after string.
+     */
     public void testToJsonArray_SpaceAfterString()
     {
       //@formatter:off
@@ -217,6 +220,9 @@ public class TestCDL extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonArray method using bad character.
+     */
     public void testToJsonArray_BadCharacter()
     {
       //@formatter:off
@@ -339,7 +345,10 @@ public class TestCDL extends TestCase
         }
     }
     
-    public void testConstructor()
+    /**
+     * Tests the constructor method.
+     */
+    public static void testConstructor()
     {
         CDL cdl = new CDL();
         assertEquals("CDL", cdl.getClass().getSimpleName());

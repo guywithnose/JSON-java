@@ -1,5 +1,6 @@
 /*
- * File: TestJSONString.java Author: JSON.org
+ * File:         TestJSONStringer.java
+ * Author:       JSON.org
  */
 package org.json.tests;
 
@@ -14,10 +15,19 @@ import junit.framework.TestCase;
  */
 public class TestJSONStringer extends TestCase
 {
+    
+    /** The jsonobject. */
     JSONObject jsonobject;
+    
+    /** The jsonstringer. */
     JSONStringer jsonstringer;
+    
+    /** The string. */
     String string;
     
+	/**
+	 * Tests the jsonString method.
+	 */
 	public void testJsonString()
 	{
 
@@ -113,16 +123,16 @@ public class TestJSONStringer extends TestCase
         /**
          * Instantiates a new beany.
          * 
-         * @param string
+         * @param String
          *            the string
          * @param d
          *            the d
          * @param b
          *            the b
          */
-        public Beany(String string, double d, boolean b)
+        public Beany(String String, double d, boolean b)
         {
-            aString = string;
+            aString = String;
             aNumber = d;
             aBoolean = b;
         }

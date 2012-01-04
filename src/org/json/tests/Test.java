@@ -66,7 +66,7 @@ public class Test extends TestCase
      * @throws Exception
      *             the exception
      */
-    public void testJSON() throws Exception
+    public static void testJSON() throws Exception
     {
         double eps = 2.220446049250313e-16;
         Iterator<String> iterator;

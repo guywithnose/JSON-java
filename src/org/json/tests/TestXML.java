@@ -40,6 +40,7 @@ import junit.framework.TestCase;
 public class TestXML extends TestCase
 {
 
+    /** The jsonobject. */
     JSONObject jsonobject = new JSONObject();
 	
     /**
@@ -130,6 +131,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJsonObject method using null character.
+     */
     public static void testToJsonObject_NullCharacter()
     {
         try
@@ -300,17 +304,17 @@ public class TestXML extends TestCase
      */
     public static void testStringToValue_Numbers()
     {
-        assertEquals((int)0, XML.stringToValue("0"));
-        assertEquals((int)10, XML.stringToValue("10"));
-        assertEquals((int)-10, XML.stringToValue("-10"));
-        assertEquals((double)34.5, XML.stringToValue("34.5"));
-        assertEquals((double)-34.5, XML.stringToValue("-34.5"));
+        assertEquals(0, XML.stringToValue("0"));
+        assertEquals(10, XML.stringToValue("10"));
+        assertEquals(-10, XML.stringToValue("-10"));
+        assertEquals(34.5, XML.stringToValue("34.5"));
+        assertEquals(-34.5, XML.stringToValue("-34.5"));
         assertEquals(34054535455454355L, XML.stringToValue("34054535455454355"));
         assertEquals(-34054535455454355L, XML.stringToValue("-34054535455454355"));
         assertEquals("00123", XML.stringToValue("00123"));
         assertEquals("-00123", XML.stringToValue("-00123"));
-        assertEquals((int)123, XML.stringToValue("0123"));
-        assertEquals((int)-123, XML.stringToValue("-0123"));
+        assertEquals(123, XML.stringToValue("0123"));
+        assertEquals(-123, XML.stringToValue("-0123"));
         assertEquals("-", XML.stringToValue("-"));
         assertEquals("-0abc", XML.stringToValue("-0abc"));
     }
@@ -482,6 +486,9 @@ public class TestXML extends TestCase
         }
     }
 
+    /**
+     * Tests the toString method using empty json object.
+     */
     public static void testToString_EmptyJsonObject()
     {
         try
@@ -510,6 +517,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using empty json object and name.
+     */
     public static void testToString_EmptyJsonObjectAndName()
     {
         try
@@ -522,6 +532,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using empty json object and empty name.
+     */
     public static void testToString_EmptyJsonObjectAndEmptyName()
     {
         try
@@ -534,6 +547,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using json object with null string value.
+     */
     public static void testToString_JsonObjectWithNullStringValue()
     {
         try
@@ -547,6 +563,9 @@ public class TestXML extends TestCase
         }
     }
         
+    /**
+     * Tests the toString method using json object with json object null value.
+     */
     public static void testToString_JsonObjectWithJSONObjectNullValue()
     {
         try
@@ -560,7 +579,10 @@ public class TestXML extends TestCase
         }
     }
     
-    public void testToString_JsonObjectWithNullKey()
+    /**
+     * Tests the toString method using json object with null key.
+     */
+    public static void testToString_JsonObjectWithNullKey()
     {
         try
         {
@@ -574,6 +596,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using json object with integer.
+     */
     public static void testToString_JsonObjectWithInteger()
     {
         try
@@ -587,6 +612,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using json object with content key int value.
+     */
     public static void testToString_JsonObjectWithContentKeyIntValue()
     {
         try
@@ -600,6 +628,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using json object with content key json array value.
+     */
     public static void testToString_JsonObjectWithContentKeyJsonArrayValue()
     {
         try
@@ -632,6 +663,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using json object with json array value.
+     */
     public static void testToString_JsonObjectWithJsonArrayValue()
     {
         try
@@ -648,6 +682,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using json object with json array of json arrays value.
+     */
     public static void testToString_JsonObjectWithJsonArrayOfJsonArraysValue()
     {
         try
@@ -667,6 +704,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using array.
+     */
     public static void testToString_Array()
     {
         try
@@ -679,6 +719,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using json array.
+     */
     public static void testToString_JsonArray()
     {
         try
@@ -693,6 +736,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using empty string.
+     */
     public static void testToString_EmptyString()
     {
         try
@@ -704,6 +750,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using string no name.
+     */
     public static void testToString_StringNoName()
     {
         try
@@ -715,6 +764,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the escape method.
+     */
     public static void testEscape()
     {
         try
@@ -726,6 +778,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the noSpace method using empty string.
+     */
     public static void testNoSpace_EmptyString()
     {
         try
@@ -738,6 +793,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the noSpace method using string with no spaces.
+     */
     public static void testNoSpace_StringWithNoSpaces()
     {
         try
@@ -749,6 +807,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Tests the noSpace method using string with spaces.
+     */
     public static void testNoSpace_StringWithSpaces()
     {
         try
@@ -761,6 +822,9 @@ public class TestXML extends TestCase
         }
     }
     
+    /**
+     * Test.
+     */
     public static void test()
     {
         try
@@ -773,7 +837,11 @@ public class TestXML extends TestCase
         }
     }
     
-    @SuppressWarnings("static-method")
+    /**
+     * Tests the XML method.
+     *
+     * @throws Exception the exception
+     */
     public void testXML() throws Exception
     {
         String string;
@@ -800,6 +868,9 @@ public class TestXML extends TestCase
                 jsonobject.toString());
     }
     
+    /**
+     * Tests the XML2 method.
+     */
     public void testXML2()
     {
     	try {
