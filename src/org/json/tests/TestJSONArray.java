@@ -14,7 +14,7 @@ public class TestJSONArray extends TestCase {
 	/**
 	 * Tests the stub method.
 	 */
-	public void testJsonArray_IntWithLeadingZeros() {
+	public static void testJsonArray_IntWithLeadingZeros() {
 		JSONArray jsonarray;
 		String string;
 
@@ -27,7 +27,10 @@ public class TestJSONArray extends TestCase {
 		}
 	}
 	
-	public void testJsonArray_Hmmm() {
+	/**
+	 * Tests the jsonArray method using hmmm.
+	 */
+	public static void testJsonArray_Hmmm() {
 		JSONArray jsonarray;
 		String string;
 
@@ -40,7 +43,10 @@ public class TestJSONArray extends TestCase {
 		}
 	}
 	
-	public void testJsonArray_DoubleWithLeadingAndTrailingZeros() {
+	/**
+	 * Tests the jsonArray method using double with leading and trailing zeros.
+	 */
+	public static void testJsonArray_DoubleWithLeadingAndTrailingZeros() {
 		JSONArray jsonarray;
 		String string;
 

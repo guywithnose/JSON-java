@@ -23,6 +23,8 @@ import junit.framework.TestCase;
  */
 public class TestJSONTokener extends TestCase
 {
+    
+    /** The jsontokener. */
     JSONTokener jsontokener;
 
 
@@ -62,6 +64,9 @@ public class TestJSONTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the constructor method using input stream.
+     */
     public void testConstructor_InputStream()
     {
         byte[] buf;
@@ -82,6 +87,9 @@ public class TestJSONTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the back method.
+     */
     public void testBack()
     {
         byte[] buf;
@@ -105,6 +113,9 @@ public class TestJSONTokener extends TestCase
     }
     
 
+    /**
+     * Tests the back method using fails if used twice.
+     */
     public void testBack_FailsIfUsedTwice()
     {
         byte[] buf;
@@ -125,6 +136,9 @@ public class TestJSONTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the next method using fake input stream to test ioexception.
+     */
     public void testNext_FakeInputStreamToTestIoexception()
     {        
         jsontokener = new JSONTokener(new MockInputStreamThrowsExceptionOnFourthRead());
@@ -142,6 +156,9 @@ public class TestJSONTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the next method using empty stream.
+     */
     public void testNext_EmptyStream()
     {
         byte[] buf;
