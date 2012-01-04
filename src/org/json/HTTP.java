@@ -195,7 +195,8 @@ public class HTTP
             if (!string.equals("HTTP-Version") && !string.equals("Status-Code")
                     && !string.equals("Reason-Phrase")
                     && !string.equals("Method")
-                    && !string.equals("Request-URI") && !jo.isNull(string))
+                    && !string.equals("Request-URI")
+                    && !jo.isNull(string))
             {
                 sb.append(string);
                 sb.append(": ");

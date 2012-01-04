@@ -13,8 +13,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses(
 { TestCDL.class, TestCookie.class, TestCookieList.class, TestHTTP.class,
         TestHTTPTokener.class, TestJSONArray.class, TestJSONException.class,
-        TestJSONML.class, TestJSONObject.class, TestJSONStringer.class,
-        TestJSONWriter.class, TestXML.class, Test.class })
+        TestJSONML.class, TestJSONObject.class, TestJSONStringer.class,TestJSONTokener.class,
+        TestJSONWriter.class, TestXML.class, TestXMLTokener.class })
 public class TestSuite
 {
     // Do Nothing
