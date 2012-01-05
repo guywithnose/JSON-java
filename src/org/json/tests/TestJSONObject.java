@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListResourceBundle;
 import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +18,7 @@ import org.json.XML;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONObject.
  */
@@ -711,7 +710,10 @@ public class TestJSONObject extends TestCase
         }
     }
 
-    public void testConstructor_FrenchResourceBundle()
+    /**
+     * Tests the constructor method using french resource bundle.
+     */
+    public static void testConstructor_FrenchResourceBundle()
     {
         try
         {
@@ -727,7 +729,10 @@ public class TestJSONObject extends TestCase
         }
     }
 
-    public void testConstructor_UsResourceBundle()
+    /**
+     * Tests the constructor method using us resource bundle.
+     */
+    public static void testConstructor_UsResourceBundle()
     {
         try
         {
@@ -742,6 +747,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the constructor method using object with string array.
+     */
     public void testConstructor_ObjectWithStringArray()
     {
         assertEquals("{\"m\":true,\"i\":3}", new JSONObject(
@@ -751,6 +759,9 @@ public class TestJSONObject extends TestCase
                 }).toString());
     }
 
+    /**
+     * Tests the opt method.
+     */
     public void testOpt()
     {
         try
@@ -765,7 +776,10 @@ public class TestJSONObject extends TestCase
         }
     }
 
-    public void testStringToValue()
+    /**
+     * Tests the stringToValue method.
+     */
+    public static void testStringToValue()
     {
         assertEquals("", JSONObject.stringToValue(""));
         assertEquals(true, JSONObject.stringToValue("true"));
@@ -777,7 +791,10 @@ public class TestJSONObject extends TestCase
         assertEquals("10E3000000000", JSONObject.stringToValue("10E3000000000"));
     }
 
-    public void testQuote()
+    /**
+     * Tests the quote method.
+     */
+    public static void testQuote()
     {
         assertEquals("\"\"", JSONObject.quote(""));
         assertEquals("\"\"", JSONObject.quote(null));
@@ -788,6 +805,9 @@ public class TestJSONObject extends TestCase
                 JSONObject.quote("\u0012\u0085\u2086\u2286"));
     }
 
+    /**
+     * Tests the getNames method.
+     */
     public void testGetNames()
     {
         try
@@ -808,12 +828,18 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getNames method using empty json object.
+     */
     public void testGetNames_EmptyJsonObject()
     {
         jsonobject = new JSONObject();
         assertEquals(null, JSONObject.getNames(jsonobject));
     }
 
+    /**
+     * Tests the getNames method using object with primatives.
+     */
     public void testGetNames_ObjectWithPrimatives()
     {
         String[] names = JSONObject.getNames(new ObjectWithPrimatives());
@@ -822,20 +848,30 @@ public class TestJSONObject extends TestCase
         assertEquals("m", names[1]);
     }
 
-    public void testGetNames_EmptyObject()
+    /**
+     * Tests the getNames method using empty object.
+     */
+    public static void testGetNames_EmptyObject()
     {
         class EmptyObject
         {
+            //Empty Object
         }
         assertEquals(null, JSONObject.getNames(new EmptyObject()));
     }
 
-    public void testGetNames_Null()
+    /**
+     * Tests the getNames method using null.
+     */
+    public static void testGetNames_Null()
     {
         ObjectWithPrimatives owp = null;
         assertEquals(null, JSONObject.getNames(owp));
     }
 
+    /**
+     * Tests the getLong method.
+     */
     public void testGetLong()
     {
         try
@@ -851,6 +887,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getJsonObject method using json object.
+     */
     public void testGetJsonObject_JsonObject()
     {
         try
@@ -864,6 +903,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getJsonObject method using int.
+     */
     public void testGetJsonObject_Int()
     {
         try
@@ -878,6 +920,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getJsonObject method using invalid key.
+     */
     public void testGetJsonObject_InvalidKey()
     {
         try
@@ -891,6 +936,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getJsonArray method using json array.
+     */
     public void testGetJsonArray_JsonArray()
     {
         try
@@ -904,6 +952,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getJsonArray method using int.
+     */
     public void testGetJsonArray_Int()
     {
         try
@@ -918,6 +969,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getJsonArray method using invalid key.
+     */
     public void testGetJsonArray_InvalidKey()
     {
         try
@@ -931,6 +985,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getInt method using int.
+     */
     public void testGetInt_Int()
     {
         try
@@ -944,6 +1001,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getInt method using int string.
+     */
     public void testGetInt_IntString()
     {
         try
@@ -957,6 +1017,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getInt method using letter string.
+     */
     public void testGetInt_LetterString()
     {
         try
@@ -971,6 +1034,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getInt method using invalid key.
+     */
     public void testGetInt_InvalidKey()
     {
         try
@@ -984,6 +1050,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getDouble method using double.
+     */
     public void testGetDouble_Double()
     {
         try
@@ -997,6 +1066,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getDouble method using double string.
+     */
     public void testGetDouble_DoubleString()
     {
         try
@@ -1010,6 +1082,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getDouble method using letter string.
+     */
     public void testGetDouble_LetterString()
     {
         try
@@ -1024,6 +1099,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getDouble method using invalid key.
+     */
     public void testGetDouble_InvalidKey()
     {
         try
@@ -1037,6 +1115,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getBoolean method using boolean.
+     */
     public void testGetBoolean_Boolean()
     {
         try
@@ -1052,6 +1133,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getBoolean method using boolean string.
+     */
     public void testGetBoolean_BooleanString()
     {
         try
@@ -1071,6 +1155,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getBoolean method using letter string.
+     */
     public void testGetBoolean_LetterString()
     {
         try
@@ -1085,6 +1172,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getBoolean method using int.
+     */
     public void testGetBoolean_Int()
     {
         try
@@ -1099,6 +1189,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getBoolean method using invalid key.
+     */
     public void testGetBoolean_InvalidKey()
     {
         try
@@ -1112,6 +1205,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the get method using null key.
+     */
     public void testGet_NullKey()
     {
         try
