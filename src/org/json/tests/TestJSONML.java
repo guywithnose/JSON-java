@@ -11,7 +11,6 @@ import org.json.XML;
 
 import junit.framework.TestCase;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONML.
  */

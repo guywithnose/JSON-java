@@ -11,7 +11,6 @@ import org.json.JSONString;
 import org.json.JSONStringer;
 import junit.framework.TestCase;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONString.
  */
@@ -263,6 +262,14 @@ public class TestJSONStringer extends TestCase
         {
             fail(e.getMessage());
         }
+    }
+    
+    /**
+     * Tests the toString method.
+     */
+    public static void testToString_EmptyStringer()
+    {
+        assertEquals(null, new JSONStringer().toString());
     }
     
 }

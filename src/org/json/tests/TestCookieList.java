@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import junit.framework.TestCase;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TestCookieList.
  */
@@ -38,4 +37,32 @@ public class TestCookieList extends TestCase
             fail(e.getMessage());
         }
     }
+    
+    /**
+     * Tests the toJsonObject method using null key.
+     */
+    public void testToJsonObject_NullKey()
+    {
+        try
+        {
+            jsonobject = CookieList
+                    .toJSONObject("  f%oo = b+l=ah  ; o;n%40e = t.wo ");
+            jsonobject.put("abc", JSONObject.NULL);
+            assertEquals("o%3bn@e=t.wo;f%25oo=b l%3dah",
+                    CookieList.toString(jsonobject));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    /**
+     * Tests the constructor method.
+     */
+    public static void testConstructor()
+    {
+        CookieList cookielist = new CookieList();
+        assertEquals("CookieList", cookielist.getClass().getSimpleName());
+    }
+    
 }

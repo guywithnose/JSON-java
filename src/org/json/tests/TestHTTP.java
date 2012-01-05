@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import junit.framework.TestCase;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TestHTTP.
  */
