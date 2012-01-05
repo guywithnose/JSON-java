@@ -1,6 +1,5 @@
 /*
- * File:         JSONObject.java
- * Author:       JSON.org
+ * File: JSONObject.java Author: JSON.org
  */
 package org.json;
 
@@ -112,18 +111,6 @@ public class JSONObject
         }
 
         /**
-         * There is only intended to be a single instance of the NULL object, so
-         * the clone method returns itself.
-         * 
-         * @return NULL.
-         */
-        @Override
-        protected final Object clone()
-        {
-            return this;
-        }
-
-        /**
          * A Null object is equal to the null value and to itself.
          * 
          * @param object
@@ -135,12 +122,6 @@ public class JSONObject
         public boolean equals(Object object)
         {
             return object == null || object == this;
-        }
-
-        @Override
-        public int hashCode()
-        {
-            return 0;
         }
 
         /**
@@ -220,7 +201,7 @@ public class JSONObject
         {
             throw x.syntaxError("A JSONObject text must begin with '{'");
         }
-        while(true)
+        while (true)
         {
             c = x.nextClean();
             switch (c)
@@ -277,7 +258,9 @@ public class JSONObject
      *            the JSONObject.
      */
     @SuppressWarnings(
-    { "rawtypes" })
+    {
+        "rawtypes"
+    })
     public JSONObject(Map newMap)
     {
         map = new HashMap<String, Object>();
@@ -389,35 +372,33 @@ public class JSONObject
 
         // Iterate through the keys in the bundle.
 
-        Enumeration<?> keys = bundle.getKeys();
+        Enumeration<String> keys = bundle.getKeys();
         while (keys.hasMoreElements())
         {
             Object key = keys.nextElement();
-            if (key instanceof String)
+
+            // Go through the path, ensuring that there is a nested
+            // JSONObject for each
+            // segment except the last. Add the value using the last
+            // segment's name into
+            // the deepest nested JSONObject.
+
+            String[] path = ((String) key).split("\\.");
+            int last = path.length - 1;
+            JSONObject target = this;
+            for (int i = 0; i < last; i += 1)
             {
-
-                // Go through the path, ensuring that there is a nested
-                // JSONObject for each
-                // segment except the last. Add the value using the last
-                // segment's name into
-                // the deepest nested JSONObject.
-
-                String[] path = ((String) key).split("\\.");
-                int last = path.length - 1;
-                JSONObject target = this;
-                for (int i = 0; i < last; i += 1)
+                String segment = path[i];
+                JSONObject nextTarget = target.optJSONObject(segment);
+                if (nextTarget == null)
                 {
-                    String segment = path[i];
-                    JSONObject nextTarget = target.optJSONObject(segment);
-                    if (nextTarget == null)
-                    {
-                        nextTarget = new JSONObject();
-                        target.put(segment, nextTarget);
-                    }
-                    target = nextTarget;
+                    nextTarget = new JSONObject();
+                    target.put(segment, nextTarget);
                 }
-                target.put(path[last], bundle.getString((String) key));
+                target = nextTarget;
             }
+            target.put(path[last], bundle.getString((String) key));
+
         }
     }
 
@@ -446,9 +427,8 @@ public class JSONObject
         Object object = opt(key);
         if (object == null)
         {
-            put(key,
-                    value instanceof JSONArray ? new JSONArray().put(value)
-                            : value);
+            put(key, value instanceof JSONArray ? new JSONArray().put(value)
+                    : value);
         } else if (object instanceof JSONArray)
         {
             ((JSONArray) object).put(value);
@@ -1485,7 +1465,7 @@ public class JSONObject
                         || string.indexOf('E') > -1)
                 {
                     d = Double.valueOf(string);
-                    if (!d.isInfinite() && !d.isNaN())
+                    if (!d.isInfinite())
                     {
                         return d;
                     }
@@ -1710,7 +1690,9 @@ public class JSONObject
      *             If the value is or contains an invalid number.
      */
     @SuppressWarnings(
-    { "rawtypes", "unchecked" })
+    {
+            "rawtypes", "unchecked"
+    })
     public static String valueToString(Object value) throws JSONException
     {
         if (value == null || value.equals(null))
@@ -1843,7 +1825,9 @@ public class JSONObject
      * @return The wrapped value
      */
     @SuppressWarnings(
-    { "rawtypes", "unchecked" })
+    {
+            "rawtypes", "unchecked"
+    })
     public static Object wrap(Object object)
     {
         try
