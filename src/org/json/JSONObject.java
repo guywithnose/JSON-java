@@ -112,18 +112,6 @@ public class JSONObject
         }
 
         /**
-         * There is only intended to be a single instance of the NULL object, so
-         * the clone method returns itself.
-         * 
-         * @return NULL.
-         */
-        @Override
-        protected final Object clone()
-        {
-            return this;
-        }
-
-        /**
          * A Null object is equal to the null value and to itself.
          * 
          * @param object
@@ -135,12 +123,6 @@ public class JSONObject
         public boolean equals(Object object)
         {
             return object == null || object == this;
-        }
-
-        @Override
-        public int hashCode()
-        {
-            return 0;
         }
 
         /**

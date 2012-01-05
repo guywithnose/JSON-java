@@ -24,6 +24,165 @@ import junit.framework.TestCase;
 public class TestJSONObject extends TestCase
 {
 
+    /**
+     * The Class ObjectWithPrimatives.
+     */
+    public class ObjectWithPrimatives
+    {
+        
+        /** The i. */
+        private int i;
+        
+        /** The null string. */
+        private String nullString;
+        
+        /** The j. */
+        private String j;
+        
+        /** The k. */
+        private double k;
+        
+        /** The l. */
+        private long l;
+        
+        /** The m. */
+        private boolean m;
+        
+        /**
+         * Instantiates a new object with primatives.
+         */
+        public ObjectWithPrimatives()
+        {
+            i = 3;
+            j = "3";
+            k = 10.03;
+            l = 5748548957230984584L;
+            m = true;
+            nullString = null;
+        }
+
+        /**
+         * Gets the i.
+         *
+         * @return the i
+         */
+        public int getI()
+        {
+            return i;
+        }
+
+        /**
+         * Gets the j.
+         *
+         * @return the j
+         */
+        public String getJ()
+        {
+            return j;
+        }
+
+        /**
+         * Gets the k.
+         *
+         * @return the k
+         */
+        public double getK()
+        {
+            return k;
+        }
+
+        /**
+         * Gets the l.
+         *
+         * @return the l
+         */
+        public long getL()
+        {
+            return l;
+        }
+
+        /**
+         * Gets the m.
+         *
+         * @return the m
+         */
+        public boolean getM()
+        {
+            return m;
+        }
+
+        /**
+         * Gets the m.
+         *
+         * @param test the test
+         * @return the m
+         */
+        public boolean getM(Boolean test)
+        {
+            return m;
+        }      
+
+        /**
+         * Gets the null string.
+         *
+         * @return the null string
+         */
+        public String getNullString()
+        {
+            return nullString;
+        }
+        
+        /**
+         * Gets the zERO.
+         *
+         * @return the zERO
+         */
+        public int getZERO()
+        {
+            return 0;
+        }
+        
+        /**
+         * Gets the one.
+         *
+         * @return the one
+         */
+        public int getone()
+        {
+            return 1;
+        }
+        
+        /**
+         * Checks if is big.
+         *
+         * @return true, if is big
+         */
+        public boolean isBig()
+        {
+            return false;
+        }
+        
+        /**
+         * Checks if is small.
+         *
+         * @return true, if is small
+         */
+        @SuppressWarnings("unused")
+        private boolean isSmall()
+        {
+            return true;
+        }
+        
+    }
+    
+    /**
+     * The Class ObjectWithPrimativesExtension.
+     */
+    public class ObjectWithPrimativesExtension extends ObjectWithPrimatives
+    {
+        //Same Object
+    }
+    
     /** The jsonobject. */
     JSONObject jsonobject = new JSONObject();
 
@@ -454,6 +613,78 @@ public class TestJSONObject extends TestCase
             assertFalse(jsonobject.getBoolean("false"));
 
         } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    /**
+     * Tests the populateMap method using priative class.
+     */
+    public void testPopulateMap_PriativeClass()
+    {
+        jsonobject = new JSONObject(new ObjectWithPrimatives());
+        assertEquals("{\"l\":5748548957230984584,\"m\":true,\"big\":false,\"j\":\"3\",\"k\":10.03,\"ZERO\":0,\"i\":3}",jsonobject.toString());
+    }
+    
+    /**
+     * Tests the populateMap method using sub class.
+     */
+    public void testPopulateMap_SubClass()
+    {
+        ObjectWithPrimatives ob = new ObjectWithPrimativesExtension();
+        jsonobject = new JSONObject(ob);
+        assertEquals("{\"l\":5748548957230984584,\"m\":true,\"big\":false,\"j\":\"3\",\"k\":10.03,\"ZERO\":0,\"i\":3}",jsonobject.toString());
+    }
+    
+    /**
+     * Tests the populateMap method using private class.
+     */
+    public void testPopulateMap_PrivateClass()
+    {
+        class PrivateObject
+        {
+            private int i;
+            
+            public PrivateObject()
+            {
+                i = 3;
+            }
+            
+            @SuppressWarnings("unused")
+            public int getI()
+            {
+                return i;
+            }
+        }
+        
+        jsonobject = new JSONObject(new PrivateObject());
+        assertEquals("{}",jsonobject.toString());
+    }
+    
+    /**
+     * Tests the populateMap method using array list.
+     */
+    public void testPopulateMap_ArrayList()
+    {
+        List<String> ar = new ArrayList<String>();
+        ar.add("test1");
+        ar.add("test2");
+        
+        jsonobject = new JSONObject(ar);
+        assertEquals("{\"empty\":false}",jsonobject.toString());
+    }
+    
+    /**
+     * Tests the populateMap method using class class.
+     */
+    public void testPopulateMap_ClassClass()
+    {
+        try
+        {
+        jsonobject = new JSONObject(this.getClass());
+            assertEquals("class junit.framework.TestCase",jsonobject.get("genericSuperclass").toString());
+        } catch (Exception e)
         {
             fail(e.getMessage());
         }
