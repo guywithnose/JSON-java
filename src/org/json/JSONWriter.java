@@ -122,15 +122,11 @@ public class JSONWriter
      */
     private JSONWriter append(String string) throws JSONException
     {
-        if (string == null)
-        {
-            throw new JSONException("Null pointer");
-        }
         if (mode == 'o' || mode == 'a')
         {
             try
             {
-                if (comma && mode == 'a')
+                if (comma)
                 {
                     writer.write(',');
                 }
