@@ -721,7 +721,7 @@ public class TestJSONObject extends TestCase
 
             assertEquals(
                     "{\"ASCII\":\"Number that represent chraracters\",\"JSON\":\"What are we testing?\",\"JAVA\":\"The language you are running to see this\"}",
-                    new JSONObject("org.json.tests.TestResourceBundle",
+                    new JSONObject("org.json.tests.SampleResourceBundle",
                             currentLocale).toString());
         } catch (JSONException e)
         {
@@ -739,7 +739,7 @@ public class TestJSONObject extends TestCase
             Locale currentLocale = new Locale("en");
             assertEquals(
                     "{\"ASCII\":\"American Standard Code for Information Interchange\",\"JSON\":\"JavaScript Object Notation\",\"JAVA\":{\"desc\":\"Just Another Vague Acronym\",\"data\":\"Sweet language\"}}",
-                    new JSONObject("org.json.tests.TestResourceBundle",
+                    new JSONObject("org.json.tests.SampleResourceBundle",
                             currentLocale).toString());
         } catch (JSONException e)
         {

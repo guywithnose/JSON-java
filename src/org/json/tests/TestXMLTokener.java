@@ -206,4 +206,222 @@ public class TestXMLTokener extends TestCase
         }
     }
 
+    public void testNextMeta_OpenString()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<! \"metaString>");
+            assertEquals('<', xmltokener.next('<'));
+            assertEquals('!', xmltokener.next('!'));
+            xmltokener.nextMeta();
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Unterminated string at 16 [character 17 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testNextMeta_Symbols()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<! <>/=!?>");
+            assertEquals('<', xmltokener.next('<'));
+            assertEquals('!', xmltokener.next('!'));
+            assertEquals('<', xmltokener.nextMeta());
+            assertEquals('>', xmltokener.nextMeta());
+            assertEquals('/', xmltokener.nextMeta());
+            assertEquals('=', xmltokener.nextMeta());
+            assertEquals('!', xmltokener.nextMeta());
+            assertEquals('?', xmltokener.nextMeta());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testNextMeta_Misshaped()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<!");
+            assertEquals('<', xmltokener.next('<'));
+            assertEquals('!', xmltokener.next('!'));
+            xmltokener.nextMeta();
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Misshaped meta tag at 3 [character 4 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testNextMeta_EndingWithBang()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<!data!");
+            assertEquals('<', xmltokener.next('<'));
+            assertEquals('!', xmltokener.next('!'));
+            assertEquals(true, xmltokener.nextMeta());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testNextMeta_EndingWithSpace()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<!data ");
+            assertEquals('<', xmltokener.next('<'));
+            assertEquals('!', xmltokener.next('!'));
+            assertEquals(true, xmltokener.nextMeta());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testNextToken_NormalTag()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<da ta>");
+            assertEquals('<', xmltokener.next('<'));
+            assertEquals("da", xmltokener.nextToken());
+            assertEquals("ta", xmltokener.nextToken());
+            assertEquals('>', xmltokener.nextToken());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testNextToken_TagWithBadCharacter()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<da<ta>");
+            assertEquals('<', xmltokener.next('<'));
+            xmltokener.nextToken();
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Bad character in a name at 4 [character 5 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testNextToken_TagWithMisplacedLessThan()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<<data>");
+            assertEquals('<', xmltokener.next('<'));
+            xmltokener.nextToken();
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Misplaced '<' at 2 [character 3 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testNextToken_MisshapedElement()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<");
+            assertEquals('<', xmltokener.next('<'));
+            xmltokener.nextToken();
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Misshaped element at 2 [character 3 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testNextToken_Symbols()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("< /=!?");
+            assertEquals('<', xmltokener.next('<'));
+            assertEquals('/', xmltokener.nextToken());
+            assertEquals('=', xmltokener.nextToken());
+            assertEquals('!', xmltokener.nextToken());
+            assertEquals('?', xmltokener.nextToken());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testNextToken_String()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<\"abc&amp;123\">");
+            assertEquals('<', xmltokener.next('<'));
+            assertEquals("abc&123", xmltokener.nextToken());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testNextToken_NoGreaterThan()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<abc123");
+            assertEquals('<', xmltokener.next('<'));
+            assertEquals("abc123", xmltokener.nextToken());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testNextToken_UnterminatedString()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<\"abc123>");
+            assertEquals('<', xmltokener.next('<'));
+            xmltokener.nextToken();
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Unterminated string at 10 [character 11 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testSkipTo()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<abc123>");
+            assertEquals('<', xmltokener.next('<'));
+            assertEquals(true, xmltokener.skipPast("c1"));
+            assertEquals('2', xmltokener.next('2'));
+            assertEquals(false, xmltokener.skipPast("b1"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testSkipTo_LongParameter()
+    {
+        try
+        {
+            xmltokener = new XMLTokener("<abc>");
+            assertEquals('<', xmltokener.next('<'));
+            assertEquals(false, xmltokener.skipPast("abcdefghi"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
 }
