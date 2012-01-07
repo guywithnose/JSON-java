@@ -167,12 +167,12 @@ public class JSONArray
      * @param collection
      *            A Collection.
      */
-    public JSONArray(Collection<Object> collection)
+    public JSONArray(Collection<?> collection)
     {
         myArrayList = new ArrayList<Object>();
         if (collection != null)
         {
-            Iterator<Object> iter = collection.iterator();
+            Iterator<?> iter = collection.iterator();
             while (iter.hasNext())
             {
                 myArrayList.add(JSONObject.wrap(iter.next()));

@@ -325,4 +325,383 @@ public class TestJSONML extends TestCase
         }
     }
     
+    public void testConstructor()
+    {
+        JSONML jsonml = new JSONML();
+        assertEquals("JSONML", jsonml.getClass().getSimpleName());
+    }
+    
+    public void testToJSONArray_EmptyClosingTag()
+    {
+
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<abc></>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Expected a closing name instead of '>'.", e.getMessage());
+        }
+    }
+    
+    public void testToJSONArray_ClosingTagWithQuestion()
+    {
+
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<abc></abc?>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Misshaped close tag at 11 [character 12 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testToJSONArray_MetaTagWithTwoDashes()
+    {
+
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<abc><!--abc--></abc>");
+            assertEquals(
+                    "[\"abc\",\">\"]",
+                    jsonarray.toString());
+            assertEquals(
+                    "<abc>&gt;</abc>",
+                    JSONML.toString(jsonarray));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testToJSONArray_MetaTagWithOneDash()
+    {
+
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<abc><!-abc--></abc>");
+            assertEquals(
+                    "[\"abc\",\"abc-->\"]",
+                    jsonarray.toString());
+            assertEquals(
+                    "<abc>abc--&gt;</abc>",
+                    JSONML.toString(jsonarray));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testToJSONArray_MetaTagWithCdata()
+    {
+
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<abc><![CDATA[<abc></abc>]]></abc>");
+            assertEquals(
+                    "[\"abc\",\"<abc><\\/abc>\"]",
+                    jsonarray.toString());
+            assertEquals(
+                    "<abc>&lt;abc&gt;&lt;/abc&gt;</abc>",
+                    JSONML.toString(jsonarray));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testToJSONArray_MetaTagWithBadCdata()
+    {
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<abc><![CDATA[<abc></abc>?]></abc>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Unclosed CDATA at 35 [character 36 line 1]", e.getMessage());
+        }
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<abc><![CDATA[<abc></abc>]?></abc>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Unclosed CDATA at 35 [character 36 line 1]", e.getMessage());
+        }
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<abc><![CDAT[<abc></abc>]]></abc>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Expected 'CDATA[' at 12 [character 13 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testToJSONArray_MetaTagWithCdataOnly()
+    {
+
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<![CDATA[<abc></abc>]]>");
+            assertEquals(
+                    "[\"abc\"]",
+                    jsonarray.toString());
+            assertEquals(
+                    "<abc/>",
+                    JSONML.toString(jsonarray));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testToJSONArray_MetaTagWithBrokenCdata()
+    {
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<!CDATA[<abc></abc>]]>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Bad XML at 23 [character 24 line 1]", e.getMessage());
+        }
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<![CDATA?[abc]]>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Expected 'CDATA[' at 9 [character 10 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testToJSONArray_PhpTag()
+    {
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<abc><?abcde?></abc>");
+            assertEquals(
+                    "[\"abc\"]",
+                    jsonarray.toString());
+            assertEquals(
+                    "<abc/>",
+                    JSONML.toString(jsonarray));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testToJSONArray_MisshapedTag()
+    {
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<abc><=abcde?></abc>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Misshaped tag at 7 [character 8 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testToJSONObject_ReservedAttributeTagName()
+    {
+        try
+        {
+            jsonobject = JSONML.toJSONObject("<abc tagName=\"theName\">def</abc>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Reserved attribute. at 12 [character 13 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testToJSONObject_ReservedAttributeChildNode()
+    {
+        try
+        {
+            jsonobject = JSONML.toJSONObject("<abc childNode=\"theChild\">def</abc>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Reserved attribute. at 14 [character 15 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testToJSONObject_NoValueAttribute()
+    {
+        try
+        {
+            jsonobject = JSONML.toJSONObject("<abc novalue>def</abc>");
+            assertEquals(
+                    "{\"novalue\":\"\",\"tagName\":\"abc\",\"childNodes\":[\"def\"]}",
+                    jsonobject.toString());
+            assertEquals(
+                    "<abc novalue=\"\">def</abc>",
+                    JSONML.toString(jsonobject));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testToJSONObject_NoValueAttributeWithEquals()
+    {
+        try
+        {
+            jsonobject = JSONML.toJSONObject("<abc novalue=>def</abc>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Missing value at 14 [character 15 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testToJSONObject_EmptyTag()
+    {
+        try
+        {
+            jsonobject = JSONML.toJSONObject("<abc/>");
+            assertEquals(
+                    "{\"tagName\":\"abc\"}",
+                    jsonobject.toString());
+            assertEquals(
+                    "<abc/>",
+                    JSONML.toString(jsonobject));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testToJSONArray_EmptyTag()
+    {
+        try
+        {
+            jsonarray = JSONML.toJSONArray("<abc/>");
+            assertEquals(
+                    "[\"abc\"]",
+                    jsonarray.toString());
+            assertEquals(
+                    "<abc/>",
+                    JSONML.toString(jsonarray));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testToJSONObject_BrokenEmptyTag()
+    {
+        try
+        {
+            jsonobject = JSONML.toJSONObject("<abc><def/?>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Misshaped tag at 11 [character 12 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testToJSONObject_MisshapedTag()
+    {
+        try
+        {
+            jsonobject = JSONML.toJSONObject("<abc?");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Misshaped tag at 5 [character 6 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testToJSONObject_NoCloseTag()
+    {
+        try
+        {
+            jsonobject = JSONML.toJSONObject("<abc>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Bad XML at 6 [character 7 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testToJSONObject_NoNameTag()
+    {
+        try
+        {
+            jsonobject = JSONML.toJSONObject("<>");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Misshaped tag at 2 [character 3 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testToJSONObject_Space()
+    {
+        try
+        {
+            jsonobject = JSONML.toJSONObject(" ");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Bad XML at 3 [character 4 line 1]", e.getMessage());
+        }
+    }
+    
+    public void testToJSONObject_SpaceContent()
+    {
+        try
+        {
+            jsonobject = JSONML.toJSONObject("<abc> </abc>");
+            assertEquals(
+                    "{\"tagName\":\"abc\"}",
+                    jsonobject.toString());
+            assertEquals(
+                    "<abc/>",
+                    JSONML.toString(jsonobject));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testToString_JsonArrayOfJsonObjects()
+    {
+        try
+        {
+            jsonarray = new JSONArray();
+            jsonarray.put("tagName");
+            jsonarray.put(new JSONObject().put("tagName", "myName"));
+            jsonarray.put(new JSONObject().put("tagName", "otherName"));
+            assertEquals(
+                    "<tagName tagName=\"myName\"><otherName/></tagName>",
+                    JSONML.toString(jsonarray));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testToString_JsonObjectOfJsonArrays()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("tagName", "MyName");
+            jsonobject.put("childNodes", new JSONArray().put("abc").put(new JSONArray().put("def")));
+            jsonobject.put("123", new JSONArray("[\"abc\"]"));
+            assertEquals(
+                    "<MyName 123=\"[&quot;abc&quot;]\">abc<def/></MyName>",
+                    JSONML.toString(jsonobject));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
 }
