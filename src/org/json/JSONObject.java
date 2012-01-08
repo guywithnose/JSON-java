@@ -261,7 +261,7 @@ public class JSONObject
     {
         "rawtypes"
     })
-    public JSONObject(Map newMap)
+    public JSONObject(Map<String, Object> newMap)
     {
         map = new HashMap<String, Object>();
         if (newMap != null)
@@ -490,7 +490,7 @@ public class JSONObject
         // Shave off trailing zeros and decimal point, if possible.
 
         String string = Double.toString(d);
-        if (string.indexOf('.') > 0 && string.indexOf('e') < 0
+        if (string.indexOf('.') > 0
                 && string.indexOf('E') < 0)
         {
             while (string.endsWith("0"))
@@ -861,8 +861,7 @@ public class JSONObject
         // Shave off trailing zeros and decimal point, if possible.
 
         String string = number.toString();
-        if (string.indexOf('.') > 0 && string.indexOf('e') < 0
-                && string.indexOf('E') < 0)
+        if (string.indexOf('.') > 0 && string.indexOf('E') < 0)
         {
             while (string.endsWith("0"))
             {
@@ -1248,7 +1247,8 @@ public class JSONObject
      * @throws JSONException
      *             Thrown when things are amiss.
      */
-    public JSONObject put(String key, Map<?, ?> value) throws JSONException
+    public JSONObject put(String key, Map<String, Object> value)
+            throws JSONException
     {
         put(key, new JSONObject(value));
         return this;
@@ -1652,13 +1652,10 @@ public class JSONObject
                 sb.append(valueToString(map.get(object), indentFactor,
                         newindent));
             }
-            if (sb.length() > 1)
+            sb.append('\n');
+            for (i = 0; i < indent; i += 1)
             {
-                sb.append('\n');
-                for (i = 0; i < indent; i += 1)
-                {
-                    sb.append(' ');
-                }
+                sb.append(' ');
             }
         }
         sb.append('}');
@@ -1761,7 +1758,7 @@ public class JSONObject
     static String valueToString(Object value, int indentFactor, int indent)
             throws JSONException
     {
-        if (value == null || value.equals(null))
+        if (value.equals(null))
         {
             return "null";
         }
@@ -1794,11 +1791,6 @@ public class JSONObject
         if (value instanceof JSONArray)
         {
             return ((JSONArray) value).toString(indentFactor, indent);
-        }
-        if (value instanceof Map)
-        {
-            return new JSONObject((Map<?, ?>) value).toString(indentFactor,
-                    indent);
         }
         if (value instanceof Collection)
         {
@@ -1924,4 +1916,5 @@ public class JSONObject
             throw new JSONException(exception);
         }
     }
+
 }

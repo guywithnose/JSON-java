@@ -682,6 +682,40 @@ public class TestJSONArray extends TestCase
         assertEquals("", jsonarray.optString(4));
     }
 
+    public void testOptJSONObject()
+    {
+        try
+        {
+            jsonarray = new JSONArray();
+            jsonarray.put(new JSONObject().put("abc", "123"));
+            assertEquals("{\"abc\":\"123\"}", jsonarray.optJSONObject(0).toString());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testOptJSONObject_NonJsonObject()
+    {
+        jsonarray = new JSONArray();
+        jsonarray.put("123");
+        assertEquals(null, jsonarray.optJSONObject(0));
+    }
+
+    public void testOptJSONArray()
+    {
+        jsonarray = new JSONArray();
+        jsonarray.put(new JSONArray().put("abc"));
+        assertEquals("[\"abc\"]", jsonarray.optJSONArray(0).toString());
+    }
+
+    public void testOptJSONArray_NonJsonArray()
+    {
+        jsonarray = new JSONArray();
+        jsonarray.put("123");
+        assertEquals(null, jsonarray.optJSONArray(0));
+    }
+
     public void testIsNull()
     {
         jsonarray = new JSONArray();
@@ -1238,40 +1272,6 @@ public class TestJSONArray extends TestCase
         {
             fail(e.getMessage());
         }
-    }
-
-    public void testOptJSONObject()
-    {
-        try
-        {
-            jsonarray = new JSONArray();
-            jsonarray.put(new JSONObject().put("abc", "123"));
-            assertEquals("{\"abc\":\"123\"}", jsonarray.optJSONObject(0).toString());
-        } catch (JSONException e)
-        {
-            fail(e.getMessage());
-        }
-    }
-
-    public void testOptJSONObject_NonJsonObject()
-    {
-        jsonarray = new JSONArray();
-        jsonarray.put("123");
-        assertEquals(null, jsonarray.optJSONObject(0));
-    }
-
-    public void testOptJSONArray()
-    {
-        jsonarray = new JSONArray();
-        jsonarray.put(new JSONArray().put("abc"));
-        assertEquals("[\"abc\"]", jsonarray.optJSONArray(0).toString());
-    }
-
-    public void testOptJSONArray_NonJsonArray()
-    {
-        jsonarray = new JSONArray();
-        jsonarray.put("123");
-        assertEquals(null, jsonarray.optJSONArray(0));
     }
     
 }

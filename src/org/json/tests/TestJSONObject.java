@@ -3,27 +3,83 @@
  */
 package org.json.tests;
 
+import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Stack;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONString;
 import org.json.XML;
 
 import junit.framework.TestCase;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONObject.
  */
 public class TestJSONObject extends TestCase
 {
+
+    public class GoodJsonString implements JSONString
+    {
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see org.json.JSONString#toJSONString()
+         */
+        @Override
+        public String toJSONString()
+        {
+            return "jsonstring";
+        }
+
+    }
+
+    public class NullJsonString implements JSONString
+    {
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see org.json.JSONString#toJSONString()
+         */
+        @Override
+        public String toJSONString()
+        {
+            return null;
+        }
+
+    }
+
+    public class BadJsonString implements JSONString
+    {
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see org.json.JSONString#toJSONString()
+         */
+        @Override
+        public String toJSONString()
+        {
+            String[] arString = new String[]
+            {
+                "abc"
+            };
+            return arString[1];
+        }
+
+    }
 
     /**
      * The Class ObjectWithPrimatives.
@@ -305,7 +361,7 @@ public class TestJSONObject extends TestCase
     /**
      * Tests the increment method.
      */
-    public void testIncrement()
+    public void testIncrement_NewKey()
     {
         try
         {
@@ -855,7 +911,7 @@ public class TestJSONObject extends TestCase
     {
         class EmptyObject
         {
-            //Empty Object
+            // Empty Object
         }
         assertEquals(null, JSONObject.getNames(new EmptyObject()));
     }
@@ -872,7 +928,7 @@ public class TestJSONObject extends TestCase
     /**
      * Tests the getLong method.
      */
-    public void testGetLong()
+    public void testGetLong_Long()
     {
         try
         {
@@ -916,7 +972,8 @@ public class TestJSONObject extends TestCase
             fail("Should have thrown exception.");
         } catch (JSONException e)
         {
-            assertEquals("JSONObject[\"abc\"] is not a JSONObject.", e.getMessage());
+            assertEquals("JSONObject[\"abc\"] is not a JSONObject.",
+                    e.getMessage());
         }
     }
 
@@ -965,7 +1022,8 @@ public class TestJSONObject extends TestCase
             fail("Should have thrown exception.");
         } catch (JSONException e)
         {
-            assertEquals("JSONObject[\"abc\"] is not a JSONArray.", e.getMessage());
+            assertEquals("JSONObject[\"abc\"] is not a JSONArray.",
+                    e.getMessage());
         }
     }
 
@@ -1168,7 +1226,8 @@ public class TestJSONObject extends TestCase
             fail("Should have thrown exception.");
         } catch (JSONException e)
         {
-            assertEquals("JSONObject[\"abc\"] is not a Boolean.", e.getMessage());
+            assertEquals("JSONObject[\"abc\"] is not a Boolean.",
+                    e.getMessage());
         }
     }
 
@@ -1185,7 +1244,8 @@ public class TestJSONObject extends TestCase
             fail("Should have thrown exception.");
         } catch (JSONException e)
         {
-            assertEquals("JSONObject[\"abc\"] is not a Boolean.", e.getMessage());
+            assertEquals("JSONObject[\"abc\"] is not a Boolean.",
+                    e.getMessage());
         }
     }
 
@@ -1221,4 +1281,1105 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    public void testToString_Indents()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "123");
+            jsonobject.put("1235", new JSONObject().put("abc", "123"));
+            jsonobject.put("1234", "abc");
+            jsonobject.put(
+                    "1239",
+                    new JSONObject().put("1fd23", new JSONObject()).put(
+                            "12gfdgfg3",
+                            new JSONObject().put("f123", "123").put("12fgfg3",
+                                    "abc")));
+            assertEquals(
+                    "{\n    \"1234\": \"abc\",\n    \"1235\": {\"abc\": \"123\"},\n    \"123\": \"123\",\n    \"1239\": {\n        \"1fd23\": {},\n        \"12gfdgfg3\": {\n            \"f123\": \"123\",\n            \"12fgfg3\": \"abc\"\n        }\n    }\n}",
+                    jsonobject.toString(4));
+            assertEquals("{\"1gg23\": \"123\"}",
+                    new JSONObject().put("1gg23", "123").toString(4));
+            assertEquals("{}", new JSONObject().toString(4));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testToString_Exception()
+    {
+
+        try
+        {
+            jsonobject.put("abc", new BadJsonString());
+            assertEquals(null, jsonobject.toString());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testNumberToString()
+    {
+        try
+        {
+            assertEquals("30.7", JSONObject.numberToString(30.70));
+            assertEquals("3.0E71", JSONObject.numberToString(30e70));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testNumberToString_Null()
+    {
+        try
+        {
+            JSONObject.numberToString(null);
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Null pointer", e.getMessage());
+        }
+    }
+
+    public void testWrap()
+    {
+        try
+        {
+            assertEquals(true, JSONObject.wrap(true));
+            assertEquals(35, JSONObject.wrap(35));
+            assertEquals(35.5, JSONObject.wrap(35.50));
+            assertEquals(56456456L, JSONObject.wrap(56456456L));
+            assertEquals(JSONObject.NULL, JSONObject.wrap(null));
+            assertEquals(JSONObject.NULL, JSONObject.wrap(JSONObject.NULL));
+            BadJsonString a = new BadJsonString();
+            assertEquals(a, JSONObject.wrap(a));
+            NullJsonString q = new NullJsonString();
+            assertEquals(q, JSONObject.wrap(q));
+            assertEquals((short) 12, JSONObject.wrap((short) 12));
+            assertEquals('a', JSONObject.wrap('a'));
+            assertEquals((byte) 15, JSONObject.wrap((byte) 15));
+            assertEquals((float) 15.2, JSONObject.wrap((float) 15.2));
+            JSONObject b;
+            b = new JSONObject().put("abc", "123");
+            assertEquals(b, JSONObject.wrap(b));
+            JSONArray c = new JSONArray().put("abc");
+            assertEquals(c, JSONObject.wrap(c));
+            Collection<String> stringCol = new Stack<String>();
+            stringCol.add("string1");
+            assertEquals("[\"string1\"]", JSONObject.wrap(stringCol).toString());
+            assertEquals("[\"abc\",\"123\"]", JSONObject.wrap(new String[]
+            {
+                    "abc", "123"
+            }).toString());
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("abc", "123");
+            assertEquals("{\"abc\":\"123\"}", JSONObject.wrap(map).toString());
+            assertEquals("javax.print.PrintException",
+                    JSONObject.wrap(new javax.print.PrintException()));
+            Class d = this.getClass();
+            assertEquals("class org.json.tests.TestJSONObject",
+                    JSONObject.wrap(d));
+            class testClass
+            {
+                // Empty Class
+            }
+            assertEquals("{}", JSONObject.wrap(new testClass()).toString());
+            class BadCollection implements Collection
+            {
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#size()
+                 */
+                @Override
+                public int size()
+                {
+                    // TODO Auto-generated method stub
+                    return 0;
+                }
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#isEmpty()
+                 */
+                @Override
+                public boolean isEmpty()
+                {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#contains(java.lang.Object)
+                 */
+                @Override
+                public boolean contains(Object o)
+                {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#iterator()
+                 */
+                @Override
+                public Iterator iterator()
+                {
+                    Iterator[] i = new Iterator[] {};
+                    return i[1];
+                }
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#toArray()
+                 */
+                @Override
+                public Object[] toArray()
+                {
+                    // TODO Auto-generated method stub
+                    return null;
+                }
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#toArray(T[])
+                 */
+                @Override
+                public Object[] toArray(Object[] a)
+                {
+                    // TODO Auto-generated method stub
+                    return null;
+                }
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#add(java.lang.Object)
+                 */
+                @Override
+                public boolean add(Object e)
+                {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#remove(java.lang.Object)
+                 */
+                @Override
+                public boolean remove(Object o)
+                {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#containsAll(java.util.Collection)
+                 */
+                @Override
+                public boolean containsAll(Collection c)
+                {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#addAll(java.util.Collection)
+                 */
+                @Override
+                public boolean addAll(Collection c)
+                {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#removeAll(java.util.Collection)
+                 */
+                @Override
+                public boolean removeAll(Collection c)
+                {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#retainAll(java.util.Collection)
+                 */
+                @Override
+                public boolean retainAll(Collection c)
+                {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see java.util.Collection#clear()
+                 */
+                @Override
+                public void clear()
+                {
+                    // TODO Auto-generated method stub
+
+                }
+
+            }
+            try
+            {
+                JSONObject.wrap(new BadCollection()).toString();
+                fail("Should have thrown exception.");
+            } catch (Exception e)
+            {
+                assertEquals(null, e.getMessage());
+            }
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testWriter()
+    {
+        try
+        {
+            StringWriter sw = new StringWriter();
+            jsonobject = new JSONObject();
+            jsonobject.put("1ghr23", "123");
+            jsonobject.put("1ss23", "-12");
+            jsonobject.put("1tr23", 45);
+            jsonobject.put("1trt23", -98);
+            jsonobject.put("1hh23", new JSONObject().put("123", "abc"));
+            jsonobject.put("1er23", "-12");
+            jsonobject.put("1re23", "abc");
+            jsonobject.put("1fde23", "123");
+            jsonobject.put("1fd23", "123");
+            jsonobject.put("1ffdsf23", new JSONObject().put("abc", "123"));
+            jsonobject.put("fd123", "abc");
+            jsonobject.put("12fdsf3", "123");
+            jsonobject.write(sw);
+            assertEquals(
+                    "{\"1tr23\":45,\"1ss23\":\"-12\",\"1fd23\":\"123\",\"1trt23\":-98,\"1ffdsf23\":{\"abc\":\"123\"},\"1ghr23\":\"123\",\"1fde23\":\"123\",\"fd123\":\"abc\",\"12fdsf3\":\"123\",\"1hh23\":{\"123\":\"abc\"},\"1re23\":\"abc\",\"1er23\":\"-12\"}",
+                    sw.toString());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testWriter_BadWriter()
+    {
+        class BadWriter extends Writer
+        {
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.io.Writer#write(char[], int, int)
+             */
+            @Override
+            public void write(char[] cbuf, int off, int len) throws IOException
+            {
+                throw new IOException("Test Message From Bad Writer");
+            }
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.io.Writer#flush()
+             */
+            @Override
+            public void flush() throws IOException
+            {
+                // Do Nothing
+            }
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see java.io.Writer#close()
+             */
+            @Override
+            public void close() throws IOException
+            {
+                // Do nothing
+            }
+
+        }
+        try
+        {
+            BadWriter sw = new BadWriter();
+            jsonobject = new JSONObject();
+            jsonobject.put("1ghr23", "123");
+            jsonobject.put("1ss23", "-12");
+            jsonobject.put("1tr23", 45);
+            jsonobject.put("1trt23", -98);
+            jsonobject.put("1hh23", new JSONObject().put("123", "abc"));
+            jsonobject.put("1er23", "-12");
+            jsonobject.put("1re23", "abc");
+            jsonobject.put("1fde23", "123");
+            jsonobject.put("1fd23", "123");
+            jsonobject.put("1ffdsf23", new JSONObject().put("abc", "123"));
+            jsonobject.put("fd123", "abc");
+            jsonobject.put("12fdsf3", "123");
+            jsonobject.write(sw);
+        } catch (JSONException e)
+        {
+            assertEquals("Test Message From Bad Writer", e.getMessage());
+        }
+    }
+
+    public void testIncrement()
+    {
+        try
+        {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("1ghr23", 30.56);
+            map.put("1ss23", -12.22);
+            map.put("1tr23", 45);
+            map.put("1trt23", -98);
+            map.put("1hh23", (float) 12.6);
+            map.put("1er23", (float) -456.255);
+            map.put("1re23", 5543L);
+            map.put("1fde23", -46546546L);
+            jsonobject = new JSONObject(map);
+            jsonobject.increment("1ghr23");
+            jsonobject.increment("1ss23");
+            jsonobject.increment("1tr23");
+            jsonobject.increment("1trt23");
+            jsonobject.increment("1hh23");
+            jsonobject.increment("1er23");
+            jsonobject.increment("1re23");
+            jsonobject.increment("1fde23");
+            assertEquals(31.56, jsonobject.get("1ghr23"));
+            assertEquals(-11.22, jsonobject.get("1ss23"));
+            assertEquals(46, jsonobject.get("1tr23"));
+            assertEquals(-97, jsonobject.get("1trt23"));
+            assertEquals(13.6f, (Double) jsonobject.get("1hh23"), eps);
+            assertEquals(-455.255f, (Double) jsonobject.get("1er23"), eps);
+            assertEquals(5544L, jsonobject.get("1re23"));
+            assertEquals(-46546545L, jsonobject.get("1fde23"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testIncrement_String()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "abc");
+            jsonobject.increment("123");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Unable to increment [\"123\"].", e.getMessage());
+        }
+    }
+
+    public void testGet_InvalidIndex()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("554", "123");
+            jsonobject.get("abc");
+        } catch (JSONException e)
+        {
+            assertEquals("JSONObject[\"abc\"] not found.", e.getMessage());
+        }
+    }
+
+    public void testGet_ValidIndex()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("abc", "123");
+            assertEquals("123", jsonobject.get("abc"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testGetBoolean()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("1gg23", "true");
+            jsonobject.put("1dd23", "false");
+            jsonobject.put("1ff23", true);
+            jsonobject.put("1rr23", false);
+            jsonobject.put("1hh23", "TRUE");
+            jsonobject.put("1hhhgf23", "FALSE");
+            assertTrue(jsonobject.getBoolean("1gg23"));
+            assertFalse(jsonobject.getBoolean("1dd23"));
+            assertTrue(jsonobject.getBoolean("1ff23"));
+            assertFalse(jsonobject.getBoolean("1rr23"));
+            assertTrue(jsonobject.getBoolean("1hh23"));
+            assertFalse(jsonobject.getBoolean("1hhhgf23"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testGetBoolean_NonBoolean()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "123");
+            jsonobject.getBoolean("123");
+        } catch (JSONException e)
+        {
+            assertEquals("JSONObject[\"123\"] is not a Boolean.",
+                    e.getMessage());
+        }
+    }
+
+    public void testOptBoolean()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("1gg23", "true");
+            jsonobject.put("1dd23", "false");
+            jsonobject.put("1ff23", true);
+            jsonobject.put("1rr23", false);
+            jsonobject.put("1hh23", "TRUE");
+            jsonobject.put("1hhhgf23", "FALSE");
+            assertTrue(jsonobject.optBoolean("1gg23"));
+            assertFalse(jsonobject.optBoolean("1dd23"));
+            assertTrue(jsonobject.optBoolean("1ff23"));
+            assertFalse(jsonobject.optBoolean("1rr23"));
+            assertTrue(jsonobject.optBoolean("1hh23"));
+            assertFalse(jsonobject.optBoolean("1hhhgf23"));
+            assertFalse(jsonobject.optBoolean("chicken"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testGetInt()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("1gg23", "123");
+            jsonobject.put("1g23", "-12");
+            jsonobject.put("123", 45);
+            jsonobject.put("1rr23", -98);
+            assertEquals(123, jsonobject.getInt("1gg23"));
+            assertEquals(-12, jsonobject.getInt("1g23"));
+            assertEquals(45, jsonobject.getInt("123"));
+            assertEquals(-98, jsonobject.getInt("1rr23"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testGetInt_NonInteger()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "abc");
+            jsonobject.getInt("123");
+        } catch (JSONException e)
+        {
+            assertEquals("JSONObject[\"123\"] is not an int.", e.getMessage());
+        }
+    }
+
+    public void testOptInt()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("1gg23", "123");
+            jsonobject.put("1g23", "-12");
+            jsonobject.put("123", 45);
+            jsonobject.put("1rr23", -98);
+            assertEquals(123, jsonobject.optInt("1gg23"));
+            assertEquals(-12, jsonobject.optInt("1g23"));
+            assertEquals(45, jsonobject.optInt("123"));
+            assertEquals(-98, jsonobject.optInt("1rr23"));
+            assertEquals(0, jsonobject.optInt("catfish"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testGetDouble()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "123");
+            jsonobject.put("1fd23", "-12");
+            jsonobject.put("1gfd23", 45);
+            jsonobject.put("1gg23", -98);
+            jsonobject.put("1f23", "123.5");
+            jsonobject.put("1ss23", "-12.87");
+            jsonobject.put("1ew23", 45.22);
+            jsonobject.put("1tt23", -98.18);
+            assertEquals(123.0, jsonobject.getDouble("123"));
+            assertEquals(-12.0, jsonobject.getDouble("1fd23"));
+            assertEquals(45.0, jsonobject.getDouble("1gfd23"));
+            assertEquals(-98.0, jsonobject.getDouble("1gg23"));
+            assertEquals(123.5, jsonobject.getDouble("1f23"));
+            assertEquals(-12.87, jsonobject.getDouble("1ss23"));
+            assertEquals(45.22, jsonobject.getDouble("1ew23"));
+            assertEquals(-98.18, jsonobject.getDouble("1tt23"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testGetDouble_NonDouble()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "abc");
+            jsonobject.getDouble("123");
+        } catch (JSONException e)
+        {
+            assertEquals("JSONObject[\"123\"] is not a number.", e.getMessage());
+        }
+    }
+
+    public void testOptDouble()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "123");
+            jsonobject.put("1fd23", "-12");
+            jsonobject.put("1gfd23", 45);
+            jsonobject.put("1gg23", -98);
+            jsonobject.put("1f23", "123.5");
+            jsonobject.put("1ss23", "-12.87");
+            jsonobject.put("1ew23", 45.22);
+            jsonobject.put("1tt23", -98.18);
+            assertEquals(123.0, jsonobject.optDouble("123"));
+            assertEquals(-12.0, jsonobject.optDouble("1fd23"));
+            assertEquals(45.0, jsonobject.optDouble("1gfd23"));
+            assertEquals(-98.0, jsonobject.optDouble("1gg23"));
+            assertEquals(123.5, jsonobject.optDouble("1f23"));
+            assertEquals(-12.87, jsonobject.optDouble("1ss23"));
+            assertEquals(45.22, jsonobject.optDouble("1ew23"));
+            assertEquals(-98.18, jsonobject.optDouble("1tt23"));
+            assertEquals(Double.NaN, jsonobject.optDouble("rabbit"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testGetLong()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "123");
+            jsonobject.put("12gh3", "-12");
+            jsonobject.put("1f23", 45L);
+            jsonobject.put("1re23", -98L);
+            assertEquals(123, jsonobject.getLong("123"));
+            assertEquals(-12, jsonobject.getLong("12gh3"));
+            assertEquals(45, jsonobject.getLong("1f23"));
+            assertEquals(-98, jsonobject.getLong("1re23"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testGetLong_NonLong()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "abc");
+            jsonobject.getLong("123");
+        } catch (JSONException e)
+        {
+            assertEquals("JSONObject[\"123\"] is not a long.", e.getMessage());
+        }
+    }
+
+    public void testOptLong()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "123");
+            jsonobject.put("12gh3", "-12");
+            jsonobject.put("1f23", 45L);
+            jsonobject.put("1re23", -98L);
+            assertEquals(123, jsonobject.optLong("123"));
+            assertEquals(-12, jsonobject.optLong("12gh3"));
+            assertEquals(45, jsonobject.optLong("1f23"));
+            assertEquals(-98, jsonobject.optLong("1re23"));
+            assertEquals(0, jsonobject.optLong("randomString"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testGetString()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "123");
+            jsonobject.put("12gf3", "-12");
+            jsonobject.put("1fg23", "abc");
+            jsonobject.put("1d23", "123");
+            assertEquals("123", jsonobject.getString("123"));
+            assertEquals("-12", jsonobject.getString("12gf3"));
+            assertEquals("abc", jsonobject.getString("1fg23"));
+            assertEquals("123", jsonobject.getString("1d23"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testGetString_NonString()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", 123);
+            jsonobject.getString("123");
+        } catch (JSONException e)
+        {
+            assertEquals("JSONObject[\"123\"] not a string.", e.getMessage());
+        }
+    }
+
+    public void testOptString()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "123");
+            jsonobject.put("12gf3", "-12");
+            jsonobject.put("1fg23", "abc");
+            jsonobject.put("1d23", "123");
+            assertEquals("123", jsonobject.optString("123"));
+            assertEquals("-12", jsonobject.optString("12gf3"));
+            assertEquals("abc", jsonobject.optString("1fg23"));
+            assertEquals("123", jsonobject.optString("1d23"));
+            assertEquals("", jsonobject.optString("pandora"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testOptJSONObject_SimpleObject()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", new JSONObject().put("abc", "123"));
+            assertEquals("{\"abc\":\"123\"}", jsonobject.optJSONObject("123")
+                    .toString());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testOptJSONObject_NonJsonObject()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "123");
+            assertEquals(null, jsonobject.optJSONObject("123"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testOptJSONArray()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", new JSONArray().put("abc"));
+            assertEquals("[\"abc\"]", jsonobject.optJSONArray("123").toString());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testOptJSONArray_NonJsonArray()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "123");
+            assertEquals(null, jsonobject.optJSONArray("123"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testHas()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("123", "123");
+            assertTrue(jsonobject.has("123"));
+            assertFalse(jsonobject.has("124"));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testAppend()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("string", "123");
+            jsonobject.put("jsonarray", new JSONArray().put("abc"));
+            jsonobject.append("jsonarray", "123");
+            jsonobject.append("george", "def");
+            try
+            {
+                jsonobject.append("string", "abc");
+                fail("Should have thrown exception.");
+            } catch (JSONException e)
+            {
+                assertEquals("JSONObject[string] is not a JSONArray.",
+                        e.getMessage());
+            }
+            assertEquals(
+                    "{\"george\":[\"def\"],\"string\":\"123\",\"jsonarray\":[\"abc\",\"123\"]}",
+                    jsonobject.toString());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testConstuctor_Strings()
+    {
+        try
+        {
+            jsonobject = new JSONObject("123");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals(
+                    "A JSONObject text must begin with '{' at 1 [character 2 line 1]",
+                    e.getMessage());
+        }
+        try
+        {
+            jsonobject = new JSONObject("{\"123\":34");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals("Expected a ',' or '}' at 10 [character 11 line 1]",
+                    e.getMessage());
+        }
+        try
+        {
+            jsonobject = new JSONObject("{\"123\",34}");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals(
+                    "Expected a ':' after a key at 7 [character 8 line 1]",
+                    e.getMessage());
+        }
+        try
+        {
+            jsonobject = new JSONObject("{");
+            fail("Should have thrown exception.");
+        } catch (JSONException e)
+        {
+            assertEquals(
+                    "A JSONObject text must end with '}' at 2 [character 3 line 1]",
+                    e.getMessage());
+        }
+    }
+
+    public void testTestValidity()
+    {
+        try
+        {
+            JSONObject.testValidity(null);
+            JSONObject.testValidity(50.4);
+            JSONObject.testValidity(70.8);
+            JSONObject.testValidity(50.4f);
+            JSONObject.testValidity(70.8f);
+            try
+            {
+                JSONObject.testValidity(Double.NaN);
+                fail("Should have throw exception.");
+            } catch (JSONException e)
+            {
+                assertEquals("JSON does not allow non-finite numbers.",
+                        e.getMessage());
+            }
+            try
+            {
+                JSONObject.testValidity(Double.NEGATIVE_INFINITY);
+                fail("Should have throw exception.");
+            } catch (JSONException e)
+            {
+                assertEquals("JSON does not allow non-finite numbers.",
+                        e.getMessage());
+            }
+            try
+            {
+                JSONObject.testValidity(Double.POSITIVE_INFINITY);
+                fail("Should have throw exception.");
+            } catch (JSONException e)
+            {
+                assertEquals("JSON does not allow non-finite numbers.",
+                        e.getMessage());
+            }
+            try
+            {
+                JSONObject.testValidity(Float.NaN);
+                fail("Should have throw exception.");
+            } catch (JSONException e)
+            {
+                assertEquals("JSON does not allow non-finite numbers.",
+                        e.getMessage());
+            }
+            try
+            {
+                JSONObject.testValidity(Float.NEGATIVE_INFINITY);
+                fail("Should have throw exception.");
+            } catch (JSONException e)
+            {
+                assertEquals("JSON does not allow non-finite numbers.",
+                        e.getMessage());
+            }
+            try
+            {
+                JSONObject.testValidity(Float.POSITIVE_INFINITY);
+                fail("Should have throw exception.");
+            } catch (JSONException e)
+            {
+                assertEquals("JSON does not allow non-finite numbers.",
+                        e.getMessage());
+            }
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testNames()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            assertEquals(null, jsonobject.names());
+            jsonobject.put("abc", "123");
+            assertEquals("[\"abc\"]", jsonobject.names().toString());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testConstructor_CopySubset()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("abc", "123");
+            jsonobject.put("abcd", "1234");
+            jsonobject.put("abcde", "12345");
+            jsonobject.put("abcdef", "123456");
+            assertEquals("{\"abc\":\"123\",\"abcde\":\"12345\"}",
+                    new JSONObject(jsonobject, new String[]
+                    {
+                            "abc", "abc", "abcde"
+                    }).toString());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testPutOnce()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.putOnce("abc", "123").putOnce("abcd", "1234")
+                    .putOnce(null, "12345").putOnce("abcdef", null);
+            assertEquals("{\"abc\":\"123\",\"abcd\":\"1234\"}",
+                    jsonobject.toString());
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testToJsonArray()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("abc", "123");
+            jsonobject.put("abcd", "1234");
+            jsonobject.put("abcde", "12345");
+            jsonobject.put("abcdef", "123456");
+            assertEquals("[\"123\",\"123\",\"12345\"]",
+                    jsonobject.toJSONArray(new JSONArray(new String[]
+                    {
+                            "abc", "abc", "abcde"
+                    })).toString());
+            assertEquals(null, jsonobject.toJSONArray(new JSONArray()));
+            assertEquals(null, jsonobject.toJSONArray(null));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testValueToString()
+    {
+        try
+        {
+            jsonobject = new JSONObject();
+            jsonobject.put("abc", "123");
+            jsonobject.put("abcd", "1234");
+            BadJsonString bjs = new BadJsonString();
+            jsonobject.put("cd", bjs);
+            jsonobject.put("acd", new GoodJsonString());
+            NullJsonString q = new NullJsonString();
+            jsonobject.put("zzz", q);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("abc", "123");
+            Collection<String> stringCol = new Stack<String>();
+            stringCol.add("string1");
+            jsonobject.put("de", map);
+            jsonobject.put("e", stringCol);
+            jsonobject.put("abcde", new JSONArray().put("123"));
+            jsonobject.put("abcdef", new JSONObject().put("123", "123456"));
+            JSONObject nulljo = null;
+            JSONArray nullja = null;
+            jsonobject.put("bcde", nulljo);
+            jsonobject.put("bcdef", nullja);
+            assertEquals(
+                    "{\n    \"de\": {\"abc\": \"123\"},\n    \"abc\": \"123\",\n    \"e\": [\"string1\"],\n    \"zzz\": \""
+                            + q.toString()
+                            + "\",\n    \"abcdef\": {\"123\": \"123456\"},\n    \"abcde\": [\"123\"],\n    \"acd\": jsonstring,\n    \"abcd\": \"1234\",\n    \"cd\": \""
+                            + bjs.toString() + "\"\n}", jsonobject.toString(4));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testValueToString_Object()
+    {
+        try
+        {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("abcd", "1234");
+            Collection<String> stringCol = new Stack<String>();
+            stringCol.add("string1");
+            jsonobject = new JSONObject();
+            jsonobject.put("abc", "123");
+            assertEquals("{\"abc\":\"123\"}",
+                    JSONObject.valueToString(jsonobject));
+            assertEquals("{\"abcd\":\"1234\"}", JSONObject.valueToString(map));
+            assertEquals("[\"string1\"]", JSONObject.valueToString(stringCol));
+            try
+            {
+                JSONObject.valueToString(new BadJsonString());
+                fail("Should have thrown exception.");
+            } catch (JSONException e)
+            {
+                assertEquals("1", e.getMessage());
+            }
+            try
+            {
+                JSONObject.valueToString(new NullJsonString());
+                fail("Should have thrown exception.");
+            } catch (JSONException e)
+            {
+                assertEquals("Bad value from toJSONString: null",
+                        e.getMessage());
+            }
+            assertEquals("jsonstring",
+                    JSONObject.valueToString(new GoodJsonString()));
+            assertEquals("null", JSONObject.valueToString(null));
+            assertEquals("null", JSONObject.valueToString(JSONObject.NULL));
+            assertEquals("[\"abc\",\"123\"]",
+                    JSONObject.valueToString(new String[]
+                    {
+                            "abc", "123"
+                    }));
+        } catch (JSONException e)
+        {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testDoubleToString()
+    {
+        assertEquals("10.66", JSONObject.doubleToString(10.66));
+        assertEquals("10", JSONObject.doubleToString(10));
+        assertEquals("null", JSONObject.doubleToString(Double.NaN));
+        assertEquals("null",
+                JSONObject.doubleToString(Double.NEGATIVE_INFINITY));
+        assertEquals("null",
+                JSONObject.doubleToString(Double.POSITIVE_INFINITY));
+        assertEquals("1.0E89", JSONObject.doubleToString(10e88));
+        assertEquals("1.0E89", JSONObject.doubleToString(10E88));
+    }
 }
