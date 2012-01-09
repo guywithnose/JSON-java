@@ -6,12 +6,9 @@ package org.json.tests;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.SortedSet;
 import java.util.Stack;
 
 import org.json.JSONArray;
@@ -22,6 +19,7 @@ import org.junit.Before;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONArray.
  */
@@ -47,8 +45,12 @@ public class TestJSONArray extends TestCase
         string = "";
     }
 
+    /**
+     * The Class testObject.
+     */
     public class testObject
     {
+        //Do Nothing
     }
 
     /**
@@ -294,6 +296,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the constructor method using collection.
+     */
     public void testConstructor_Collection()
     {
         Collection<String> stringCol = new Stack<String>();
@@ -306,6 +311,9 @@ public class TestJSONArray extends TestCase
                 jsonarray.toString());
     }
 
+    /**
+     * Tests the constructor method using null collection.
+     */
     public void testConstructor_NullCollection()
     {
         Collection<String> stringCol = null;
@@ -313,6 +321,9 @@ public class TestJSONArray extends TestCase
         assertEquals("[]", jsonarray.toString());
     }
 
+    /**
+     * Tests the constructor method using string array.
+     */
     public void testConstructor_StringArray()
     {
         try
@@ -329,6 +340,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the opt method.
+     */
     public void testOpt()
     {
         try
@@ -346,6 +360,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the toString method using exception.
+     */
     public void testToString_Exception()
     {
         class BadJsonString implements JSONString
@@ -373,6 +390,9 @@ public class TestJSONArray extends TestCase
         assertEquals(null, jsonarray.toString());
     }
 
+    /**
+     * Tests the toString method using indents.
+     */
     public void testToString_Indents()
     {
         try
@@ -394,6 +414,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the get method using invalid index.
+     */
     public void testGet_InvalidIndex()
     {
         try
@@ -407,6 +430,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the get method using valid index.
+     */
     public void testGet_ValidIndex()
     {
         try
@@ -420,6 +446,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the getBoolean method.
+     */
     public void testGetBoolean()
     {
         try
@@ -443,6 +472,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the getBoolean method using non boolean.
+     */
     public void testGetBoolean_NonBoolean()
     {
         try
@@ -456,6 +488,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the optBoolean method.
+     */
     public void testOptBoolean()
     {
         jsonarray = new JSONArray();
@@ -475,6 +510,9 @@ public class TestJSONArray extends TestCase
         assertFalse(jsonarray.optBoolean(6));
     }
 
+    /**
+     * Tests the getInt method.
+     */
     public void testGetInt()
     {
         try
@@ -494,6 +532,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the getInt method using non integer.
+     */
     public void testGetInt_NonInteger()
     {
         try
@@ -507,6 +548,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the optInt method.
+     */
     public void testOptInt()
     {
         jsonarray = new JSONArray();
@@ -522,6 +566,9 @@ public class TestJSONArray extends TestCase
         assertEquals(0, jsonarray.optInt(4));
     }
 
+    /**
+     * Tests the getDouble method.
+     */
     public void testGetDouble()
     {
         try
@@ -549,6 +596,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the getDouble method using non double.
+     */
     public void testGetDouble_NonDouble()
     {
         try
@@ -562,6 +612,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the optDouble method.
+     */
     public void testOptDouble()
     {
         jsonarray = new JSONArray();
@@ -590,6 +643,9 @@ public class TestJSONArray extends TestCase
         assertEquals(Double.NaN, jsonarray.optDouble(8));
     }
 
+    /**
+     * Tests the getLong method.
+     */
     public void testGetLong()
     {
         try
@@ -609,6 +665,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the getLong method using non long.
+     */
     public void testGetLong_NonLong()
     {
         try
@@ -622,6 +681,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the optLong method.
+     */
     public void testOptLong()
     {
         jsonarray = new JSONArray();
@@ -636,6 +698,9 @@ public class TestJSONArray extends TestCase
         assertEquals(0, jsonarray.optLong(8));
     }
 
+    /**
+     * Tests the getString method.
+     */
     public void testGetString()
     {
         try
@@ -655,6 +720,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the getString method using non string.
+     */
     public void testGetString_NonString()
     {
         try
@@ -668,6 +736,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the optString method.
+     */
     public void testOptString()
     {
         jsonarray = new JSONArray();
@@ -682,6 +753,9 @@ public class TestJSONArray extends TestCase
         assertEquals("", jsonarray.optString(4));
     }
 
+    /**
+     * Tests the optJSONObject method.
+     */
     public void testOptJSONObject()
     {
         try
@@ -695,6 +769,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the optJSONObject method using non json object.
+     */
     public void testOptJSONObject_NonJsonObject()
     {
         jsonarray = new JSONArray();
@@ -702,6 +779,9 @@ public class TestJSONArray extends TestCase
         assertEquals(null, jsonarray.optJSONObject(0));
     }
 
+    /**
+     * Tests the optJSONArray method.
+     */
     public void testOptJSONArray()
     {
         jsonarray = new JSONArray();
@@ -709,6 +789,9 @@ public class TestJSONArray extends TestCase
         assertEquals("[\"abc\"]", jsonarray.optJSONArray(0).toString());
     }
 
+    /**
+     * Tests the optJSONArray method using non json array.
+     */
     public void testOptJSONArray_NonJsonArray()
     {
         jsonarray = new JSONArray();
@@ -716,6 +799,9 @@ public class TestJSONArray extends TestCase
         assertEquals(null, jsonarray.optJSONArray(0));
     }
 
+    /**
+     * Tests the isNull method.
+     */
     public void testIsNull()
     {
         jsonarray = new JSONArray();
@@ -725,6 +811,9 @@ public class TestJSONArray extends TestCase
         assertFalse(jsonarray.isNull(1));
     }
 
+    /**
+     * Tests the writer method.
+     */
     public void testWriter()
     {
         try
@@ -753,6 +842,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the writer method using bad writer.
+     */
     public void testWriter_BadWriter()
     {
         class BadWriter extends Writer
@@ -815,6 +907,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using object and specific index.
+     */
     public void testPut_ObjectAndSpecificIndex()
     {
         try
@@ -845,6 +940,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using object and negative index.
+     */
     public void testPut_ObjectAndNegativeIndex()
     {
         try
@@ -859,6 +957,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the toJSONObject method.
+     */
     public void testToJSONObject()
     {
         try
@@ -886,6 +987,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the getJSONObject method.
+     */
     public void testGetJSONObject()
     {
         try
@@ -899,6 +1003,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the getJSONObject method using non json object.
+     */
     public void testGetJSONObject_NonJsonObject()
     {
         try
@@ -913,6 +1020,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the getJSONArray method.
+     */
     public void testGetJSONArray()
     {
         try
@@ -926,6 +1036,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the getJSONArray method using non json array.
+     */
     public void testGetJSONArray_NonJsonArray()
     {
         try
@@ -940,6 +1053,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using map.
+     */
     public void testPut_Map()
     {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -949,6 +1065,9 @@ public class TestJSONArray extends TestCase
         assertEquals("[{\"abc\":\"123\"}]", jsonarray.toString());
     }
 
+    /**
+     * Tests the constructor method using bad json array.
+     */
     public void testConstructor_BadJsonArray()
     {
         try
@@ -961,6 +1080,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the constructor method.
+     */
     public void testConstructor()
     {
         try
@@ -985,6 +1107,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using collection.
+     */
     public void testPut_Collection()
     {
         Collection<Object> stringCol = new Stack<Object>();
@@ -998,6 +1123,9 @@ public class TestJSONArray extends TestCase
                 jsonarray.toString());
     }
 
+    /**
+     * Tests the put method using boolean and specific index.
+     */
     public void testPut_BooleanAndSpecificIndex()
     {
         try
@@ -1024,6 +1152,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using boolean and negative index.
+     */
     public void testPut_BooleanAndNegativeIndex()
     {
         try
@@ -1037,6 +1168,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using collection and specific index.
+     */
     public void testPut_CollectionAndSpecificIndex()
     {
         try
@@ -1075,6 +1209,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using collection and negative index.
+     */
     public void testPut_CollectionAndNegativeIndex()
     {
         try
@@ -1091,6 +1228,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using double and specific index.
+     */
     public void testPut_DoubleAndSpecificIndex()
     {
         try
@@ -1117,6 +1257,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using double and negative index.
+     */
     public void testPut_DoubleAndNegativeIndex()
     {
         try
@@ -1130,6 +1273,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using int and specific index.
+     */
     public void testPut_IntAndSpecificIndex()
     {
         try
@@ -1156,6 +1302,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using int and negative index.
+     */
     public void testPut_IntAndNegativeIndex()
     {
         try
@@ -1169,6 +1318,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using long and specific index.
+     */
     public void testPut_LongAndSpecificIndex()
     {
         try
@@ -1195,6 +1347,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using long and negative index.
+     */
     public void testPut_LongAndNegativeIndex()
     {
         try
@@ -1208,6 +1363,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using map and specific index.
+     */
     public void testPut_MapAndSpecificIndex()
     {
         try
@@ -1242,6 +1400,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the put method using map and negative index.
+     */
     public void testPut_MapAndNegativeIndex()
     {
         try
@@ -1257,6 +1418,9 @@ public class TestJSONArray extends TestCase
         }
     }
 
+    /**
+     * Tests the remove method.
+     */
     public void testRemove()
     {
         try

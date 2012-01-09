@@ -1,6 +1,6 @@
 /*
  * File:         TestXMLTokener.java
- * Author:       JSON.org <${Author_Email_Address}>
+ * Author:       JSON.org
  */
 package org.json.tests;
 
@@ -9,12 +9,14 @@ import org.json.XMLTokener;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestXMLTokener.
  */
 public class TestXMLTokener extends TestCase
 {
 
+    /** The xmltokener. */
     private XMLTokener xmltokener;
 
     /**
@@ -206,6 +208,9 @@ public class TestXMLTokener extends TestCase
         }
     }
 
+    /**
+     * Tests the nextMeta method using open string.
+     */
     public void testNextMeta_OpenString()
     {
         try
@@ -221,6 +226,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the nextMeta method using symbols.
+     */
     public void testNextMeta_Symbols()
     {
         try
@@ -240,6 +248,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the nextMeta method using misshaped.
+     */
     public void testNextMeta_Misshaped()
     {
         try
@@ -255,6 +266,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the nextMeta method using ending with bang.
+     */
     public void testNextMeta_EndingWithBang()
     {
         try
@@ -269,6 +283,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the nextMeta method using ending with space.
+     */
     public void testNextMeta_EndingWithSpace()
     {
         try
@@ -283,6 +300,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the nextToken method using normal tag.
+     */
     public void testNextToken_NormalTag()
     {
         try
@@ -298,6 +318,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the nextToken method using tag with bad character.
+     */
     public void testNextToken_TagWithBadCharacter()
     {
         try
@@ -312,6 +335,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the nextToken method using tag with misplaced less than.
+     */
     public void testNextToken_TagWithMisplacedLessThan()
     {
         try
@@ -326,6 +352,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the nextToken method using misshaped element.
+     */
     public void testNextToken_MisshapedElement()
     {
         try
@@ -340,6 +369,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the nextToken method using symbols.
+     */
     public void testNextToken_Symbols()
     {
         try
@@ -356,6 +388,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the nextToken method using string.
+     */
     public void testNextToken_String()
     {
         try
@@ -369,6 +404,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the nextToken method using no greater than.
+     */
     public void testNextToken_NoGreaterThan()
     {
         try
@@ -382,6 +420,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the nextToken method using unterminated string.
+     */
     public void testNextToken_UnterminatedString()
     {
         try
@@ -396,6 +437,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the skipTo method.
+     */
     public void testSkipTo()
     {
         try
@@ -411,6 +455,9 @@ public class TestXMLTokener extends TestCase
         }
     }
     
+    /**
+     * Tests the skipTo method using long parameter.
+     */
     public void testSkipTo_LongParameter()
     {
         try

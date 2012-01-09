@@ -11,6 +11,7 @@ import org.json.XML;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONML.
  */
@@ -325,12 +326,18 @@ public class TestJSONML extends TestCase
         }
     }
     
-    public void testConstructor()
+    /**
+     * Tests the constructor method.
+     */
+    public static void testConstructor()
     {
         JSONML jsonml = new JSONML();
         assertEquals("JSONML", jsonml.getClass().getSimpleName());
     }
     
+    /**
+     * Tests the toJSONArray method using empty closing tag.
+     */
     public void testToJSONArray_EmptyClosingTag()
     {
 
@@ -344,6 +351,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONArray method using closing tag with question.
+     */
     public void testToJSONArray_ClosingTagWithQuestion()
     {
 
@@ -357,6 +367,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONArray method using meta tag with two dashes.
+     */
     public void testToJSONArray_MetaTagWithTwoDashes()
     {
 
@@ -375,6 +388,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONArray method using meta tag with one dash.
+     */
     public void testToJSONArray_MetaTagWithOneDash()
     {
 
@@ -393,6 +409,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONArray method using meta tag with cdata.
+     */
     public void testToJSONArray_MetaTagWithCdata()
     {
 
@@ -411,6 +430,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONArray method using meta tag with bad cdata.
+     */
     public void testToJSONArray_MetaTagWithBadCdata()
     {
         try
@@ -439,6 +461,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONArray method using meta tag with cdata only.
+     */
     public void testToJSONArray_MetaTagWithCdataOnly()
     {
 
@@ -457,6 +482,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONArray method using meta tag with broken cdata.
+     */
     public void testToJSONArray_MetaTagWithBrokenCdata()
     {
         try
@@ -477,6 +505,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONArray method using php tag.
+     */
     public void testToJSONArray_PhpTag()
     {
         try
@@ -494,6 +525,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONArray method using misshaped tag.
+     */
     public void testToJSONArray_MisshapedTag()
     {
         try
@@ -506,6 +540,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using reserved attribute tag name.
+     */
     public void testToJSONObject_ReservedAttributeTagName()
     {
         try
@@ -518,6 +555,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using reserved attribute child node.
+     */
     public void testToJSONObject_ReservedAttributeChildNode()
     {
         try
@@ -530,6 +570,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using no value attribute.
+     */
     public void testToJSONObject_NoValueAttribute()
     {
         try
@@ -547,6 +590,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using no value attribute with equals.
+     */
     public void testToJSONObject_NoValueAttributeWithEquals()
     {
         try
@@ -559,6 +605,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using empty tag.
+     */
     public void testToJSONObject_EmptyTag()
     {
         try
@@ -576,6 +625,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONArray method using empty tag.
+     */
     public void testToJSONArray_EmptyTag()
     {
         try
@@ -593,6 +645,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using broken empty tag.
+     */
     public void testToJSONObject_BrokenEmptyTag()
     {
         try
@@ -605,6 +660,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using misshaped tag.
+     */
     public void testToJSONObject_MisshapedTag()
     {
         try
@@ -617,6 +675,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using no close tag.
+     */
     public void testToJSONObject_NoCloseTag()
     {
         try
@@ -629,6 +690,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using no name tag.
+     */
     public void testToJSONObject_NoNameTag()
     {
         try
@@ -641,6 +705,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using space.
+     */
     public void testToJSONObject_Space()
     {
         try
@@ -653,6 +720,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toJSONObject method using space content.
+     */
     public void testToJSONObject_SpaceContent()
     {
         try
@@ -670,6 +740,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using json array of json objects.
+     */
     public void testToString_JsonArrayOfJsonObjects()
     {
         try
@@ -687,6 +760,9 @@ public class TestJSONML extends TestCase
         }
     }
     
+    /**
+     * Tests the toString method using json object of json arrays.
+     */
     public void testToString_JsonObjectOfJsonArrays()
     {
         try

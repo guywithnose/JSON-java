@@ -4,8 +4,6 @@
 package org.json.tests;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.io.Writer;
 
 import org.json.JSONException;
@@ -14,13 +12,19 @@ import org.json.JSONWriter;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONWriter.
  */
 public class TestJSONWriter extends TestCase
 {
+    
+    /** The jsonwriter. */
     JSONWriter jsonwriter;
 
+    /**
+     * The Class BadWriterThrowsOnNonBrace.
+     */
     class BadWriterThrowsOnNonBrace extends Writer
     {
 
@@ -44,7 +48,7 @@ public class TestJSONWriter extends TestCase
         @Override
         public void flush() throws IOException
         {
-
+            //Do Nothing
         }
 
         /*
@@ -55,11 +59,14 @@ public class TestJSONWriter extends TestCase
         @Override
         public void close() throws IOException
         {
-
+            //Do Nothing
         }
 
     }
 
+    /**
+     * The Class BadWriterThrowsOnLeftBrace.
+     */
     class BadWriterThrowsOnLeftBrace extends Writer
     {
 
@@ -83,7 +90,7 @@ public class TestJSONWriter extends TestCase
         @Override
         public void flush() throws IOException
         {
-
+            //Do Nothing
         }
 
         /*
@@ -94,11 +101,14 @@ public class TestJSONWriter extends TestCase
         @Override
         public void close() throws IOException
         {
-
+            //Do Nothing
         }
 
     }
 
+    /**
+     * The Class BadWriterThrowsOnRightBrace.
+     */
     class BadWriterThrowsOnRightBrace extends Writer
     {
 
@@ -122,7 +132,7 @@ public class TestJSONWriter extends TestCase
         @Override
         public void flush() throws IOException
         {
-
+            //Do Nothing
         }
 
         /*
@@ -133,13 +143,23 @@ public class TestJSONWriter extends TestCase
         @Override
         public void close() throws IOException
         {
-
+            //Do Nothing
         }
 
     }
 
+    /**
+     * The Class BadExtensionThatCausesNestingError.
+     */
     class BadExtensionThatCausesNestingError extends JSONStringer
     {
+        
+        /**
+         * Change mode.
+         *
+         * @param c the c
+         * @return the jSON writer
+         */
         public JSONWriter changeMode(char c)
         {
             mode = c;
@@ -147,6 +167,9 @@ public class TestJSONWriter extends TestCase
         }
     }
     
+    /**
+     * Tests the key method.
+     */
     public void testKey()
     {
         try
@@ -164,6 +187,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the value method.
+     */
     public void testValue()
     {
         try
@@ -178,6 +204,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the object method using stops at max depth.
+     */
     public void testObject_StopsAtMaxDepth()
     {
         try
@@ -196,6 +225,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the array method using stops at max depth.
+     */
     public void testArray_StopsAtMaxDepth()
     {
         try
@@ -214,6 +246,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the value method using out of sequence.
+     */
     public void testValue_OutOfSequence()
     {
         try
@@ -227,6 +262,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the object method using out of sequence.
+     */
     public void testObject_OutOfSequence()
     {
         try
@@ -240,6 +278,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the object method using two objects within array.
+     */
     public void testObject_TwoObjectsWithinArray()
     {
         try
@@ -254,6 +295,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the object method using two strings and an int within object.
+     */
     public void testObject_TwoStringsAndAnIntWithinObject()
     {
         try
@@ -271,6 +315,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the key method using misplaced key.
+     */
     public void testKey_MisplacedKey()
     {
         try
@@ -284,6 +331,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the key method using catches ioexception.
+     */
     public void testKey_CatchesIoexception()
     {
         try
@@ -297,6 +347,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the object method using catches ioexception.
+     */
     public void testObject_CatchesIoexception()
     {
         try
@@ -310,6 +363,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the key method using null key.
+     */
     public void testKey_NullKey()
     {
         try
@@ -323,6 +379,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the array method using two arrays within object.
+     */
     public void testArray_TwoArraysWithinObject()
     {
         try
@@ -337,6 +396,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the object method using two objects within object.
+     */
     public void testObject_TwoObjectsWithinObject()
     {
         try
@@ -351,6 +413,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the array method using two arrays within array.
+     */
     public void testArray_TwoArraysWithinArray()
     {
         try
@@ -365,6 +430,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the array method using misplaced array.
+     */
     public void testArray_MisplacedArray()
     {
         try
@@ -378,6 +446,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the endArray method using misplaced end array.
+     */
     public void testEndArray_MisplacedEndArray()
     {
         try
@@ -391,6 +462,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the endObject method using misplaced end object.
+     */
     public void testEndObject_MisplacedEndObject()
     {
         try
@@ -404,6 +478,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the endObject method using catches ioexception.
+     */
     public void testEndObject_CatchesIoexception()
     {
         try
@@ -417,6 +494,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the pop method using bad extension that causes nesting error1.
+     */
     public void testPop_BadExtensionThatCausesNestingError1()
     {
         try
@@ -431,6 +511,9 @@ public class TestJSONWriter extends TestCase
         }
     }
 
+    /**
+     * Tests the pop method using bad extension that causes nesting error2.
+     */
     public void testPop_BadExtensionThatCausesNestingError2()
     {
         try

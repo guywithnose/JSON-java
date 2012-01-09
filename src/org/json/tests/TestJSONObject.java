@@ -23,12 +23,16 @@ import org.json.XML;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONObject.
  */
 public class TestJSONObject extends TestCase
 {
 
+    /**
+     * The Class GoodJsonString.
+     */
     public class GoodJsonString implements JSONString
     {
 
@@ -45,6 +49,9 @@ public class TestJSONObject extends TestCase
 
     }
 
+    /**
+     * The Class NullJsonString.
+     */
     public class NullJsonString implements JSONString
     {
 
@@ -61,6 +68,9 @@ public class TestJSONObject extends TestCase
 
     }
 
+    /**
+     * The Class BadJsonString.
+     */
     public class BadJsonString implements JSONString
     {
 
@@ -1281,6 +1291,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the toString method using indents.
+     */
     public void testToString_Indents()
     {
         try
@@ -1307,6 +1320,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the toString method using exception.
+     */
     public void testToString_Exception()
     {
 
@@ -1320,7 +1336,10 @@ public class TestJSONObject extends TestCase
         }
     }
 
-    public void testNumberToString()
+    /**
+     * Tests the numberToString method.
+     */
+    public static void testNumberToString()
     {
         try
         {
@@ -1332,7 +1351,10 @@ public class TestJSONObject extends TestCase
         }
     }
 
-    public void testNumberToString_Null()
+    /**
+     * Tests the numberToString method using null.
+     */
+    public static void testNumberToString_Null()
     {
         try
         {
@@ -1344,6 +1366,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the wrap method.
+     */
     public void testWrap()
     {
         try
@@ -1379,7 +1404,7 @@ public class TestJSONObject extends TestCase
             assertEquals("{\"abc\":\"123\"}", JSONObject.wrap(map).toString());
             assertEquals("javax.print.PrintException",
                     JSONObject.wrap(new javax.print.PrintException()));
-            Class d = this.getClass();
+            Class<?> d = this.getClass();
             assertEquals("class org.json.tests.TestJSONObject",
                     JSONObject.wrap(d));
             class testClass
@@ -1387,7 +1412,7 @@ public class TestJSONObject extends TestCase
                 // Empty Class
             }
             assertEquals("{}", JSONObject.wrap(new testClass()).toString());
-            class BadCollection implements Collection
+            class BadCollection<E> implements Collection<E>
             {
 
                 /*
@@ -1432,9 +1457,10 @@ public class TestJSONObject extends TestCase
                  * @see java.util.Collection#iterator()
                  */
                 @Override
-                public Iterator iterator()
+                public Iterator<E> iterator()
                 {
-                    Iterator[] i = new Iterator[] {};
+                    @SuppressWarnings("unchecked")
+                    Iterator<E>[] i = new Iterator[0];
                     return i[1];
                 }
 
@@ -1455,10 +1481,10 @@ public class TestJSONObject extends TestCase
                  * 
                  * @see java.util.Collection#toArray(T[])
                  */
+                @SuppressWarnings("unchecked")
                 @Override
-                public Object[] toArray(Object[] a)
+                public Object[] toArray(Object[] Type)
                 {
-                    // TODO Auto-generated method stub
                     return null;
                 }
 
@@ -1492,7 +1518,7 @@ public class TestJSONObject extends TestCase
                  * @see java.util.Collection#containsAll(java.util.Collection)
                  */
                 @Override
-                public boolean containsAll(Collection c)
+                public boolean containsAll(Collection<?> collection)
                 {
                     // TODO Auto-generated method stub
                     return false;
@@ -1504,9 +1530,8 @@ public class TestJSONObject extends TestCase
                  * @see java.util.Collection#addAll(java.util.Collection)
                  */
                 @Override
-                public boolean addAll(Collection c)
+                public boolean addAll(Collection<? extends E> collection)
                 {
-                    // TODO Auto-generated method stub
                     return false;
                 }
 
@@ -1516,7 +1541,7 @@ public class TestJSONObject extends TestCase
                  * @see java.util.Collection#removeAll(java.util.Collection)
                  */
                 @Override
-                public boolean removeAll(Collection c)
+                public boolean removeAll(Collection<?> collection)
                 {
                     // TODO Auto-generated method stub
                     return false;
@@ -1528,9 +1553,8 @@ public class TestJSONObject extends TestCase
                  * @see java.util.Collection#retainAll(java.util.Collection)
                  */
                 @Override
-                public boolean retainAll(Collection c)
+                public boolean retainAll(Collection<?> collection)
                 {
-                    // TODO Auto-generated method stub
                     return false;
                 }
 
@@ -1549,7 +1573,7 @@ public class TestJSONObject extends TestCase
             }
             try
             {
-                JSONObject.wrap(new BadCollection()).toString();
+                JSONObject.wrap(new BadCollection<String>()).toString();
                 fail("Should have thrown exception.");
             } catch (Exception e)
             {
@@ -1561,6 +1585,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the writer method.
+     */
     public void testWriter()
     {
         try
@@ -1589,6 +1616,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the writer method using bad writer.
+     */
     public void testWriter_BadWriter()
     {
         class BadWriter extends Writer
@@ -1651,6 +1681,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the increment method.
+     */
     public void testIncrement()
     {
         try
@@ -1687,6 +1720,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the increment method using string.
+     */
     public void testIncrement_String()
     {
         try
@@ -1701,6 +1737,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the get method using invalid index.
+     */
     public void testGet_InvalidIndex()
     {
         try
@@ -1714,6 +1753,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the get method using valid index.
+     */
     public void testGet_ValidIndex()
     {
         try
@@ -1727,6 +1769,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getBoolean method.
+     */
     public void testGetBoolean()
     {
         try
@@ -1750,6 +1795,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getBoolean method using non boolean.
+     */
     public void testGetBoolean_NonBoolean()
     {
         try
@@ -1764,6 +1812,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the optBoolean method.
+     */
     public void testOptBoolean()
     {
         try
@@ -1788,6 +1839,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getInt method.
+     */
     public void testGetInt()
     {
         try
@@ -1807,6 +1861,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getInt method using non integer.
+     */
     public void testGetInt_NonInteger()
     {
         try
@@ -1820,6 +1877,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the optInt method.
+     */
     public void testOptInt()
     {
         try
@@ -1840,6 +1900,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getDouble method.
+     */
     public void testGetDouble()
     {
         try
@@ -1867,6 +1930,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getDouble method using non double.
+     */
     public void testGetDouble_NonDouble()
     {
         try
@@ -1880,6 +1946,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the optDouble method.
+     */
     public void testOptDouble()
     {
         try
@@ -1908,6 +1977,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getLong method.
+     */
     public void testGetLong()
     {
         try
@@ -1927,6 +1999,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getLong method using non long.
+     */
     public void testGetLong_NonLong()
     {
         try
@@ -1940,6 +2015,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the optLong method.
+     */
     public void testOptLong()
     {
         try
@@ -1960,6 +2038,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getString method.
+     */
     public void testGetString()
     {
         try
@@ -1979,6 +2060,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the getString method using non string.
+     */
     public void testGetString_NonString()
     {
         try
@@ -1992,6 +2076,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the optString method.
+     */
     public void testOptString()
     {
         try
@@ -2012,6 +2099,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the optJSONObject method using simple object.
+     */
     public void testOptJSONObject_SimpleObject()
     {
         try
@@ -2026,6 +2116,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the optJSONObject method using non json object.
+     */
     public void testOptJSONObject_NonJsonObject()
     {
         try
@@ -2039,6 +2132,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the optJSONArray method.
+     */
     public void testOptJSONArray()
     {
         try
@@ -2052,6 +2148,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the optJSONArray method using non json array.
+     */
     public void testOptJSONArray_NonJsonArray()
     {
         try
@@ -2065,6 +2164,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the has method.
+     */
     public void testHas()
     {
         try
@@ -2079,6 +2181,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the append method.
+     */
     public void testAppend()
     {
         try
@@ -2106,6 +2211,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the constuctor method using strings.
+     */
     public void testConstuctor_Strings()
     {
         try
@@ -2149,7 +2257,10 @@ public class TestJSONObject extends TestCase
         }
     }
 
-    public void testTestValidity()
+    /**
+     * Tests the testValidity method.
+     */
+    public static void testTestValidity()
     {
         try
         {
@@ -2218,6 +2329,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the names method.
+     */
     public void testNames()
     {
         try
@@ -2232,6 +2346,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the constructor method using copy subset.
+     */
     public void testConstructor_CopySubset()
     {
         try
@@ -2252,6 +2369,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the putOnce method.
+     */
     public void testPutOnce()
     {
         try
@@ -2267,6 +2387,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the toJsonArray method.
+     */
     public void testToJsonArray()
     {
         try
@@ -2289,6 +2412,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the valueToString method.
+     */
     public void testValueToString()
     {
         try
@@ -2324,6 +2450,9 @@ public class TestJSONObject extends TestCase
         }
     }
 
+    /**
+     * Tests the valueToString method using object.
+     */
     public void testValueToString_Object()
     {
         try
@@ -2370,7 +2499,10 @@ public class TestJSONObject extends TestCase
         }
     }
 
-    public void testDoubleToString()
+    /**
+     * Tests the doubleToString method.
+     */
+    public static void testDoubleToString()
     {
         assertEquals("10.66", JSONObject.doubleToString(10.66));
         assertEquals("10", JSONObject.doubleToString(10));
