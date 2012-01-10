@@ -132,7 +132,6 @@ public class TestCDL extends TestCase
         //@formatter:on
         try
         {
-            // System.out.println();
             assertEquals(jsonarray.toString(), CDL.toJSONArray(string)
                     .toString());
         } catch (JSONException e)
@@ -154,7 +153,6 @@ public class TestCDL extends TestCase
         //@formatter:on
         try
         {
-            // System.out.println();
             assertEquals(jsonarray.toString(), CDL.toJSONArray(string)
                     .toString());
             fail("Should have thrown Exception");
@@ -170,7 +168,6 @@ public class TestCDL extends TestCase
         //@formatter:on
         try
         {
-            // System.out.println();
             assertEquals(jsonarray.toString(), CDL.toJSONArray(string)
                     .toString());
             fail("Should have thrown Exception");
@@ -186,7 +183,6 @@ public class TestCDL extends TestCase
         //@formatter:on
         try
         {
-            // System.out.println();
             assertEquals(jsonarray.toString(), CDL.toJSONArray(string)
                     .toString());
             fail("Should have thrown Exception");
@@ -211,7 +207,6 @@ public class TestCDL extends TestCase
         //@formatter:on
         try
         {
-            // System.out.println();
             assertEquals(jsonarray.toString(), CDL.toJSONArray(string)
                     .toString());
         } catch (JSONException e)
@@ -233,7 +228,6 @@ public class TestCDL extends TestCase
         //@formatter:on
         try
         {
-            // System.out.println();
             assertEquals(jsonarray.toString(), CDL.toJSONArray(string)
                     .toString());
             fail("Should have thrown Exception");

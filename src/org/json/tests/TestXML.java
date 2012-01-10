@@ -78,7 +78,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<!-abc>123</!-abc>";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -95,7 +95,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<abc><![CDATA?[--comment--]]></abc>";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -106,7 +106,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<abc><![CDATA[--comment--]></abc>";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -117,7 +117,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<abc><![CDATA[--comment--]]?></abc>";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -128,7 +128,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<abc><![CDAT[--comment--]]></abc>";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -179,7 +179,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<! abc";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -190,7 +190,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<!-<abc";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -207,7 +207,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<abc><![CDATA[";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -224,7 +224,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<abc>123</def>";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -241,7 +241,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<abc>123</abc?";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -258,7 +258,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<abc>";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -333,7 +333,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<=abc>123<=abc>";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -343,7 +343,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<abc=>123<abc=>";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -376,7 +376,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<abc \"abc>123</abc>";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
@@ -415,7 +415,7 @@ public class TestXML extends TestCase
         try
         {
             String XMLString = "<abc \"abc\"=>123</abc>";
-            System.out.println(XML.toJSONObject(XMLString));
+            XML.toJSONObject(XMLString);
             fail("Should have failed");
         } catch (JSONException e)
         {
