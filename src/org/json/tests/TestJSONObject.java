@@ -23,7 +23,6 @@ import org.json.XML;
 
 import junit.framework.TestCase;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONObject.
  */
@@ -1423,7 +1422,6 @@ public class TestJSONObject extends TestCase
                 @Override
                 public int size()
                 {
-                    // TODO Auto-generated method stub
                     return 0;
                 }
 
@@ -1435,7 +1433,6 @@ public class TestJSONObject extends TestCase
                 @Override
                 public boolean isEmpty()
                 {
-                    // TODO Auto-generated method stub
                     return false;
                 }
 
@@ -1447,7 +1444,6 @@ public class TestJSONObject extends TestCase
                 @Override
                 public boolean contains(Object o)
                 {
-                    // TODO Auto-generated method stub
                     return false;
                 }
 
@@ -1472,7 +1468,6 @@ public class TestJSONObject extends TestCase
                 @Override
                 public Object[] toArray()
                 {
-                    // TODO Auto-generated method stub
                     return null;
                 }
 
@@ -1496,7 +1491,6 @@ public class TestJSONObject extends TestCase
                 @Override
                 public boolean add(Object e)
                 {
-                    // TODO Auto-generated method stub
                     return false;
                 }
 
@@ -1508,7 +1502,6 @@ public class TestJSONObject extends TestCase
                 @Override
                 public boolean remove(Object o)
                 {
-                    // TODO Auto-generated method stub
                     return false;
                 }
 
@@ -1520,7 +1513,6 @@ public class TestJSONObject extends TestCase
                 @Override
                 public boolean containsAll(Collection<?> collection)
                 {
-                    // TODO Auto-generated method stub
                     return false;
                 }
 
@@ -1543,7 +1535,6 @@ public class TestJSONObject extends TestCase
                 @Override
                 public boolean removeAll(Collection<?> collection)
                 {
-                    // TODO Auto-generated method stub
                     return false;
                 }
 
@@ -1566,8 +1557,7 @@ public class TestJSONObject extends TestCase
                 @Override
                 public void clear()
                 {
-                    // TODO Auto-generated method stub
-
+                    //Do Nothing
                 }
 
             }

@@ -12,7 +12,6 @@ import org.json.JSONWriter;
 
 import junit.framework.TestCase;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TestJSONWriter.
  */

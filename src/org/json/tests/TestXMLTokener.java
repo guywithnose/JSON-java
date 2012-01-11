@@ -9,7 +9,6 @@ import org.json.XMLTokener;
 
 import junit.framework.TestCase;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TestXMLTokener.
  */
