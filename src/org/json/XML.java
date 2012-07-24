@@ -482,7 +482,8 @@ public class XML
         int length;
         String string;
         Object value;
-        if (object instanceof JSONObject)
+        Object obj = object;
+        if (obj instanceof JSONObject)
         {
 
             // Emit <tagName>
@@ -496,7 +497,7 @@ public class XML
 
             // Loop thru the keys.
 
-            jo = (JSONObject) object;
+            jo = (JSONObject) obj;
             keys = jo.keys();
             while (keys.hasNext())
             {
@@ -587,13 +588,13 @@ public class XML
             // where XML is lacking, synthesize an <array> element.
 
         }
-        if (object.getClass().isArray())
+        if (obj.getClass().isArray())
         {
-            object = new JSONArray(object);
+            obj = new JSONArray(obj);
         }
-        if (object instanceof JSONArray)
+        if (obj instanceof JSONArray)
         {
-            ja = (JSONArray) object;
+            ja = (JSONArray) obj;
             length = ja.length();
             for (i = 0; i < length; i += 1)
             {
@@ -602,7 +603,7 @@ public class XML
             }
             return sb.toString();
         }
-        string = escape(object.toString());
+        string = escape(obj.toString());
         return (tagName == null) ? "\"" + string + "\""
                 : (string.length() == 0) ? "<" + tagName + "/>" : "<" + tagName
                         + ">" + string + "</" + tagName + ">";

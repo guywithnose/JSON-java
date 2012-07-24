@@ -93,6 +93,7 @@ public class TestJSONObject extends TestCase
     /**
      * The Class ObjectWithPrimatives.
      */
+    @SuppressWarnings("unused")
     public class ObjectWithPrimatives
     {
 
@@ -234,7 +235,6 @@ public class TestJSONObject extends TestCase
          * 
          * @return true, if is small
          */
-        @SuppressWarnings("unused")
         private boolean isSmall()
         {
             return true;
@@ -1411,6 +1411,8 @@ public class TestJSONObject extends TestCase
                 // Empty Class
             }
             assertEquals("{}", JSONObject.wrap(new testClass()).toString());
+            
+            @SuppressWarnings("unused")
             class BadCollection<E> implements Collection<E>
             {
 
@@ -1611,6 +1613,7 @@ public class TestJSONObject extends TestCase
      */
     public void testWriter_BadWriter()
     {
+        @SuppressWarnings("unused")
         class BadWriter extends Writer
         {
 

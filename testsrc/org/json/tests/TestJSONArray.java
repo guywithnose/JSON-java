@@ -846,6 +846,7 @@ public class TestJSONArray extends TestCase
      */
     public void testWriter_BadWriter()
     {
+        @SuppressWarnings("unused")
         class BadWriter extends Writer
         {
 

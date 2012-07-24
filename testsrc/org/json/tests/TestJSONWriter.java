@@ -24,6 +24,7 @@ public class TestJSONWriter extends TestCase
     /**
      * The Class BadWriterThrowsOnNonBrace.
      */
+    @SuppressWarnings("unused")
     class BadWriterThrowsOnNonBrace extends Writer
     {
 
@@ -66,6 +67,7 @@ public class TestJSONWriter extends TestCase
     /**
      * The Class BadWriterThrowsOnLeftBrace.
      */
+    @SuppressWarnings("unused")
     class BadWriterThrowsOnLeftBrace extends Writer
     {
 
@@ -108,6 +110,7 @@ public class TestJSONWriter extends TestCase
     /**
      * The Class BadWriterThrowsOnRightBrace.
      */
+    @SuppressWarnings("unused")
     class BadWriterThrowsOnRightBrace extends Writer
     {
 
