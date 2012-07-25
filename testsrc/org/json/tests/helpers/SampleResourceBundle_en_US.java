@@ -2,7 +2,7 @@
  * File:         SampleResourceBundle_en_US.java
  * Author:       JSON.org
  */
-package org.json.tests;
+package org.json.tests.helpers;
 
 import java.util.*;
 
