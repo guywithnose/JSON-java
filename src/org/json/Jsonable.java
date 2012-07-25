@@ -1,11 +1,11 @@
 /*
- * File: Jsonable.java Author: Robert Bittle <guywithnose@gmail.com>
+ * File:         Jsonable.java
+ * Author:       JSON.org
  */
 package org.json;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -68,10 +68,11 @@ public abstract class Jsonable implements JSONString {
     List<Field> allFields = getFields();
     for (int i = 0; i < allFields.size(); i++) {
       try {
-        if (allFields.get(i).getName() != "name")
+        if (allFields.get(i).getName() != "name" && allFields.get(i).getName() != "pseudoFields") {
           jo.put(allFields.get(i).getName(), fieldToJson(allFields.get(i)));
+        }
       } catch (Exception ignore) {
-        ignore.printStackTrace();
+        // Do Nothing
       }
     }
     return jo;
@@ -116,17 +117,65 @@ public abstract class Jsonable implements JSONString {
    * @return the value of this field
    */
   protected Object getFieldValue(Field field) {
+    Object returnValue = null;
     try {
-      if (Modifier.isPrivate(field.getModifiers()))
-        throw new Exception();
-      return get(field);
+      returnValue = get(field);
     } catch (Exception e) {
-      return getFieldValueByMethod(field);
+      try {
+        returnValue = field.get(this);
+      } catch (Exception e1) {
+        returnValue = getFieldValueByMethod(field);
+      }
     }
+    if (returnValue == null) {
+      try {
+        Object newInstance = field.getType().newInstance();
+        field.set(this, newInstance);
+        returnValue = newInstance;
+      } catch (Exception e) {
+        // Do Nothing
+      }
+    }
+    return returnValue;
   }
 
-  abstract protected Object get(Field field) throws IllegalArgumentException,
-      IllegalAccessException;
+  /**
+   * This method is used to access private variables
+   * In order for it to work it must be overloaded in the subclass
+   * <pre>
+   * protected Object get(Field field) throws IllegalArgumentException,
+   * IllegalAccessException {
+   *   return field.get(this);
+   * }</pre>
+   * 
+   * @param field
+   * @return The value of the parameter
+   * @throws IllegalArgumentException
+   * @throws IllegalAccessException
+   */
+  protected Object get(Field field) throws IllegalArgumentException,
+      IllegalAccessException {
+    return field.get(this);
+  }
+
+  /**
+   * This method is used to set private variables
+   * In order for it to work it must be overloaded in the subclass
+   * <pre>
+   * protected void set(Field field, Object value) throws IllegalArgumentException,
+   * IllegalAccessException {
+   *   field.set(this, value);
+   * }</pre>
+   * 
+   * @param field the field
+   * @param value the value
+   * @throws IllegalArgumentException the illegal argument exception
+   * @throws IllegalAccessException the illegal access exception
+   */
+  protected void set(Field field, Object value) throws IllegalArgumentException,
+      IllegalAccessException {
+    field.set(this, value);
+  }
 
   /**
    * Get Field value by method.
@@ -160,14 +209,38 @@ public abstract class Jsonable implements JSONString {
     List<Field> allFields = getFields();
     for (int i = 0; i < allFields.size(); i++) {
       try {
-        if (jo.has(allFields.get(i).getName()))
+        if (jo.has(allFields.get(i).getName())) {
           loadFieldFromJson(jo, allFields.get(i));
-
+        }
       } catch (Exception ignore) {
         // Do Nothing
       }
     }
+    for (String fieldName : getPseudoFields()) {
+      if(jo.has(fieldName)) {
+        try {
+          handlePseudoField(fieldName, jo.get(fieldName));
+        } catch (JSONException e) {
+          // DO Nothing
+        }
+      }
+    }
     return this;
+  }
+
+  @SuppressWarnings("static-method")
+  protected String[] getPseudoFields() {
+    return new String[0];
+  }
+
+  /**
+   * Handle pseudo field.
+   *
+   * @param fieldName the field name
+   */
+  @SuppressWarnings({ "static-method", "unused" })
+  protected void handlePseudoField(String fieldName, Object value) {
+    return;
   }
 
   /**
@@ -187,14 +260,42 @@ public abstract class Jsonable implements JSONString {
   private void loadFieldFromJson(JSONObject jo, Field field)
       throws JSONException, IllegalArgumentException, IllegalAccessException {
     String fieldName = field.getName();
-    if (isList(field.getType())) {
-      loadListFromJson(jo, field);
-    } else if (isJsonable(field.getType())) {
-      loadJsonable(jo, field);
-    } else if (field.getType().isEnum()) {
-      loadEnum(jo.get(fieldName).toString(), field);
-    } else
-      field.set(this, jo.get(fieldName));
+    try {
+      if (isList(field.getType())) {
+        loadListFromJson(jo, field);
+      } else if (isJsonable(field.getType())) {
+        loadJsonable(jo, field);
+      } else if (field.getType().isEnum()) {
+        loadEnum(jo.get(fieldName).toString(), field);
+      } else if (field.getType().equals(float.class)) {
+        set(field, (float) jo.getDouble(fieldName));
+      } else {
+        set(field, jo.get(fieldName));
+      }
+    } catch (Exception e) {
+      setFieldValueByMethod(jo, field);
+    }
+  }
+
+  /**
+   * Gets the field value by method.
+   *
+   * @param field the field
+   * @return the field value by method
+   */
+  protected void setFieldValueByMethod(JSONObject jo, Field field) {
+    try {
+      Method m = this.getClass().getMethod(
+          "set" + field.getName().substring(0, 1).toUpperCase()
+              + field.getName().substring(1), field.getType());
+      Object value = jo.get(field.getName());
+      if (field.getType().equals(float.class)) {
+        value =  (float) jo.getDouble(field.getName());
+      }
+      m.invoke(this, new Object[] {value});
+    } catch (Exception e) {
+      // Do Nothing
+    }
   }
 
   /**
@@ -365,6 +466,8 @@ public abstract class Jsonable implements JSONString {
 
   /**
    * Load from json.
+   * Classes whose constructors require parameters must override
+   * this method.
    * 
    * @param <T>
    *          the generic type
@@ -384,8 +487,7 @@ public abstract class Jsonable implements JSONString {
       jsonable = type.newInstance();
       jsonable.loadFromJson(jo, Name);
     } catch (Exception e) {
-      try {// Classes whose constructors require parameters must implement
-           // their own loadFromJson Method
+      try {
         jsonable = (T) type.getMethod("loadFromJson", JSONObject.class,
             String.class, Class.class).invoke(null, jo, Name, type);
       } catch (Exception ignore) {
@@ -570,8 +672,6 @@ public abstract class Jsonable implements JSONString {
     }
   }
 
-  static final Pattern p = Pattern.compile("<(.*)>");
-
   /**
    * Checks if is list.
    * 
@@ -610,6 +710,7 @@ public abstract class Jsonable implements JSONString {
   }
 
   private static String extractParam(String GenericType) {
+    final Pattern p = Pattern.compile("<(.*)>");
     Matcher result = p.matcher(GenericType);
     if (result.find()) {
       return result.group(1);
@@ -625,6 +726,7 @@ public abstract class Jsonable implements JSONString {
    * @return the string
    */
   private static String removeParam(String GenericType) {
+    final Pattern p = Pattern.compile("<(.*)>");
     return p.split(GenericType)[0];
   }
 

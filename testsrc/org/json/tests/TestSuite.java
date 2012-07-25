@@ -14,7 +14,7 @@ import org.junit.runners.Suite;
 { TestCDL.class, TestCookie.class, TestCookieList.class, TestHTTP.class,
         TestHTTPTokener.class, TestJSONArray.class, TestJSONException.class,
         TestJSONML.class, TestJSONObject.class, TestJSONStringer.class,TestJSONTokener.class,
-        TestJSONWriter.class, TestXML.class, TestXMLTokener.class })
+        TestJSONWriter.class, TestXML.class, TestXMLTokener.class, TestJsonable.class })
 public class TestSuite
 {
     // Do Nothing

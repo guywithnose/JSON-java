@@ -37,6 +37,7 @@
 	<path id="test.classpath">
 		<path refid="project.classpath" />
 		<pathelement location="lib/junit-4.10.jar" />
+		<pathelement location="lib/hamcrest-all-1.1.jar" />
 	</path>
 
 	<!-- output directory used for EMMA coverage reports: -->
