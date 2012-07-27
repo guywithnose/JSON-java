@@ -1834,7 +1834,7 @@ public class JSONObject
                     || object instanceof Short || object instanceof Integer
                     || object instanceof Long || object instanceof Boolean
                     || object instanceof Float || object instanceof Double
-                    || object instanceof String)
+                    || object instanceof String || object instanceof Enum)
             {
                 return object;
             }
