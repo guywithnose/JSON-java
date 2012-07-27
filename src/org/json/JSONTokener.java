@@ -342,6 +342,10 @@ public class JSONTokener
                 case '\'':
                 case '\\':
                 case '/':
+                case '[':
+                case ']':
+                case '{':
+                case '}':
                     sb.append(c);
                     break;
                 default:
