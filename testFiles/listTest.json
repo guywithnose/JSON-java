@@ -1,0 +1,14 @@
+{
+  "valueData":{
+    "value1":{
+      "data":"Value Name"
+    },
+    "value2":{
+      "detail":"Detail Name"
+    },
+    "value3":{
+      "data":"Value Name",
+      "detail":"Detail Name"
+    }
+  }
+}

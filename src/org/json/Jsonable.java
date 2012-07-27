@@ -264,6 +264,8 @@ public abstract class Jsonable implements JSONString {
       throws JSONException, IllegalArgumentException, IllegalAccessException {
     String fieldName = field.getName();
     try {
+      //TODO List should be JSONArray
+      //Convert current "List" to Map
       if (isList(field.getType())) {
         loadListFromJson(jo, field);
       } else if (isJsonable(field.getType())) {
@@ -683,10 +685,15 @@ public abstract class Jsonable implements JSONString {
    * @return true, if is list
    */
   private static boolean isList(Class<?> t) {
+    if(t.toString().contains("java.util.List")) {
+      return true;
+    }
     Type[] thing = t.getGenericInterfaces();
-    for (int i = 0; i < thing.length; i++)
-      if (thing[i].toString().contains("java.util.List"))
+    for (int i = 0; i < thing.length; i++) {
+      if (thing[i].toString().contains("java.util.List")) {
         return true;
+      }
+    }
     return false;
   }
 

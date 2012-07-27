@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.Jsonable;
 import org.json.tests.helpers.JsonableTestClassWithGetMethod;
+import org.json.tests.helpers.JsonableTestClassWithList;
 import org.json.tests.helpers.JsonableTestClassWithMapping;
 import org.json.tests.helpers.JsonableTestClassWithoutGetMethod;
 import org.junit.Test;
@@ -142,6 +143,16 @@ public class TestJsonable {
     jo = new JSONObject("{\"value\":\"Value Name\"}");
     jtc = Jsonable.loadFromJson(jo, "", JsonableTestClassWithMapping.class);
     assertEquals("Value Name", jtc.valueData.data);
+  }
+
+  @Test
+  public void testListOfValues() throws JSONException {
+    JsonableTestClassWithList jtc = Jsonable.loadFromFile("testFiles/listTest.json", JsonableTestClassWithList.class);
+    assertEquals(3, jtc.valueData.size());
+    String jsonString = jtc.toJSON().toString();
+    assertThat(jsonString, Matchers.containsString("\"value3\":{\"detail\":\"Detail Name\",\"data\":\"Value Name\"}"));
+    assertThat(jsonString, Matchers.containsString("\"value1\":{\"detail\":\"\",\"data\":\"Value Name\"}"));
+    assertThat(jsonString, Matchers.containsString("\"value2\":{\"detail\":\"Detail Name\",\"data\":\"\"}"));
   }
 
 }
