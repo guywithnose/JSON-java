@@ -118,7 +118,7 @@ public class TestJsonable {
 
   @Test
   public void testPrivateValuesWithGetMethod() {
-    JsonableTestClassWithGetMethod jtc = Jsonable.loadFromJson("{\"privateDouble\":4.765765,\"privateInt\":4765765,\"privateFloat\":4.7657,\"privateString\":\"String Value\"}", "", JsonableTestClassWithGetMethod.class);
+    JsonableTestClassWithGetMethod jtc = Jsonable.loadFromFile("testFiles/privateTest.json", JsonableTestClassWithGetMethod.class);
     assertEquals(0, jtc.publicDouble, 0);
     assertEquals(0, jtc.publicFloat, 0);
     assertEquals(0, jtc.publicInt);

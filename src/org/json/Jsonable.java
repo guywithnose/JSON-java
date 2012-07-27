@@ -4,6 +4,7 @@
  */
 package org.json;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -12,6 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import data.FileReader;
 
 /**
  * The Class Jsonable.
@@ -776,4 +779,15 @@ public abstract class Jsonable implements JSONString {
         && isJsonable(paramTree.get(1));
   }
 
+  public static <T extends Jsonable> T loadFromFile(File file, Class<T> className)
+  {
+    return loadFromJson(FileReader.getFileContents(file), "", className);
+  }
+
+  public static <T extends Jsonable> T loadFromFile(String fileName, Class<T> className)
+  {
+    File file = new File(fileName);
+    return loadFromFile(file, className);
+  }
+  
 }
