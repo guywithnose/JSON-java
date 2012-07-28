@@ -183,6 +183,21 @@ public class TestJsonable {
   }
 
   @Test
+  public void testListOfMapsOfJsonables() {
+    JsonableTestClassWithList jtc = Jsonable.loadFromFile("testFiles/listTest.json", JsonableTestClassWithList.class);
+    assertEquals(3, jtc.JsonableListMap.size());
+    String[] numberStrings = new String[] {"one", "two", "three"};
+    for(int i = 0; i < 3; i++) {
+      for(int j = 0; j < 3; j++) {
+        assertEquals(numberStrings[i], jtc.JsonableListMap.get(i).get("value" + (j + 1)).data);
+        assertEquals(numberStrings[j], jtc.JsonableListMap.get(i).get("value" + (j + 1)).detail);
+      }
+    }
+    String jsonString = jtc.toJSON().toString();
+    assertThat(jsonString, Matchers.containsString("\"JsonableListMap\":[{\"value3\":{\"detail\":\"three\",\"data\":\"one\"},\"value1\":{\"detail\":\"one\",\"data\":\"one\"},\"value2\":{\"detail\":\"two\",\"data\":\"one\"}},{\"value3\":{\"detail\":\"three\",\"data\":\"two\"},\"value1\":{\"detail\":\"one\",\"data\":\"two\"},\"value2\":{\"detail\":\"two\",\"data\":\"two\"}},{\"value3\":{\"detail\":\"three\",\"data\":\"three\"},\"value1\":{\"detail\":\"one\",\"data\":\"three\"},\"value2\":{\"detail\":\"two\",\"data\":\"three\"}}]"));
+  }
+
+  @Test
   public void testMapOfJsonables() {
     JsonableTestClassWithMaps jtc = Jsonable.loadFromFile("testFiles/mapTest.json", JsonableTestClassWithMaps.class);
     assertEquals(3, jtc.JsonableMap.size());

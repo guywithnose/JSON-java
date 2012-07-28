@@ -320,6 +320,9 @@ public abstract class Jsonable implements JSONString {
     if (hasListsOfJsonables(field)) {
       loadListOfListsOfJsonables(jo.getJSONArray(fieldName),
           (List<List<Jsonable>>) getFieldValue(field), getParamTree(field));
+    } else if (hasMapsOfJsonables(field)) {
+      loadListOfMapsOfJsonables(jo.getJSONArray(fieldName),
+          (List<Map<String, Jsonable>>) getFieldValue(field), getParamTree(field));
     } else if (hasJsonables(field)) {
       loadListOfJsonables(jo.getJSONArray(fieldName),
           (List<Jsonable>) getFieldValue(field), getParamTree(field));
@@ -426,6 +429,8 @@ public abstract class Jsonable implements JSONString {
       return handleSimpleList(paramTree.get(0), object);
     } else if (hasListsOfJsonables(field)) {
       return handleListOfListsOfJsonables((List<List<Jsonable>>) object);
+    } else if (hasMapsOfJsonables(field)) {
+      return handleListOfMapsOfJsonables((List<Map<String, Jsonable>>) object);
     }
     return "List error";
   }
@@ -606,6 +611,21 @@ public abstract class Jsonable implements JSONString {
   }
 
   @SuppressWarnings("unchecked")
+  private static void loadListOfMapsOfJsonables(JSONArray ja,
+      List<Map<String, Jsonable>> list, List<Class<?>> paramTree) throws JSONException {
+    for (int i = 0; i < ja.length(); i++) {
+      JSONObject jo = ja.getJSONObject(i);
+      Map<String, Jsonable> newMap = new HashMap<String, Jsonable>(jo.length());
+      list.add(newMap);
+      for (String name : JSONObject.getNames(jo)) {
+        Jsonable item = loadFromJson(jo.getJSONObject(name),
+            (Class<? extends Jsonable>) paramTree.get(1));
+        newMap.put(name, item);
+      }
+    }
+  }
+
+  @SuppressWarnings("unchecked")
   private static void loadMapOfListsOfJsonables(JSONObject jo,
       Map<String, List<Jsonable>> map, List<Class<?>> paramTree) throws JSONException {
     String[] names = JSONObject.getNames(jo);
@@ -732,6 +752,18 @@ public abstract class Jsonable implements JSONString {
     for (int i = 0; i < list.size(); i++) {
       try {
         retVal.put(listOfJsonablesToJsonArray(list.get(i)));
+      } catch (JSONException ignore) {
+        // Do Nothing
+      }
+    }
+    return retVal;
+  }
+
+  private static JSONArray handleListOfMapsOfJsonables(List<Map<String, Jsonable>> list) {
+    JSONArray retVal = new JSONArray();
+    for (int i = 0; i < list.size(); i++) {
+      try {
+        retVal.put(mapOfJsonablesToJsonObject(list.get(i)));
       } catch (JSONException ignore) {
         // Do Nothing
       }
@@ -868,7 +900,7 @@ public abstract class Jsonable implements JSONString {
   }
 
   private static String extractParam(String GenericType) {
-    final Pattern p = Pattern.compile("<([^,]*, )?((.*))>");
+    final Pattern p = Pattern.compile("<([^,<]*, )?((.*))>");
     Matcher result = p.matcher(GenericType);
     if (result.find()) {
       return result.group(3);

@@ -60,5 +60,49 @@
         "detail":"three"
       }
     ]
+  ],
+  "JsonableListMap":[
+    {
+      "value1":{
+        "data":"one",
+        "detail":"one"
+      },      
+      "value2":{
+        "data":"one",
+        "detail":"two"
+      },      
+      "value3":{
+        "data":"one",
+        "detail":"three"
+      }
+    },
+    {
+      "value1":{
+        "data":"two",
+        "detail":"one"
+      },      
+      "value2":{
+        "data":"two",
+        "detail":"two"
+      },      
+      "value3":{
+        "data":"two",
+        "detail":"three"
+      }
+    },
+    {
+      "value1":{
+        "data":"three",
+        "detail":"one"
+      },      
+      "value2":{
+        "data":"three",
+        "detail":"two"
+      },      
+      "value3":{
+        "data":"three",
+        "detail":"three"
+      }
+    }
   ]
 }
