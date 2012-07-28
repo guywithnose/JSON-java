@@ -36,7 +36,6 @@ public class JsonableTestClassWithGetMethod extends Jsonable {
   @Override
   protected Object get(Field field) throws IllegalArgumentException,
       IllegalAccessException {
-    //System.out.println(field.getName());
     try {
       return field.get(this);
     } catch (Exception e) {
