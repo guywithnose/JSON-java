@@ -1,21 +1,21 @@
-
-
-
 package org.json.tests.helpers;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.Jsonable;
 
-public class JsonableTestClassWithList extends Jsonable {
+public class JsonableTestClassWithMaps extends Jsonable {
   
-  public List<ValueObject> JsonableList = new ArrayList<ValueObject>();
+  public Map<String, ValueObject> JsonableMap = new HashMap<String, ValueObject>();
   
-  public List<String> stringArray = new ArrayList<String>();
+  public Map<String, String> stringMap = new HashMap<String, String>();
   
-  public List<List<ValueObject>> JsonableGrid = new ArrayList<List<ValueObject>>();
+  public Map<String, List<ValueObject>> JsonableMapGrid = new HashMap<String, List<ValueObject>>();
+  
+  public Map<String, Map<String, ValueObject>> JsonableMapMap = new HashMap<String, Map<String, ValueObject>>();
   
   /* (non-Javadoc)
    * @see org.json.Jsonable#get(java.lang.reflect.Field)

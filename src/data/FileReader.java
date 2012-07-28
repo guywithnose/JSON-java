@@ -8,10 +8,6 @@ import java.io.IOException;
  * The Class FileReader.
  */
 public class FileReader {
-  public static String getFileContents(String fileName) {
-    return getFileContents(new File(fileName));
-  }
-
   /**
    * Gets the file contents.
    * 
