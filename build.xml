@@ -5,9 +5,6 @@
 	<!-- Project details -->
 	<property name="project.version" value="0.1" />
 
-	<!-- Load overrides for library paths -->
-	<property file="build.properties" />
-
 	<!-- Project paths -->
 	<property name="source.dir" location="src" />
 	<property name="test.source.dir" location="testsrc" />
@@ -16,26 +13,15 @@
 	<property name="package.file" value="json.jar" />
 	<property name="javadoc.dir" location="docs" />
 	<property name="javadoc.packages" value="org.json.*" />
-	<property name="dist.dir" location=".." />
-	<property name="dist.name" value="json" />
-	<property name="dist.maven.file" value="${dist.name}-${project.version}-bundle.jar" />
 
-	<!-- Library paths -->
+        <!-- Library paths -->
 	<property name="j2se.apiurl" value="http://docs.oracle.com/javase/6/docs/api/" />
 
-	<path id="project.classpath">
-		<pathelement location="lib/commons-codec-1.6.jar" />
-		<pathelement location="lib/json.jar" />
-		<pathelement location="lib/servlet-api.jar" />
-	</path>
-
 	<path id="coverage.classpath">
-		<path refid="project.classpath" />
 		<pathelement location="${output.dir}" />
 	</path>
 
 	<path id="test.classpath">
-		<path refid="project.classpath" />
 		<pathelement location="lib/junit-4.10.jar" />
 		<pathelement location="lib/hamcrest-all-1.1.jar" />
 	</path>
@@ -79,11 +65,13 @@
 		</delete>
 	</target>
 
+	<target name="clean" depends="clean-package, clean-compile, clean-javadoc, clean-coverage" />
+
 	<target name="compile" description="Compile the program">
 		<echo message="Compiling source" />
 		<mkdir dir="${output.dir}" />
 
-		<javac srcdir="${source.dir}" destdir="${output.dir}" debug="true" debuglevel="lines,source,vars" deprecation="true" classpathref="project.classpath" includeantruntime="false" />
+		<javac srcdir="${source.dir}" destdir="${output.dir}" debug="true" debuglevel="lines,source,vars" deprecation="true" includeantruntime="false" />
 	</target>
 
 	<target name="compile-tests" description="Compile the tests">
@@ -100,7 +88,11 @@
 
 	<target name="package" depends="compile, clean-package"
 		description="Create the .jar file">
-		<jar basedir="${output.dir}" compress="true" jarfile="${package.dir}/${package.file}"></jar>
+		<jar compress="true" jarfile="${package.dir}/${package.file}">
+            <fileset dir="${output.dir}" includes="**/*.class" >
+                <exclude name="**/tests/**/*.class"/>
+			</fileset>
+		</jar>
 	</target>
 
 	<target name="clean-javadoc" description="Remove the Javadoc files">
@@ -112,28 +104,9 @@
 
 	<target name="javadoc" depends="clean-javadoc" description="Create the Javadoc API documentation">
 		<echo message="Generating Javadocs" />
-		<javadoc sourcepath="${source.dir}" destdir="${javadoc.dir}" packagenames="${javadoc.packages}" Windowtitle="${ant.project.name}" Doctitle="${ant.project.name}" classpathref="project.classpath">
+		<javadoc sourcepath="${source.dir}" destdir="${javadoc.dir}" packagenames="${javadoc.packages}" Windowtitle="${ant.project.name}" Doctitle="${ant.project.name}">
 			<link href="${j2se.apiurl}" />
 		</javadoc>
-	</target>
-
-	<!-- Source distribution -->
-	<target name="dist-src" depends="clean-compile, clean-package, javadoc"
-		description="Create the source distribution">
-		<zip zipfile="${dist.dir}/${dist.name}-${project.version}-src.zip">
-			<zipfileset dir="." prefix="${dist.name}-${project.version}" excludes="coverage/**/*" />
-		</zip>
-	</target>
-
-	<!-- Binary distribution -->
-	<target name="dist" depends="clean-compile, package, javadoc"
-		description="Create the binary distribution">
-		<zip zipfile="${dist.dir}/${dist.name}-${project.version}.zip">
-			<zipfileset dir="." prefix="${dist.name}-${project.version}" includes="README.md" />
-			<zipfileset dir="docs" prefix="${dist.name}-${project.version}/docs" />
-			<zipfileset dir="${package.dir}" prefix="${dist.name}-${project.version}/lib" />
-			<zipfileset dir="lib" prefix="${dist.name}-${project.version}/lib" />
-		</zip>
 	</target>
 
 	<!-- JUnit tests -->
@@ -171,27 +144,5 @@
 				<html outfile="${coverage.dir}/coverage.html" />
 			</report>
 		</emma>
-	</target>
-
-	<target name="solve-all-puzzles" depends="compile, compile-tests"
-		description="Solve all puzzles">
-		<echo message="Running unit tests" />
-
-		<junit showoutput="no" fork="yes">
-			<formatter type="brief" usefile="false" />
-			<classpath>
-				<pathelement location="${out.instr.dir}" />
-				<path refid="coverage.classpath" />
-				<path refid="test.classpath" />
-				<path refid="emma.lib" />
-			</classpath>
-			<test name="org.json.TestSuite" />
-			
-		</junit>
-
-		<delete>
-			<fileset file="coverage.ec" />
-		</delete>
-
 	</target>
 </project>
