@@ -196,7 +196,7 @@ public abstract class Jsonable implements JSONString {
               + field.getName().substring(1));
       return m.invoke(this, new Object[0]);
     } catch (Exception e1) {
-      return "Inaccessible";
+      return null;
     }
   }
 
