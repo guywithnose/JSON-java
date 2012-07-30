@@ -30,6 +30,7 @@ package org.json;
 
 import java.util.Iterator;
 
+// TODO: Auto-generated Javadoc
 /**
  * This provides static methods to convert an XML text into a JSONObject, and to
  * covert a JSONObject into an XML text.
@@ -75,10 +76,9 @@ public class XML
      * &lt; <small>(less than)</small> is replaced by &amp;lt;
      * &gt; <small>(greater than)</small> is replaced by &amp;gt;
      * &quot; <small>(double quote)</small> is replaced by &amp;quot;
-     * </pre>
-     * 
-     * @param string
-     *            The string to be escaped.
+     * </pre>.
+     *
+     * @param string The string to be escaped.
      * @return The escaped string.
      */
     public static String escape(String string)

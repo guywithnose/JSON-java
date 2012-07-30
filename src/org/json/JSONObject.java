@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+// TODO: Auto-generated Javadoc
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its external
  * form is a string wrapped in curly braces with colons between the names and
@@ -105,6 +106,9 @@ public class JSONObject
     private static final class Null
     {
 
+        /**
+         * Instantiates a new null.
+         */
         public Null()
         {
             // Do Nothing
@@ -340,14 +344,12 @@ public class JSONObject
     /**
      * Construct a JSONObject from a source JSON text string. This is the most
      * commonly used JSONObject constructor.
-     * 
-     * @param source
-     *            A string beginning with <code>{</code>&nbsp;<small>(left
-     *            brace)</small> and ending with <code>}</code>
-     *            &nbsp;<small>(right brace)</small>.
-     * @exception JSONException
-     *                If there is a syntax error in the source string or a
-     *                duplicated key.
+     *
+     * @param source A string beginning with <code>{</code>&nbsp;<small>(left
+     * brace)</small> and ending with <code>}</code>
+     * &nbsp;<small>(right brace)</small>.
+     * @throws JSONException If there is a syntax error in the source string or a
+     * duplicated key.
      */
     public JSONObject(String source) throws JSONException
     {
@@ -1088,6 +1090,11 @@ public class JSONObject
         return NULL.equals(object) ? defaultValue : object.toString();
     }
 
+    /**
+     * Populate map.
+     *
+     * @param bean the bean
+     */
     private void populateMap(Object bean)
     {
         Class<? extends Object> klass = bean.getClass();

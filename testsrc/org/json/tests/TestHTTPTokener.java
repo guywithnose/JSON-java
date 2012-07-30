@@ -8,12 +8,14 @@ import org.json.JSONException;
 
 import junit.framework.TestCase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TestHTTPTokener.
  */
 public class TestHTTPTokener extends TestCase
 {
 
+    /** The httptokener. */
     private HTTPTokener httptokener;
 
     /**

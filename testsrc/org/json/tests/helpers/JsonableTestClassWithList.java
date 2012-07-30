@@ -1,3 +1,7 @@
+/*
+ * File:         JsonableTestClassWithList.java
+ * Author:       JSON.org
+ */
 
 
 
@@ -10,14 +14,22 @@ import java.util.Map;
 
 import org.json.Jsonable;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class JsonableTestClassWithList.
+ */
 public class JsonableTestClassWithList extends Jsonable {
   
+  /** The Jsonable list. */
   public List<ValueObject> JsonableList = new ArrayList<ValueObject>();
   
+  /** The string array. */
   public List<String> stringArray = new ArrayList<String>();
   
+  /** The Jsonable grid. */
   public List<List<ValueObject>> JsonableGrid = new ArrayList<List<ValueObject>>();
   
+  /** The Jsonable list map. */
   public List<Map<String, ValueObject>> JsonableListMap = new ArrayList<Map<String, ValueObject>>();
   
   /* (non-Javadoc)

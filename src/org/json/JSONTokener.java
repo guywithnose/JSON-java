@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 
+// TODO: Auto-generated Javadoc
 /*
  * Copyright (c) 2002 JSON.org
  * 
@@ -46,12 +47,25 @@ import java.io.StringReader;
 public class JSONTokener
 {
 
+    /** The character. */
     private int character;
+    
+    /** The eof. */
     private boolean eof;
+    
+    /** The index. */
     private int index;
+    
+    /** The line. */
     private int line;
+    
+    /** The previous. */
     private char previous;
+    
+    /** The reader. */
     private final Reader reader;
+    
+    /** The use previous. */
     private boolean usePrevious;
 
     /**
@@ -153,11 +167,9 @@ public class JSONTokener
     /**
      * Determine if the source string still contains characters that next() can
      * consume.
-     * 
-     * @throws JSONException
-     *             Thrown when things are amiss.
-     * 
+     *
      * @return true if not yet at the end of the source.
+     * @throws JSONException Thrown when things are amiss.
      */
     public boolean more() throws JSONException
     {
@@ -172,11 +184,9 @@ public class JSONTokener
 
     /**
      * Get the next character in the source string.
-     * 
-     * @throws JSONException
-     *             Thrown when things are amiss.
-     * 
+     *
      * @return The next character, or 0 if past the end of the source string.
+     * @throws JSONException Thrown when things are amiss.
      */
     public char next() throws JSONException
     {
@@ -273,10 +283,9 @@ public class JSONTokener
 
     /**
      * Get the next char in the string, skipping whitespace.
-     * 
-     * @throws JSONException
-     *             Thrown when things are amiss.
+     *
      * @return A character, or 0 if there are no more characters.
+     * @throws JSONException Thrown when things are amiss.
      */
     public char nextClean() throws JSONException
     {
@@ -365,12 +374,10 @@ public class JSONTokener
     /**
      * Get the text up but not including the specified character or the end of
      * line, whichever comes first.
-     * 
-     * @param delimiter
-     *            A delimiter character.
-     * @throws JSONException
-     *             Thrown when things are amiss.
+     *
+     * @param delimiter A delimiter character.
      * @return A string.
+     * @throws JSONException Thrown when things are amiss.
      */
     public String nextTo(char delimiter) throws JSONException
     {
@@ -393,12 +400,10 @@ public class JSONTokener
     /**
      * Get the text up but not including one of the specified delimiter
      * characters or the end of line, whichever comes first.
-     * 
-     * @param delimiters
-     *            A set of delimiter characters.
-     * @throws JSONException
-     *             Thrown when things are amiss.
+     *
+     * @param delimiters A set of delimiter characters.
      * @return A string, trimmed.
+     * @throws JSONException Thrown when things are amiss.
      */
     public String nextTo(String delimiters) throws JSONException
     {
@@ -422,11 +427,9 @@ public class JSONTokener
     /**
      * Get the next value. The value can be a Boolean, Double, Integer,
      * JSONArray, JSONObject, Long, or String, or the JSONObject.NULL object.
-     * 
-     * @throws JSONException
-     *             If syntax error.
-     * 
+     *
      * @return An object.
+     * @throws JSONException If syntax error.
      */
     public Object nextValue() throws JSONException
     {
@@ -474,13 +477,11 @@ public class JSONTokener
     /**
      * Skip characters until the next character is the requested character. If
      * the requested character is not found, no characters are skipped.
-     * 
-     * @param to
-     *            A character to skip to.
-     * @throws JSONException
-     *             Thrown when things are amiss.
+     *
+     * @param to A character to skip to.
      * @return The requested character, or zero if the requested character is
-     *         not found.
+     * not found.
+     * @throws JSONException Thrown when things are amiss.
      */
     public char skipTo(char to) throws JSONException
     {

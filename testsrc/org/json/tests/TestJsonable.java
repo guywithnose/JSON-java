@@ -1,3 +1,7 @@
+/*
+ * File:         TestJsonable.java
+ * Author:       JSON.org
+ */
 package org.json.tests;
 
 import static org.junit.Assert.*;
@@ -13,9 +17,16 @@ import org.json.tests.helpers.JsonableTestClassWithMaps;
 import org.json.tests.helpers.JsonableTestClassWithoutGetMethod;
 import org.junit.Test;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TestJsonable.
+ */
 @SuppressWarnings("static-method")
 public class TestJsonable {
 
+  /**
+   * Tests the emptyStringWithoutGetMethod method.
+   */
   @Test
   public void testEmptyStringWithoutGetMethod() {
     JsonableTestClassWithoutGetMethod jtc = Jsonable.loadFromJson("{}", JsonableTestClassWithoutGetMethod.class);
@@ -38,6 +49,9 @@ public class TestJsonable {
     assertThat(jsonString, Matchers.not(Matchers.containsString("\"privateString\"")));
   }
 
+  /**
+   * Tests the publicValuesWithoutGetMethod method.
+   */
   @Test
   public void testPublicValuesWithoutGetMethod() {
     JsonableTestClassWithoutGetMethod jtc = Jsonable.loadFromJson("{\"publicDouble\":4.765765,\"publicInt\":4765765,\"publicFloat\":4.7657,\"publicString\":\"String Value\"}", JsonableTestClassWithoutGetMethod.class);
@@ -60,6 +74,9 @@ public class TestJsonable {
     assertThat(jsonString, Matchers.not(Matchers.containsString("\"privateString\"")));
   }
 
+  /**
+   * Tests the privateValuesWithoutGetMethod method.
+   */
   @Test
   public void testPrivateValuesWithoutGetMethod() {
     JsonableTestClassWithoutGetMethod jtc = Jsonable.loadFromJson("{\"privateDouble\":4.765765,\"privateInt\":4765765,\"privateFloat\":4.7657,\"privateString\":\"String Value\"}", JsonableTestClassWithoutGetMethod.class);
@@ -82,6 +99,9 @@ public class TestJsonable {
     assertThat(jsonString, Matchers.containsString("\"publicString\":\"\""));
   }
 
+  /**
+   * Tests the emptyStringWithGetMethod method.
+   */
   @Test
   public void testEmptyStringWithGetMethod() {
     JsonableTestClassWithGetMethod jtc = Jsonable.loadFromJson("{}", JsonableTestClassWithGetMethod.class);
@@ -100,6 +120,9 @@ public class TestJsonable {
     assertThat(jsonString, Matchers.not(Matchers.containsString("\"privateString\":\"\"")));
   }
 
+  /**
+   * Tests the publicValuesWithGetMethod method.
+   */
   @Test
   public void testPublicValuesWithGetMethod() {
     JsonableTestClassWithGetMethod jtc = Jsonable.loadFromJson("{\"publicDouble\":4.765765,\"publicInt\":4765765,\"publicFloat\":4.7657,\"publicString\":\"String Value\"}", JsonableTestClassWithGetMethod.class);
@@ -118,6 +141,9 @@ public class TestJsonable {
     assertThat(jsonString, Matchers.not(Matchers.containsString("\"privateString\":\"\"")));
   }
 
+  /**
+   * Tests the privateValuesWithGetMethod method.
+   */
   @Test
   public void testPrivateValuesWithGetMethod() {
     JsonableTestClassWithGetMethod jtc = Jsonable.loadFromFile("testFiles/privateTest.json", JsonableTestClassWithGetMethod.class);
@@ -136,6 +162,11 @@ public class TestJsonable {
     assertThat(jsonString, Matchers.containsString("\"publicString\":\"\""));
   }
 
+  /**
+   * Tests the mappedValues method.
+   *
+   * @throws JSONException the jSON exception
+   */
   @Test
   public void testMappedValues() throws JSONException {
     JSONObject jo = new JSONObject("{\"valueData\":{\"data\":\"Value Name\"}}");
@@ -146,6 +177,9 @@ public class TestJsonable {
     assertEquals("Value Name", jtc.valueData.data);
   }
 
+  /**
+   * Tests the listOfJsonables method.
+   */
   @Test
   public void testListOfJsonables() {
     JsonableTestClassWithList jtc = Jsonable.loadFromFile("testFiles/listTest.json", JsonableTestClassWithList.class);
@@ -156,6 +190,9 @@ public class TestJsonable {
     assertThat(jsonString, Matchers.containsString("{\"detail\":\"Detail Name\",\"data\":\"\"}"));
   }
 
+  /**
+   * Tests the listOfStrings method.
+   */
   @Test
   public void testListOfStrings() {
     JsonableTestClassWithList jtc = Jsonable.loadFromFile("testFiles/listTest.json", JsonableTestClassWithList.class);
@@ -167,6 +204,9 @@ public class TestJsonable {
     assertThat(jsonString, Matchers.containsString("\"456\""));
   }
 
+  /**
+   * Tests the listOfListsOfJsonables method.
+   */
   @Test
   public void testListOfListsOfJsonables() {
     JsonableTestClassWithList jtc = Jsonable.loadFromFile("testFiles/listTest.json", JsonableTestClassWithList.class);
@@ -182,6 +222,9 @@ public class TestJsonable {
     assertThat(jsonString, Matchers.containsString("\"JsonableGrid\":[[{\"detail\":\"one\",\"data\":\"one\"},{\"detail\":\"two\",\"data\":\"one\"},{\"detail\":\"three\",\"data\":\"one\"}],[{\"detail\":\"one\",\"data\":\"two\"},{\"detail\":\"two\",\"data\":\"two\"},{\"detail\":\"three\",\"data\":\"two\"}],[{\"detail\":\"one\",\"data\":\"three\"},{\"detail\":\"two\",\"data\":\"three\"},{\"detail\":\"three\",\"data\":\"three\"}]]"));
   }
 
+  /**
+   * Tests the listOfMapsOfJsonables method.
+   */
   @Test
   public void testListOfMapsOfJsonables() {
     JsonableTestClassWithList jtc = Jsonable.loadFromFile("testFiles/listTest.json", JsonableTestClassWithList.class);
@@ -197,6 +240,9 @@ public class TestJsonable {
     assertThat(jsonString, Matchers.containsString("\"JsonableListMap\":[{\"value3\":{\"detail\":\"three\",\"data\":\"one\"},\"value1\":{\"detail\":\"one\",\"data\":\"one\"},\"value2\":{\"detail\":\"two\",\"data\":\"one\"}},{\"value3\":{\"detail\":\"three\",\"data\":\"two\"},\"value1\":{\"detail\":\"one\",\"data\":\"two\"},\"value2\":{\"detail\":\"two\",\"data\":\"two\"}},{\"value3\":{\"detail\":\"three\",\"data\":\"three\"},\"value1\":{\"detail\":\"one\",\"data\":\"three\"},\"value2\":{\"detail\":\"two\",\"data\":\"three\"}}]"));
   }
 
+  /**
+   * Tests the mapOfJsonables method.
+   */
   @Test
   public void testMapOfJsonables() {
     JsonableTestClassWithMaps jtc = Jsonable.loadFromFile("testFiles/mapTest.json", JsonableTestClassWithMaps.class);
@@ -207,6 +253,9 @@ public class TestJsonable {
     assertThat(jsonString, Matchers.containsString("\"value3\":{\"detail\":\"Detail Name\",\"data\":\"Value Name\"}"));
   }
 
+  /**
+   * Tests the mapOfStrings method.
+   */
   @Test
   public void testMapOfStrings() {
     JsonableTestClassWithMaps jtc = Jsonable.loadFromFile("testFiles/mapTest.json", JsonableTestClassWithMaps.class);
@@ -218,6 +267,9 @@ public class TestJsonable {
     assertThat(jsonString, Matchers.containsString("\"value4\":\"456\""));
   }
 
+  /**
+   * Tests the mapOfListsOfJsonables method.
+   */
   @Test
   public void testMapOfListsOfJsonables() {
     JsonableTestClassWithMaps jtc = Jsonable.loadFromFile("testFiles/mapTest.json", JsonableTestClassWithMaps.class);
@@ -238,6 +290,9 @@ public class TestJsonable {
             .containsString("\"JsonableMapGrid\":{\"value3\":[{\"detail\":\"one\",\"data\":\"three\"},{\"detail\":\"two\",\"data\":\"three\"},{\"detail\":\"three\",\"data\":\"three\"}],\"value1\":[{\"detail\":\"one\",\"data\":\"one\"},{\"detail\":\"two\",\"data\":\"one\"},{\"detail\":\"three\",\"data\":\"one\"}],\"value2\":[{\"detail\":\"one\",\"data\":\"two\"},{\"detail\":\"two\",\"data\":\"two\"},{\"detail\":\"three\",\"data\":\"two\"}]}"));
   }
 
+  /**
+   * Tests the mapOfMapsOfJsonables method.
+   */
   @Test
   public void testMapOfMapsOfJsonables() {
     JsonableTestClassWithMaps jtc = Jsonable.loadFromFile("testFiles/mapTest.json", JsonableTestClassWithMaps.class);

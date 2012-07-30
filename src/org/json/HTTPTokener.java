@@ -4,6 +4,7 @@
  */
 package org.json;
 
+// TODO: Auto-generated Javadoc
 /*
  * Copyright (c) 2002 JSON.org
  * 
@@ -51,10 +52,9 @@ public class HTTPTokener extends JSONTokener
 
     /**
      * Get the next token or string. This is used in parsing HTTP headers.
-     * 
-     * @throws JSONException
-     *             Thrown when things are amiss.
+     *
      * @return A String.
+     * @throws JSONException Thrown when things are amiss.
      */
     public String nextToken() throws JSONException
     {

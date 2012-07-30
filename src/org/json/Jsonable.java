@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 
 import data.FileReader;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Jsonable.
  */
@@ -150,13 +151,13 @@ public abstract class Jsonable implements JSONString {
    * <pre>
    * protected Object get(Field field) throws IllegalArgumentException,
    * IllegalAccessException {
-   *   return field.get(this);
+   * return field.get(this);
    * }</pre>
-   * 
-   * @param field
+   *
+   * @param field the field
    * @return The value of the parameter
-   * @throws IllegalArgumentException
-   * @throws IllegalAccessException
+   * @throws IllegalArgumentException the illegal argument exception
+   * @throws IllegalAccessException the illegal access exception
    */
   protected Object get(Field field) throws IllegalArgumentException,
       IllegalAccessException {
@@ -202,11 +203,8 @@ public abstract class Jsonable implements JSONString {
 
   /**
    * Load from json.
-   * 
-   * @param jo
-   *          the JSONObject we are loading
-   * @param Name
-   *          the name to give this object
+   *
+   * @param jo the JSONObject we are loading
    * @return the Jsonable object we loaded
    */
   public Jsonable loadFromJson(JSONObject jo) {
@@ -232,6 +230,11 @@ public abstract class Jsonable implements JSONString {
     return this;
   }
 
+  /**
+   * Gets the pseudo fields.
+   *
+   * @return the pseudo fields
+   */
   @SuppressWarnings("static-method")
   protected String[] getPseudoFields() {
     return new String[0];
@@ -241,6 +244,7 @@ public abstract class Jsonable implements JSONString {
    * Handle pseudo field.
    *
    * @param fieldName the field name
+   * @param value the value
    */
   @SuppressWarnings({ "static-method", "unused" })
   protected void handlePseudoField(String fieldName, Object value) {
@@ -249,17 +253,12 @@ public abstract class Jsonable implements JSONString {
 
   /**
    * Load field from json.
-   * 
-   * @param jo
-   *          the jo
-   * @param field
-   *          the field
-   * @throws IllegalArgumentException
-   *           the illegal argument exception
-   * @throws JSONException
-   *           the jSON exception
-   * @throws IllegalAccessException
-   *           the illegal access exception
+   *
+   * @param jo the jo
+   * @param field the field
+   * @throws JSONException the jSON exception
+   * @throws IllegalArgumentException the illegal argument exception
+   * @throws IllegalAccessException the illegal access exception
    */
   private void loadFieldFromJson(JSONObject jo, Field field)
       throws JSONException, IllegalArgumentException, IllegalAccessException {
@@ -286,6 +285,7 @@ public abstract class Jsonable implements JSONString {
   /**
    * Gets the field value by method.
    *
+   * @param jo the jo
    * @param field the field
    * @return the field value by method
    */
@@ -333,6 +333,13 @@ public abstract class Jsonable implements JSONString {
     }
   }
 
+  /**
+   * Load map from json.
+   *
+   * @param jo the jo
+   * @param field the field
+   * @throws JSONException the jSON exception
+   */
   @SuppressWarnings("unchecked")
   private void loadMapFromJson(JSONObject jo, Field field)
       throws JSONException {
@@ -354,17 +361,10 @@ public abstract class Jsonable implements JSONString {
 
   /**
    * Load jsonable.
-   * 
-   * @param jo
-   *          the jo
-   * @param field
-   *          the field
-   * @throws JSONException
-   *           the jSON exception
-   * @throws IllegalArgumentException
-   *           the illegal argument exception
-   * @throws IllegalAccessException
-   *           the illegal access exception
+   *
+   * @param jo the jo
+   * @param field the field
+   * @throws JSONException the jSON exception
    */
   private void loadJsonable(JSONObject jo, Field field) throws JSONException {
     JSONObject JO = jo.getJSONObject(field.getName());
@@ -372,6 +372,12 @@ public abstract class Jsonable implements JSONString {
     jsonable.loadFromJson(JO);
   }
 
+  /**
+   * Load enum.
+   *
+   * @param value the value
+   * @param field the field
+   */
   private void loadEnum(String value, Field field) {
     try {
       Method m = field.getType().getMethod("getValueOf", String.class);
@@ -383,11 +389,8 @@ public abstract class Jsonable implements JSONString {
 
   /**
    * Load from json.
-   * 
-   * @param jo
-   *          the jo
-   * @param Name
-   *          the name
+   *
+   * @param jo the jo
    */
   public void loadFromJson(String jo) {
     try {
@@ -437,6 +440,14 @@ public abstract class Jsonable implements JSONString {
   }
   
 
+  /**
+   * Handle map.
+   *
+   * @param field the field
+   * @param object the object
+   * @return the object
+   * @throws JSONException the jSON exception
+   */
   @SuppressWarnings("unchecked")
   private static Object handleMap(Field field, Object object)
       throws JSONException {
@@ -492,15 +503,10 @@ public abstract class Jsonable implements JSONString {
    * Load from json.
    * Classes whose constructors require parameters must override
    * this method.
-   * 
-   * @param <T>
-   *          the generic type
-   * @param jo
-   *          the jo
-   * @param Name
-   *          the name
-   * @param type
-   *          the class name
+   *
+   * @param <T> the generic type
+   * @param jo the jo
+   * @param type the class name
    * @return the jsonable
    */
   @SuppressWarnings("unchecked")
@@ -512,7 +518,7 @@ public abstract class Jsonable implements JSONString {
       jsonable.loadFromJson(jo);
     } catch (Exception e) {
       try {
-        jsonable = (T) type.getMethod("loadFromJson", JSONObject.class,
+        jsonable = (T) type.getMethod("instantiateFromJson", JSONObject.class,
             Class.class).invoke(null, jo, type);
       } catch (Exception ignore) {
         // Do Nothing
@@ -523,13 +529,10 @@ public abstract class Jsonable implements JSONString {
 
   /**
    * Load from json.
-   * 
-   * @param jo
-   *          the jo
-   * @param Name
-   *          the name
-   * @param className
-   *          the class name
+   *
+   * @param <T> the generic type
+   * @param jo the jo
+   * @param className the class name
    * @return the jsonable
    */
   public static <T extends Jsonable> T loadFromJson(String jo,
@@ -588,13 +591,11 @@ public abstract class Jsonable implements JSONString {
 
   /**
    * Load Collection of Collections of jsonables.
-   * 
-   * @param ja
-   *          the ja
-   * @param Collection
-   *          the Collection
-   * @throws JSONException
-   *           the jSON exception
+   *
+   * @param ja the ja
+   * @param Collection the Collection
+   * @param paramTree the param tree
+   * @throws JSONException the jSON exception
    */
   @SuppressWarnings("unchecked")
   private static void loadCollectionOfCollectionsOfJsonables(JSONArray ja,
@@ -611,6 +612,14 @@ public abstract class Jsonable implements JSONString {
     }
   }
 
+  /**
+   * Load collection of maps of jsonables.
+   *
+   * @param ja the ja
+   * @param Collection the collection
+   * @param paramTree the param tree
+   * @throws JSONException the jSON exception
+   */
   @SuppressWarnings("unchecked")
   private static void loadCollectionOfMapsOfJsonables(JSONArray ja,
       Collection<Map<String, Jsonable>> Collection, List<Class<?>> paramTree) throws JSONException {
@@ -626,6 +635,14 @@ public abstract class Jsonable implements JSONString {
     }
   }
 
+  /**
+   * Load map of collections of jsonables.
+   *
+   * @param jo the jo
+   * @param map the map
+   * @param paramTree the param tree
+   * @throws JSONException the jSON exception
+   */
   @SuppressWarnings("unchecked")
   private static void loadMapOfCollectionsOfJsonables(JSONObject jo,
       Map<String, Collection<Jsonable>> map, List<Class<?>> paramTree) throws JSONException {
@@ -642,6 +659,14 @@ public abstract class Jsonable implements JSONString {
     }
   }
 
+  /**
+   * Load map of maps of jsonables.
+   *
+   * @param jo the jo
+   * @param map the map
+   * @param paramTree the param tree
+   * @throws JSONException the jSON exception
+   */
   @SuppressWarnings("unchecked")
   private static void loadMapOfMapsOfJsonables(JSONObject jo,
       Map<String, Map<String, Jsonable>> map, List<Class<?>> paramTree) throws JSONException {
@@ -672,6 +697,13 @@ public abstract class Jsonable implements JSONString {
     return JA;
   }
 
+  /**
+   * String map to json object.
+   *
+   * @param map the map
+   * @return the jSON object
+   * @throws JSONException the jSON exception
+   */
   private static JSONObject stringMapToJSONObject(Map<String, String> map) throws JSONException {
     JSONObject JO = new JSONObject();
     for (String name : map.keySet()) {
@@ -698,6 +730,13 @@ public abstract class Jsonable implements JSONString {
     return JO;
   }  
 
+  /**
+   * Map of jsonables to json object.
+   *
+   * @param map the map
+   * @return the jSON object
+   * @throws JSONException the jSON exception
+   */
   private static JSONObject mapOfJsonablesToJsonObject(Map<String, Jsonable> map)
       throws JSONException {
     JSONObject JO = new JSONObject();
@@ -730,6 +769,14 @@ public abstract class Jsonable implements JSONString {
     return "Collection error";
   }
   
+  /**
+   * Handle simple map.
+   *
+   * @param CollectionType the collection type
+   * @param object the object
+   * @return the object
+   * @throws JSONException the jSON exception
+   */
   @SuppressWarnings("unchecked")
   private static Object handleSimpleMap(Class<?> CollectionType, Object object)
       throws JSONException {
@@ -760,6 +807,12 @@ public abstract class Jsonable implements JSONString {
     return retVal;
   }
 
+  /**
+   * Handle collection of maps of jsonables.
+   *
+   * @param collection the collection
+   * @return the jSON array
+   */
   private static JSONArray handleCollectionOfMapsOfJsonables(Collection<Map<String, Jsonable>> collection) {
     JSONArray retVal = new JSONArray();
     for (Map<String, Jsonable> map : collection) {
@@ -772,6 +825,12 @@ public abstract class Jsonable implements JSONString {
     return retVal;
   }
 
+  /**
+   * Handle map of collections of jsonables.
+   *
+   * @param map the map
+   * @return the jSON object
+   */
   private static JSONObject handleMapOfCollectionsOfJsonables(Map<String, Collection<Jsonable>> map) {
     JSONObject retVal = new JSONObject();
     for(String name : map.keySet()) {
@@ -784,6 +843,12 @@ public abstract class Jsonable implements JSONString {
     return retVal;
   }
 
+  /**
+   * Handle map of maps of jsonables.
+   *
+   * @param map the map
+   * @return the jSON object
+   */
   private static JSONObject handleMapOfMapsOfJsonables(Map<String, Map<String, Jsonable>> map) {
     JSONObject retVal = new JSONObject();
     for(String name : map.keySet()) {
@@ -820,6 +885,13 @@ public abstract class Jsonable implements JSONString {
     }
   }
 
+  /**
+   * Load map of jsonables.
+   *
+   * @param jo the jo
+   * @param map the map
+   * @param paramTree the param tree
+   */
   @SuppressWarnings("unchecked")
   private static void loadMapOfJsonables(JSONObject jo, Map<String, Jsonable> map,
       List<Class<?>> paramTree) {
@@ -900,6 +972,12 @@ public abstract class Jsonable implements JSONString {
     return tree;
   }
 
+  /**
+   * Extract param.
+   *
+   * @param GenericType the generic type
+   * @return the string
+   */
   private static String extractParam(String GenericType) {
     final Pattern p = Pattern.compile("<([^,<]*, )?((.*))>");
     Matcher result = p.matcher(GenericType);
@@ -967,17 +1045,39 @@ public abstract class Jsonable implements JSONString {
         && isJsonable(paramTree.get(1));
   }
 
+  /**
+   * Checks for maps of jsonables.
+   *
+   * @param field the field
+   * @return true, if successful
+   */
   private static boolean hasMapsOfJsonables(Field field) {
     List<Class<?>> paramTree = getParamTree(field);
     return paramTree.size() == 2 && isMap(paramTree.get(0))
         && isJsonable(paramTree.get(1));
   }
 
+  /**
+   * Load from file.
+   *
+   * @param <T> the generic type
+   * @param file the file
+   * @param className the class name
+   * @return the t
+   */
   public static <T extends Jsonable> T loadFromFile(File file, Class<T> className)
   {
     return loadFromJson(FileReader.getFileContents(file), className);
   }
 
+  /**
+   * Load from file.
+   *
+   * @param <T> the generic type
+   * @param fileName the file name
+   * @param className the class name
+   * @return the t
+   */
   public static <T extends Jsonable> T loadFromFile(String fileName, Class<T> className)
   {
     File file = new File(fileName);

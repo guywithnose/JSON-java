@@ -36,6 +36,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
  * A JSONArray is an ordered sequence of values. Its external text form is a
  * string wrapped in square brackets with commas separating the values. The
@@ -674,12 +675,10 @@ public class JSONArray
 
     /**
      * Append a double value. This increases the array's length by one.
-     * 
-     * @param value
-     *            A double value.
-     * @throws JSONException
-     *             if the value is not finite.
+     *
+     * @param value A double value.
      * @return this.
+     * @throws JSONException if the value is not finite.
      */
     public JSONArray put(double value) throws JSONException
     {

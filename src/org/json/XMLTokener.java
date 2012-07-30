@@ -4,6 +4,7 @@
  */
 package org.json;
 
+// TODO: Auto-generated Javadoc
 /*
  * Copyright (c) 2002 JSON.org
  * 
@@ -345,12 +346,10 @@ public class XMLTokener extends JSONTokener
     /**
      * Skip characters until past the requested string. If it is not found, we
      * are left at the end of the source with a result of false.
-     * 
-     * @param to
-     *            A string to skip past.
-     * @throws JSONException
-     *             Thrown when things are amiss.
+     *
+     * @param to A string to skip past.
      * @return true, if successful
+     * @throws JSONException Thrown when things are amiss.
      */
     public boolean skipPast(String to) throws JSONException
     {

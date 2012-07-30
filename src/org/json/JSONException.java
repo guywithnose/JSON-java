@@ -4,6 +4,7 @@
  */
 package org.json;
 
+// TODO: Auto-generated Javadoc
 /**
  * The JSONException is thrown by the JSON.org classes when things are amiss.
  * 
@@ -12,7 +13,11 @@ package org.json;
  */
 public class JSONException extends Exception
 {
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 0;
+    
+    /** The cause. */
     private Throwable cause;
 
     /**
@@ -38,6 +43,9 @@ public class JSONException extends Exception
         cause = Cause;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Throwable#getCause()
+     */
     @Override
     public Throwable getCause()
     {

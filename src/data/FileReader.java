@@ -1,18 +1,23 @@
+/*
+ * File:         FileReader.java
+ * Author:       JSON.org
+ */
 package data;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class FileReader.
  */
 public class FileReader {
+  
   /**
    * Gets the file contents.
-   * 
-   * @param fileName
-   *          the file name
+   *
+   * @param file the file
    * @return the file contents
    */
   public static String getFileContents(File file)
@@ -30,11 +35,10 @@ public class FileReader {
 
   /**
    * Read file.
-   * 
-   * @param fis
-   *          the fis
+   *
+   * @param fis the fis
    * @return the string
-   * @throws IOException
+   * @throws IOException Signals that an I/O exception has occurred.
    */
   private static String readFile(FileInputStream fis) throws IOException {
     StringBuffer returnValue = new StringBuffer();
