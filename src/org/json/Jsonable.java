@@ -261,7 +261,7 @@ public abstract class Jsonable implements JSONString {
    * @throws IllegalAccessException the illegal access exception
    */
   private void loadFieldFromJson(JSONObject jo, Field field)
-      throws JSONException, IllegalArgumentException, IllegalAccessException {
+      throws IllegalArgumentException {
     String fieldName = field.getName();
     try {
       if (isMap(field.getType())) {
@@ -287,7 +287,6 @@ public abstract class Jsonable implements JSONString {
    *
    * @param jo the jo
    * @param field the field
-   * @return the field value by method
    */
   protected void setFieldValueByMethod(JSONObject jo, Field field) {
     try {
@@ -426,8 +425,7 @@ public abstract class Jsonable implements JSONString {
    *           the jSON exception
    */
   @SuppressWarnings("unchecked")
-  private static Object handleCollection(Field field, Object object)
-      throws JSONException {
+  private static Object handleCollection(Field field, Object object) {
     List<Class<?>> paramTree = getParamTree(field);
     if (paramTree.size() == 1) {
       return handleSimpleCollection(paramTree.get(0), object);
@@ -721,8 +719,7 @@ public abstract class Jsonable implements JSONString {
    * @throws JSONException
    *           the jSON exception
    */
-  private static JSONArray CollectionOfJsonablesToJsonArray(Collection<Jsonable> Collection)
-      throws JSONException {
+  private static JSONArray CollectionOfJsonablesToJsonArray(Collection<Jsonable> Collection) {
     JSONArray JO = new JSONArray();
     for (Jsonable item : Collection) {
       JO.put(item.toJSON());
@@ -759,8 +756,7 @@ public abstract class Jsonable implements JSONString {
    *           the jSON exception
    */
   @SuppressWarnings("unchecked")
-  private static Object handleSimpleCollection(Class<?> CollectionType, Object object)
-      throws JSONException {
+  private static Object handleSimpleCollection(Class<?> CollectionType, Object object) {
     if (CollectionType.equals(String.class))
       return stringCollectionToJSONArray((Collection<String>) object);
     else if (isJsonable(CollectionType)) {
@@ -798,11 +794,7 @@ public abstract class Jsonable implements JSONString {
   private static JSONArray handleCollectionOfCollectionsOfJsonables(Collection<Collection<Jsonable>> collection) {
     JSONArray retVal = new JSONArray();
     for (Collection<Jsonable> innerCollection : collection) {
-      try {
-        retVal.put(CollectionOfJsonablesToJsonArray(innerCollection));
-      } catch (JSONException ignore) {
-        // Do Nothing
-      }
+      retVal.put(CollectionOfJsonablesToJsonArray(innerCollection));
     }
     return retVal;
   }
