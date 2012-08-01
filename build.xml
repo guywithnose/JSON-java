@@ -66,6 +66,7 @@
 	</target>
 
 	<target name="clean" depends="clean-package, clean-compile, clean-javadoc, clean-coverage" />
+	<target name="all" depends="package, javadoc, emma, run-tests" />
 
 	<target name="compile" description="Compile the program">
 		<echo message="Compiling source" />
