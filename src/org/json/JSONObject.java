@@ -1309,7 +1309,7 @@ public class JSONObject
     {
         if (key != null && value != null)
         {
-            if (opt(key) != null)
+            if (opt(key) != null && !opt(key).equals(value))
             {
                 throw new JSONException("Duplicate key \"" + key + "\"");
             }
