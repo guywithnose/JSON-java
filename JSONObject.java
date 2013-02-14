@@ -38,6 +38,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its external
@@ -105,7 +106,7 @@ public class JSONObject {
      * JSONObjects will be avoided by using a key pool to manage unique key
      * string objects. This is used by JSONObject.put(string, object).
      */
-     private static HashMap keyPool = new HashMap(keyPoolSize);
+     private static TreeMap keyPool = new TreeMap();
 
     /**
      * JSONObject.NULL is equivalent to the value that JavaScript calls null,
@@ -146,7 +147,7 @@ public class JSONObject {
     /**
      * The map where the JSONObject's properties are kept.
      */
-    private final Map map;
+    private final TreeMap map;
 
 
     /**
@@ -162,7 +163,7 @@ public class JSONObject {
      * Construct an empty JSONObject.
      */
     public JSONObject() {
-        this.map = new HashMap();
+        this.map = new TreeMap();
     }
 
 
@@ -251,7 +252,7 @@ public class JSONObject {
      * @throws JSONException
      */
     public JSONObject(Map map) {
-        this.map = new HashMap();
+        this.map = new TreeMap();
         if (map != null) {
             Iterator i = map.entrySet().iterator();
             while (i.hasNext()) {
@@ -1131,7 +1132,7 @@ public class JSONObject {
             pooled = (String)keyPool.get(key);
             if (pooled == null) {
                 if (keyPool.size() >= keyPoolSize) {
-                    keyPool = new HashMap(keyPoolSize);
+                    keyPool = new TreeMap();
                 }
                 keyPool.put(key, key);
             } else {
